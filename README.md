@@ -1,6 +1,0 @@
-<<<<<<< HEAD
-(your local changes)
-=======
-(remote changes from GitHub)
->>>>>>> main
-asdasdaasa
