@@ -1,0 +1,65 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+header {
+  display: flex;
+  justify-content: space-between; /* Ensures equal spacing between left and right sections */
+  align-items: center;
+  width: 100%;
+  height: 80px;
+  padding: 0 50px; /* Increase padding for equal left/right spacing */
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.left-section {
+  display: flex;
+  align-items: center; /* Align logo and home button */
+  gap: 15px; /* Add space between logo and button */
+}
+
+
+.logo img {
+  width: 150px;
+  height: auto;
+}
+
+nav {
+  display: flex;
+  gap: 15px;
+  margin-right: 100px; /* Creates space from the right edge */
+  margin-left: 80px;
+}
+
+.button {
+  font-family: 'Poppins', sans-serif; 
+  font-weight: 600; /* Adjust font weight (400 for normal, 600 for semi-bold) */
+  font-size: 16px; 
+  color: #333; /* Adjust color */
+  text-decoration: none;
+  padding: 10px 15px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+nav a {
+  font-family: 'Poppins', sans-serif;
+}
+.icon_home,
+.icon_user {
+  width: 20px;
+  height: 20px;
+  justify-content: center;
+}
+.icon_user {
+  margin-right: 10px; /* Just a small margin, not 100px */
+}
+.button:hover {
+  background-color: #f4f4f4;
+}
+
+header.sticky {
+  position: sticky;
+  top: 0;
+  background: white;
+  z-index: 1000;
+}
