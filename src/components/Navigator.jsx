@@ -1,10 +1,31 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { GoogleLogin, googleLogout } from '@react-oauth/google';
+import { jwtDecode } from 'jwt-decode';
 import logo from '@images/logo.png'; // Ensure the path is correct
 import '@styles/Header.css';
 
 const Navigator = () => {
-    const [user, setUser] = React.useState(null);
+    const [user, setUser] = React.useState(() => {
+        const storedUser = localStorage.getItem('user');
+        return storedUser ? JSON.parse(storedUser) : null;
+    });
+
+    const navigate = useNavigate();
+
+    const handleSuccess = (response) => {
+        const decoded = jwtDecode(response.credential);
+        setUser(decoded);
+        localStorage.setItem('user', JSON.stringify(decoded));
+        navigate("/home");
+    };
+
+    const handleLogout = () => {
+        googleLogout();
+        setUser(null);
+        localStorage.removeItem('user');
+        navigate("/");
+    };
 
     return (
         <header className="sticky">
@@ -12,15 +33,19 @@ const Navigator = () => {
                 <span className="logo">
                     <img src={logo} alt="logo" />
                 </span>
-                <NavLink to="/home" className="button" >
+                <NavLink to="/home" className="button">
                     <span className="icon_home" /> Home
                 </NavLink>
             </div>
             <nav>
-                <NavLink to="/projects" className="button">Projects</NavLink>
-                <NavLink to="/login" className="button">
-                    <span className="icon_user" /> {user ? 'Log out' : 'Log in'}
-                </NavLink>
+                {user ? (
+                    <div className="user-section">
+                        {/* <img src={user.picture} alt="Profile" width="40" className="user-avatar" /> */}
+                        <button onClick={handleLogout} className="button">Log out</button>
+                    </div>
+                ) : (
+                    <GoogleLogin onSuccess={handleSuccess} onError={() => console.log("Login Failed")} />
+                )}
             </nav>
         </header>
     );
