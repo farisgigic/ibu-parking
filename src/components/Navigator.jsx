@@ -12,7 +12,7 @@ const Navigator = () => {
                 <span className="logo">
                     <img src={logo} alt="logo" />
                 </span>
-                <NavLink to="/home" className="button">
+                <NavLink to="/home" className="button" >
                     <span className="icon_home" /> Home
                 </NavLink>
             </div>

@@ -1,21 +1,21 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
 header {
   display: flex;
-  justify-content: space-between; /* Ensures equal spacing between left and right sections */
+  justify-content: space-between;
   align-items: center;
-  width: 100%;
+  width: autoss;
   height: 80px;
-  padding: 0 50px; /* Increase padding for equal left/right spacing */
+  padding: 0 50px;
   background-color: #fff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .left-section {
   display: flex;
-  align-items: center; /* Align logo and home button */
-  gap: 15px; /* Add space between logo and button */
+  align-items: center;
+  gap: 15px;
 }
-
 
 .logo img {
   width: 150px;
@@ -24,38 +24,51 @@ header {
 
 nav {
   display: flex;
-  gap: 15px;
-  margin-right: 100px; /* Creates space from the right edge */
-  margin-left: 80px;
+  gap: 10px;
 }
 
 .button {
-  font-family: 'Poppins', sans-serif; 
-  font-weight: 600; /* Adjust font weight (400 for normal, 600 for semi-bold) */
-  font-size: 16px; 
-  color: #333; /* Adjust color */
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  color: #333;
   text-decoration: none;
   padding: 10px 15px;
   border-radius: 8px;
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative; /* Needed for positioning the underline */
 }
+
 nav a {
   font-family: 'Poppins', sans-serif;
 }
+
 .icon_home,
 .icon_user {
   width: 20px;
   height: 20px;
+  display: flex; /* Ensure it's a flex container */
   justify-content: center;
+  align-items: center; /* Center the icon within the flex container */
 }
-.icon_user {
-  margin-right: 10px; /* Just a small margin, not 100px */
+
+.icon_home {
+  position: relative;
 }
-.button:hover {
-  background-color: #f4f4f4;
+
+.icon_home::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 8px; /* Start from the left edge of the button */
+  width: 350%; /* Make the underline span the full width of the button */
+  height: 2px;
+  background-color: #4e59d6;
 }
+
+
 
 header.sticky {
   position: sticky;
