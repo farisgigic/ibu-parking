@@ -4,7 +4,7 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: autoss;
+  width: auto;
   height: 80px;
   padding: 0 50px;
   background-color: #fff;
@@ -67,12 +67,16 @@ nav a {
   height: 2px;
   background-color: #4e59d6;
 }
-
-
-
 header.sticky {
   position: sticky;
   top: 0;
   background: white;
   z-index: 1000;
+}
+header.sticky_log {
+  position: sticky;
+  top: 0;
+  background: linear-gradient(to bottom right, #f5f7fa, #f9f9fa);
+  z-index: 1000;
+  box-shadow: none;
 }

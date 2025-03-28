@@ -1,24 +1,28 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { GoogleLogin } from "@react-oauth/google";
-import jwt_decode from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
+import "@styles/LoginPage.css"; // Styling for UI
 
 const LoginPage = () => {
-  const handleSuccess = (response) => {
-    const decoded = jwt_decode(response.credential);
-    console.log("User Info:", decoded);
-    alert(`Welcome, ${decoded.name}`);
-  };
+    const navigate = useNavigate();
 
-  const handleFailure = (error) => {
-    console.log("Login Failed:", error);
-  };
+    const handleSuccess = (response) => {
+        const decoded = jwtDecode(response.credential);
+        console.log(decoded);
+        localStorage.setItem("user", JSON.stringify(decoded));
+        navigate("/home"); // Redirect after login
+    };
 
-  return (
-    <div style={{ textAlign: "center", marginTop: "100px" }}>
-      <h2>Login with Google</h2>
-      <GoogleLogin onSuccess={handleSuccess} onError={handleFailure} />
-    </div>
-  );
+    return (
+        <div className="login-page">
+            <div className="login_box">
+                <img src="/images/logo.png" alt="IBU Logo" className="logo" />
+                <h3>Log in using your account on:</h3>
+                <GoogleLogin onSuccess={handleSuccess} onError={() => console.log("Login Failed")} />
+            </div>
+        </div>
+    );
 };
 
 export default LoginPage;

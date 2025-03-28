@@ -11,6 +11,7 @@ export default defineConfig({
       "@images": "/public/images",
       "@components": "/src/components",
       "@pages": "/src/pages",
+      "@data" : "/src/assets/data", 
     }
   },
   server:{

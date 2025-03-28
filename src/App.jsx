@@ -3,6 +3,7 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 import '@styles/App.css';
 import Navigator from '@components/Navigator';
 import HomePage from '@pages/HomePage';
+import LoginPage from '@pages/LoginPage';
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
         <Navigator />
         <Routes>
         <Route path="/home" element={<HomePage />} /> 
+        <Route path="/login" element={<LoginPage />} />
         </Routes>
       </BrowserRouter>
     </GoogleOAuthProvider>
