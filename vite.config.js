@@ -9,6 +9,7 @@ export default defineConfig({
       "@src": "/src",
       "@styles": "/src/assets/styles",
       "@images": "/public/images",
+      "@navigator": "/src/components/Navigator",
       "@components": "/src/components",
       "@pages": "/src/pages",
       "@data" : "/src/assets/data", 
@@ -19,7 +20,7 @@ export default defineConfig({
     open: true
   },
   preview:{
-    port: 8080,
+    port: 1111,
     open: true
   }
 });

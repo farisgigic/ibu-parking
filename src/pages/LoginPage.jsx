@@ -11,7 +11,8 @@ const LoginPage = () => {
         const decoded = jwtDecode(response.credential);
         console.log(decoded);
         localStorage.setItem("user", JSON.stringify(decoded));
-        navigate("/home"); // Redirect after login
+        window.dispatchEvent(new Event("storage"));
+        navigate("/home");
     };
 
     return (

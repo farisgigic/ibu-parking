@@ -1,9 +1,10 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import '@styles/App.css';
-import Navigator from '@components/Navigator';
+import Navigator from '@navigator/Navigator';
 import HomePage from '@pages/HomePage';
 import LoginPage from '@pages/LoginPage';
+
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Routes>
         <Route path="/home" element={<HomePage />} /> 
         <Route path="/login" element={<LoginPage />} />
+        {/* <Route path="/students" element={<StudentNavigator />} /> */}
         </Routes>
       </BrowserRouter>
     </GoogleOAuthProvider>
