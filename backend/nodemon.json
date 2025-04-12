@@ -1,0 +1,7 @@
+{
+    "verbose": false,
+    "watch": [
+        "./src"
+    ],
+    "exec": "webpack --config webpack.config.mjs && node ./dist/main.js"
+}
