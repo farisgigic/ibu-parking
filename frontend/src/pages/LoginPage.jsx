@@ -2,7 +2,6 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { GoogleLogin } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
-import "@styles/LoginPage.css"; // Styling for UI
 
 const LoginPage = () => {
     const navigate = useNavigate();

@@ -2,6 +2,8 @@ import { DataTypes } from 'sequelize';
 import bcrypt from 'bcryptjs';
 import sequelize from '../config/sequelize.js';
 
+
+
 const Student = sequelize.define('Student',
     {
       student_id: { 

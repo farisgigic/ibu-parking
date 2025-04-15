@@ -20,6 +20,7 @@
     "webpack-node-externals": "^3.0.0"
   },
   "dependencies": {
+    "bcryptjs": "^3.0.2",
     "body-parser": "^2.2.0",
     "compression": "^1.8.0",
     "cookie-parser": "^1.4.7",

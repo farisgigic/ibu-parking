@@ -5,6 +5,7 @@ import cors from 'cors';
 import helmet from 'helmet';
 import compression from 'compression';
 import studentRoutes from './routes/student_router.js';
+import parkingslotRoutes from './routes/parkingSlot_router.js';
 
 
 const app = express();
@@ -15,6 +16,7 @@ app.use(helmet());
 app.use(compression());
 app.use(cors());
 
-app.use('/', studentRoutes);
+app.use('/students', studentRoutes);
+app.use('/parking_slots', parkingslotRoutes);
 
 export default app;

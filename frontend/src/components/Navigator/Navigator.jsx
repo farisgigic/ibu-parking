@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { googleLogout } from '@react-oauth/google';
 import logo from '@images/logo.png';
-import '@styles/Header.css';
 import API_BASE_URL from '@data/API_BASE_URL.js'; 
 // import StudentNavigator from './StudentNavigator';
 // import UserNavigator from './UserNavigator';
@@ -54,7 +53,7 @@ const Navigator = () => {
                             <span className="logo">
                                 <img src={logo} alt="logo" />
                             </span>
-                            <NavLink to="/" className="button">
+                            <NavLink to="/home" className="button">
                                 <span className="icon_home" /> Home
                             </NavLink>
                             <NavLink to="/students" className="button">
@@ -64,7 +63,7 @@ const Navigator = () => {
                         <nav>
                             
                             {user ? (
-                                <button onClick={handleLogout} className="button">Log out</button>
+                                <NavLink to="/" onClick= {handleLogout} className="button">Log out</NavLink>
                             ) : (
                                 <NavLink to="/login" className="button">Log in</NavLink>
                             )}
