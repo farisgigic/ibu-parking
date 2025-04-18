@@ -3,10 +3,14 @@ import studentCtrl from '/src/controllers/student_controller.js';
 
 const router = express.Router();
 
-router.route('/all')
-    .get(studentCtrl.getAllStudents)
-    .post(studentCtrl.createStudent);
-
+router.get(
+    '/',
+    studentCtrl.getAllStudents
+);
+router.post(
+    '/',
+    studentCtrl.createStudent
+);
 
 router.route('/student/:id')
     .get(studentCtrl.getStudentById)
