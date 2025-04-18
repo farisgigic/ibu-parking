@@ -19,7 +19,6 @@ const HomePage = () => {
       if (storedUser.email.endsWith('@stu.ibu.edu.ba')) {
         setIsAuthorized(true);
 
-        // Fetch parking slots if authorized
         const fetchSlots = async () => {
           try {
             const response = await fetch('http://localhost:8787/parking_slots/all/');
