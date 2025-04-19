@@ -8,8 +8,14 @@ const LoginPage = () => {
 
     const handleSuccess = (response) => {
         const decoded = jwtDecode(response.credential);
+        const expireAt = Date.now() + 60 * 1000; //for 1 minute 
         console.log(decoded);
-        localStorage.setItem("user", JSON.stringify(decoded));
+
+        const user = {
+            ...decoded,
+            expireAt,
+        };
+        localStorage.setItem("user", JSON.stringify(user));
         window.dispatchEvent(new Event("storage"));
         navigate("/home");
     };

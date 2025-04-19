@@ -2,15 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { googleLogout } from '@react-oauth/google';
 import logo from '@images/logo.png';
-import API_BASE_URL from '@data/API_BASE_URL.js'; 
-// import StudentNavigator from './StudentNavigator';
-// import UserNavigator from './UserNavigator';
-// import LoginNavigator from './LoginNavigator';
+import API_BASE_URL from '@data/API_BASE_URL.js';
+import StudentDropdown from '@components/Dropdown/StudentDropdown.jsx';
 
 const Navigator = () => {
-    
+
     const student = JSON.parse(localStorage.getItem('user'))
-    console.log(student?.email); 
+    console.log(student?.email);
 
     const studentEmail = student?.email || '';
 
@@ -46,31 +44,31 @@ const Navigator = () => {
             </header>
         );
     } else {
-        if(studentEmail.endsWith("@stu.ibu.edu.ba") || studentEmail.endsWith("@ibu.edu.ba")){
+        if (studentEmail.endsWith("@stu.ibu.edu.ba") || studentEmail.endsWith("@ibu.edu.ba")) {
             return (
-                    <header className="sticky">
-                        <div className="left-section">
-                            <span className="logo">
-                                <img src={logo} alt="logo" />
-                            </span>
-                            <NavLink to="/home" className="button">
-                                <span className="icon_home" /> Home
-                            </NavLink>
-                            <NavLink to="/students" className="button">
-                                <span className="icon_students" /> Students
-                            </NavLink>
-                        </div>
-                        <nav>
-                            
-                            {user ? (
-                                <NavLink to="/" onClick= {handleLogout} className="button">Log out</NavLink>
-                            ) : (
-                                <NavLink to="/login" className="button">Log in</NavLink>
-                            )}
-                        </nav>
-                    </header>
-                );
-        }else{
+                <header className="sticky">
+                    <div className="left-section">
+                        <span className="logo">
+                            <img src={logo} alt="logo" />
+                        </span>
+                        <NavLink to="/home" className="button">
+                            <span className="icon_home" /> Home
+                        </NavLink>
+                        <NavLink to="/students" className="button">
+                            <span className="icon_students" /> Students
+                        </NavLink>
+                    </div>
+                    <nav>
+                        {user ? (
+                            <StudentDropdown className="logout_button" handleLogout={handleLogout} />
+                        ) : (
+                            <NavLink to="/login" className="button">Log in</NavLink>
+                        )}
+                    </nav>
+
+                </header>
+            );
+        } else {
             return (
                 <header className="sticky">
                     <div className="left-section">
@@ -91,7 +89,7 @@ const Navigator = () => {
                 </header>
             );
         }
-        
+
     }
 };
 

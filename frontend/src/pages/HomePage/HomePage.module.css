@@ -1,0 +1,78 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+.homepage-container {
+  background-color: #f8f9fa;
+  text-align: center;
+  padding: 30px;
+  font-family: 'Poppins', sans-serif;
+  padding-top: 50px;
+  overflow-x: hidden;
+}
+.home_card {
+  background: linear-gradient(to right, #d9e0ec, #7f98b9);
+  border-radius: 12px;
+  /* style={{ background: 'linear-gradient(to right, #0052cc, #2684ff)', borderRadius: '12px' }} */
+}
+    
+.hero-section {
+  /* background: linear-gradient(to right, #b0c6e9, #8aa9d3)  no-repeat center center/cover !important; */
+  border-radius: 12px;
+  margin-bottom: 40px;
+}
+
+.hero-section h1,
+.hero-section p {
+  color: #ffffff;
+  margin-bottom: 0;
+}
+
+.card {
+  border: none;
+  transition: transform 0.2s ease-in-out;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.card-title {
+  font-weight: 600;
+  font-size: 1.25rem;
+}
+
+.card-text {
+  font-size: 0.95rem;
+  color: #555;
+}
+
+.btn-lg {
+  padding: 12px 30px;
+  font-size: 1.1rem;
+  border-radius: 8px;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.8s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Optional enhancement for mobile cards */
+@media (max-width: 767px) {
+  .card {
+    margin-bottom: 20px;
+  }
+
+  .hero-section {
+    padding: 40px 20px;
+  }
+}

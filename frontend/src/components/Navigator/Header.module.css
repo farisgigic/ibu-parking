@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap'); */
 
 header {
   display: flex;
@@ -18,7 +18,8 @@ header {
 }
 
 .logo img {
-  width: 150px;
+  width: 300px;
+  margin-top: 1.2rem;
   height: auto;
 }
 
@@ -38,7 +39,7 @@ nav {
   display: flex;
   justify-content: center;
   align-items: center;
-  position: relative; /* Needed for positioning the underline */
+  position: relative; 
 }
 
 nav a {
@@ -49,9 +50,9 @@ nav a {
 .icon_user {
   width: 20px;
   height: 20px;
-  display: flex; /* Ensure it's a flex container */
+  display: flex; 
   justify-content: center;
-  align-items: center; /* Center the icon within the flex container */
+  align-items: center; 
 }
 
 .icon_home {

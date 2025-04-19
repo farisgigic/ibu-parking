@@ -1,0 +1,22 @@
+/* Importing other styles */
+@import '@components/Navigator/Header.module.css';
+@import '@pages/LoginPage/LoginPage.module.css';
+@import '@pages/HomePage/HomePage.module.css';
+@import '@components/HomePage/ParkingModal.module.css';
+@import '@components/Dropdown/StudentDropdown.module.css';
+
+/* Root Variables */
+:root {
+  --primary-color: #4a90e2;
+  --secondary-color: #50e3c2;
+  --text-color: #333;
+  --background-color: #f0f0f0;
+  --border-radius: 8px;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--background-color) !important;
+}
+
+

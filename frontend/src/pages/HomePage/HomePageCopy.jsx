@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import Modal from '../components/HomePage/ParkingModal';
+import Modal from '../../components/HomePage/ParkingModal';
+import API_BASE_URL from '../../assets/data/API_BASE_URL';
 
 const HomePage = () => {
   const [selectedSlot, setSelectedSlot] = useState(null);
@@ -21,7 +22,7 @@ const HomePage = () => {
 
         const fetchSlots = async () => {
           try {
-            const response = await fetch('http://localhost:8787/parking_slots/all/');
+            const response = await fetch(API_BASE_URL + '/parking_slots/all/');
             const data = await response.json();
             const formattedSlots = data.map(slot => ({
               id: slot.id,
