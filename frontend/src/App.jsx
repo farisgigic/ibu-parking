@@ -36,7 +36,7 @@ function AppContent() {
 
 function App() {
   return (
-    <GoogleOAuthProvider clientId="784001994898-5tj46e0f6k79olbenn835mk6drnqc3rk.apps.googleusercontent.com">
+    <GoogleOAuthProvider clientId="119759847656-munl4duj90dnheqmmukhnnr78s0hf7tt.apps.googleusercontent.com">
       <BrowserRouter>
         <ToastContainer position="top-right" />
         <AppContent />

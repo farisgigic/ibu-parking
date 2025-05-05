@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import studentParkingImage from '@images/parking.jpg';
+import EmailForm from '../../components/HomePage/EmailForm/EmailForm';
 import { useNavigate } from 'react-router-dom';
 import { Row, Col, Card, Button, Alert } from 'react-bootstrap'; 
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -8,16 +9,25 @@ const HomePage = () => {
   const [user, setUser] = useState(null);
   const [isAuthorized, setIsAuthorized] = useState(false);
   const navigate = useNavigate();
+  function isTokenExpired() {
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (!user || !user.token) return true;
+  
+    const payload = JSON.parse(atob(user.token.split('.')[1]));
+    return payload.exp * 1000 < Date.now();
+  }
+  
   useEffect(() => {
     const interval = setInterval(() => {
-      if (isTokenExpired()) {
+      const storedUser = JSON.parse(localStorage.getItem("user"));
+      if (storedUser?.tokenExpiry && Date.now() > storedUser.tokenExpiry) {
         localStorage.removeItem("user");
         window.location.href = "/login";
       }
-    }, 5000); // Check every 5 seconds
-  
+    }, 5000);
     return () => clearInterval(interval);
   }, []);
+  
   
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem('user'));
@@ -82,14 +92,15 @@ const HomePage = () => {
               </Card>
             </Col>
           </Row>
-
+          <div className="mt-5 text-center">
+            <EmailForm />
+          </div>
           <div className="mt-5 text-center">
             <Button variant="primary" size="lg" onClick={() => navigate('/reservations')}>
               Go to Reservations
             </Button>
           </div>
         </div>
-        
       ) : (
         <Alert variant="danger" className="mt-5 text-center">
           Access denied. Only students with <code>@stu.ibu.edu.ba</code> email addresses are allowed.
