@@ -20,15 +20,15 @@ function AppContent() {
       {shouldShowHeader && <Navigator />}
       <SessionWatcher />
       <Routes>
-        <Route
-          path="/home"
-          element={
+        <Route path="/home" element={
             <AuthGuard>
               <HomePage />
             </AuthGuard>
           }
         />
+        <Route path ="/" element={ <LoginPage /> } />
         <Route path="/login" element={<LoginPage />} />
+        
       </Routes>
     </>
   );

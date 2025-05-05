@@ -4,6 +4,9 @@ import { Link } from "react-router-dom";
 const StudentDropdown = ({ handleLogout }) => {
     const [open, setOpen] = useState(false);
     const dropdownRef = useRef(null);
+    
+    const student = JSON.parse(localStorage.getItem("user"));
+    const studentName = student.given_name;
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -20,7 +23,7 @@ const StudentDropdown = ({ handleLogout }) => {
     return (
         <div className="dropdown" ref={dropdownRef}>
             <button className="dropdown_button" onClick={() => setOpen(!open)}>
-                Account ▼
+                {studentName} ▼
             </button>
             {open && (
                 <div className="dropdown-menu show">

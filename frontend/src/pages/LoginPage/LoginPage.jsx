@@ -8,7 +8,7 @@ const LoginPage = () => {
 
     const handleSuccess = (response) => {
         const decoded = jwtDecode(response.credential);
-        const expireAt = Date.now() + 60 * 1000; //for 1 minute 
+        const expireAt = Date.now() + 60 * 10000; 
         console.log(decoded);
 
         const user = {

@@ -29,6 +29,8 @@
 .card {
   border: none;
   transition: transform 0.2s ease-in-out;
+  border-radius: 60%;
+  height: 100px !important;
 }
 
 .card:hover {
@@ -38,6 +40,7 @@
 .card-title {
   font-weight: 600;
   font-size: 1.25rem;
+  margin-top: 1.5rem !important;
 }
 
 .card-text {
@@ -75,4 +78,12 @@
   .hero-section {
     padding: 40px 20px;
   }
+}
+
+.cards {
+  height: 200px !important;
+  border-radius: 5% !important;
+}
+.card-text {
+  margin-top: 30px !important;
 }

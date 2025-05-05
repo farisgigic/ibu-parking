@@ -62,7 +62,7 @@ const HomePage = () => {
 
           <Row className="justify-content-center g-4">
             <Col md={3}>
-              <Card className="h-100 shadow-sm">
+              <Card className="cards">
                 <Card.Body>
                   <Card.Title>🚗 View Parking</Card.Title>
                   <Card.Text>
@@ -72,7 +72,7 @@ const HomePage = () => {
               </Card>
             </Col>
             <Col md={3}>
-              <Card className="h-100 shadow-sm">
+              <Card className="cards">
                 <Card.Body>
                   <Card.Title>🗓️ Reserve a Slot</Card.Title>
                   <Card.Text>
@@ -82,7 +82,7 @@ const HomePage = () => {
               </Card>
             </Col>
             <Col md={3}>
-              <Card className="h-100 shadow-sm">
+              <Card className="cards">
                 <Card.Body>
                   <Card.Title>📅 Reservation History</Card.Title>
                   <Card.Text>
