@@ -7,6 +7,7 @@ import AuthGuard from './components/AuthLogin/AuthGuard';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import SessionWatcher from './components/SessionWatcher/SessionWatcher';
+import ParkingSlots from './pages/ParkingSlots/ParkingSlots';
 
 
 function AppContent() {
@@ -28,7 +29,7 @@ function AppContent() {
         />
         <Route path ="/" element={ <LoginPage /> } />
         <Route path="/login" element={<LoginPage />} />
-        
+        <Route path="/slots" element={<ParkingSlots/>} />
       </Routes>
     </>
   );
