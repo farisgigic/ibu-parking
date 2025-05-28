@@ -54,7 +54,7 @@ const Navigator = () => {
                         <NavLink to="/home" className="button">
                             <span className="icon_home" /> Home
                         </NavLink>
-                        <NavLink to="/students" className="button">
+                        <NavLink to="/slots" className="button">
                             <span className="icon_students" /> Students
                         </NavLink>
                     </div>
@@ -62,7 +62,7 @@ const Navigator = () => {
                         {user ? (
                             <StudentDropdown className="logout_button" handleLogout={handleLogout} />
                         ) : (
-                            <NavLink to="/login" className="button">Log in</NavLink>
+                            <NavLink to="/login" className="button"></NavLink>
                         )}
                     </nav>
 
@@ -83,7 +83,7 @@ const Navigator = () => {
                         {user ? (
                             <button onClick={handleLogout} className="button">Log out</button>
                         ) : (
-                            <NavLink to="/login" className="button">Log in</NavLink>
+                            <NavLink to="/login" className="button"></NavLink>
                         )}
                     </nav>
                 </header>
