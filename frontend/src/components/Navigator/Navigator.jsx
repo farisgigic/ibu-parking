@@ -8,7 +8,7 @@ import StudentDropdown from '@components/Dropdown/StudentDropdown.jsx';
 const Navigator = () => {
 
     const student = JSON.parse(localStorage.getItem('user'))
-    console.log(student?.email);
+    // console.log(student?.email);
 
     const studentEmail = student?.email || '';
 
