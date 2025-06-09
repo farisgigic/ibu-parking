@@ -1,0 +1,169 @@
+import { API } from './Api';
+
+// Slots API methods
+export const slotsApi = {
+  // Get all parking slots
+  getAllSlots: async () => {
+    try {
+      const response = await API.get('/parking_slots/all');
+      // console.log('Fetched all parking slots:', response.data);
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching parking slots:', error);
+      throw error;
+    }
+  },
+
+  // Get slots by section
+  getSlotsBySection: async (section) => {
+    try {
+      const response = await API.get(`/parking_slots/section/${section}`);
+      return response.data;
+    } catch (error) {
+      console.error(`Error fetching slots for section ${section}:`, error);
+      throw error;
+    }
+  },
+
+  // Get slots by type
+  getSlotsByType: async (type) => {
+    try {
+      const response = await API.get(`/parking_slots/type/${type}`);
+      return response.data;
+    } catch (error) {
+      console.error(`Error fetching slots for type ${type}:`, error);
+      throw error;
+    }
+  },
+
+  // Get available slots
+  getAvailableSlots: async () => {
+    try {
+      const response = await API.get('/parking_slots/available');
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching available slots:', error);
+      throw error;
+    }
+  },
+
+  // Book a parking slot
+  bookSlot: async (slotId, bookingData) => {
+    try {
+      const response = await API.post(`/parking_slots/${slotId}/book`, bookingData);
+      return response.data;
+    } catch (error) {
+      console.error(`Error booking slot ${slotId}:`, error);
+      throw error;
+    }
+  },
+
+  // Cancel booking
+  cancelBooking: async (slotId) => {
+    try {
+      const response = await API.delete(`/parking_slots/${slotId}/cancel`);
+      return response.data;
+    } catch (error) {
+      console.error(`Error canceling booking for slot ${slotId}:`, error);
+      throw error;
+    }
+  },
+
+  // Get user's bookings
+  getUserBookings: async (userId) => {
+    try {
+      const response = await API.get(`/bookings/user/${userId}`);
+      return response.data;
+    } catch (error) {
+      console.error(`Error fetching bookings for user ${userId}:`, error);
+      throw error;
+    }
+  },
+
+  // Get bookings by date
+  getBookingsByDate: async (date) => {
+    try {
+      const response = await API.get(`/bookings/date/${date}`);
+      return response.data;
+    } catch (error) {
+      console.error(`Error fetching bookings for date ${date}:`, error);
+      throw error;
+    }
+  },
+
+  // Get booking statistics
+  getBookingStats: async () => {
+    try {
+      const response = await API.get('/bookings/stats');
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching booking statistics:', error);
+      throw error;
+    }
+  },
+
+  // Update slot status
+  updateSlotStatus: async (slotId, status) => {
+    try {
+      const response = await API.patch(`/parking_slots/${slotId}/status`, { status });
+      return response.data;
+    } catch (error) {
+      console.error(`Error updating slot ${slotId} status:`, error);
+      throw error;
+    }
+  }
+};
+
+// Mock data fallback for development/testing
+export const mockSlotsData = [
+  // L1 Professor spaces (A1-A12)
+  ...Array.from({length: 12}, (_, i) => ({
+    id: i + 1,
+    slot_code: `A${i + 1}`,
+    location: 'International Burch University',
+    is_available: Math.random() > 0.3,
+    reserved_by: null,
+    reserved_at: null,
+    section: 'L1',
+    type: 'professor parking space',
+    status: null
+  })),
+  // L1 Student spaces (B1-B24)
+  ...Array.from({length: 24}, (_, i) => ({
+    id: i + 13,
+    slot_code: `B${i + 1}`,
+    location: 'International Burch University',
+    is_available: Math.random() > 0.4,
+    reserved_by: null,
+    reserved_at: null,
+    section: 'L1',
+    type: 'student parking',
+    status: null
+  })),
+  // L2 Professor spaces (C1-C12)
+  ...Array.from({length: 12}, (_, i) => ({
+    id: i + 37,
+    slot_code: `C${i + 1}`,
+    location: 'International Burch University',
+    is_available: Math.random() > 0.3,
+    reserved_by: null,
+    reserved_at: null,
+    section: 'L2',
+    type: 'professor parking space',
+    status: null
+  })),
+  // L2 Student spaces (D1-D24)
+  ...Array.from({length: 24}, (_, i) => ({
+    id: i + 49,
+    slot_code: `D${i + 1}`,
+    location: 'International Burch University',
+    is_available: Math.random() > 0.4,
+    reserved_by: null,
+    reserved_at: null,
+    section: 'L2',
+    type: 'student parking',
+    status: null
+  }))
+];
+
+export default slotsApi;

@@ -6,6 +6,7 @@
 @import '@components/Dropdown/StudentDropdown.module.css';
 @import '@pages/ParkingSlots/ParkingSlots.module.css';
 
+
 /* Root Variables */
 :root {
   --primary-color: #4a90e2;
