@@ -15,23 +15,20 @@ const LoginPage = () => {
 
         try {
             const googlePayload = jwtDecode(credentialResponse.credential);
-            console.log("Payload od Google-a:", googlePayload);
+            // console.log("Payload od Google-a:", googlePayload);
 
             const response = await loginWithGoogle(googlePayload);
             
             const { student, message } = response;
-            console.log(message);
-            console.log("Podaci o studentu sa servera:", student);
+            // console.log(message);
+            // console.log("Podaci o studentu sa servera:", student);
             const sessionData = {
                 ...student, // Kopiramo sve podatke o studentu (ime, email, student_id...)
                 // 2. Ručno dodajemo vreme isteka sesije (npr. 1 sat od sada)
                 expireAt: Date.now() + 60 * 60 * 1000 // 60 minuta * 60 sekundi * 1000 milisekundi
             };
-
-            // 3. Čuvamo ovaj novi, kompletni objekat u localStorage
             localStorage.setItem("user", JSON.stringify(sessionData));
             
-            // ==========================================================
             
             window.dispatchEvent(new Event("storage"));
             navigate("/home");

@@ -7,6 +7,7 @@ import compression from 'compression';
 import studentRoutes from './routes/student_router.js';
 import parkingslotRoutes from './routes/parkingSlot_router.js';
 import authRoutes from './routes/auth_router.js';
+import ratingRoutes from './routes/ratings_router.js';
 
 
 
@@ -31,5 +32,6 @@ app.use(compression());
 app.use('/students', studentRoutes);
 app.use('/parking_slots', parkingslotRoutes);
 app.use('/auth', authRoutes);
+app.use('/ratings', ratingRoutes);
 
 export default app;

@@ -196,7 +196,7 @@ const ParkingSlotBooking = () => {
         type: slot.type,
         section: slot.section
       };
-      console.log('Organizing slot:', slotData);
+      // console.log('Organizing slot:', slotData);
       if (slot.section === 'L1' && slot.type === 'professor parking space') {
         organized.l1Professor.push(slotData);
       } else if (slot.section === 'L1' && slot.type === 'student parking') {

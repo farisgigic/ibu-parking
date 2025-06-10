@@ -1,0 +1,441 @@
+/* UniversityProfile.css - Specific CSS to avoid conflicts */
+
+/* Base Wrapper */
+.uni-profile-wrapper {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+    padding: 25px 0;
+    font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Loading States */
+.uni-loading-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background: #f1f3f4;
+}
+
+.uni-loading-content {
+    text-align: center;
+    color: #495057;
+}
+
+/* Profile Card Styles */
+.uni-profile-card {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 30px;
+    margin-bottom: 25px;
+    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.uni-profile-header {
+    text-align: center;
+    margin-bottom: 30px;
+    padding-bottom: 25px;
+    border-bottom: 2px solid #f8f9fa;
+}
+
+.uni-avatar-container {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 20px;
+}
+
+.uni-avatar-image {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    border: 4px solid #ffffff;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+    object-fit: cover;
+}
+
+.uni-status-dot {
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+    width: 18px;
+    height: 18px;
+    background: #10b981;
+    border: 3px solid white;
+    border-radius: 50%;
+}
+
+.uni-student-name {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #1f2937;
+    margin: 0 0 12px 0;
+    letter-spacing: -0.025em;
+}
+
+.uni-role-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #e0f2fe;
+    color: #0277bd;
+    padding: 8px 16px;
+    border-radius: 25px;
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+/* Information Section */
+.uni-info-section {
+    margin-top: 25px;
+}
+
+.uni-section-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #374151;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.uni-info-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.uni-info-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.uni-info-item:last-child {
+    border-bottom: none;
+}
+
+.uni-info-label {
+    font-weight: 600;
+    color: #6b7280;
+    font-size: 0.95rem;
+}
+
+.uni-info-value {
+    font-weight: 500;
+    color: #1f2937;
+    font-size: 0.95rem;
+    text-align: right;
+    max-width: 60%;
+    word-break: break-word;
+}
+
+/* Notifications Section */
+.uni-notifications-section {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 30px;
+    margin-bottom: 25px;
+    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
+}
+
+.uni-section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #f8f9fa;
+}
+
+.uni-notification-count {
+    background: #dbeafe;
+    color: #1e40af;
+    padding: 6px 12px;
+    border-radius: 15px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.uni-notifications-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.uni-notification-item {
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+    background: #f9fafb;
+    border-radius: 12px;
+    border-left: 4px solid #e5e7eb;
+    transition: all 0.2s ease;
+}
+
+.uni-notification-item:hover {
+    background: #f0f9ff;
+    border-left-color: #3b82f6;
+}
+
+.uni-notification-icon {
+    flex-shrink: 0;
+    width: 45px;
+    height: 45px;
+    background: #dbeafe;
+    color: #1e40af;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+}
+
+.uni-notification-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.uni-notification-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 10px;
+    gap: 15px;
+}
+
+.uni-notification-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #1f2937;
+    margin: 0;
+    line-height: 1.3;
+}
+
+.uni-notification-message {
+    color: #4b5563;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin: 0 0 15px 0;
+}
+
+.uni-notification-meta {
+    display: flex;
+    gap: 20px;
+    font-size: 0.85rem;
+    color: #6b7280;
+}
+
+.uni-notification-type,
+.uni-notification-date {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* Badge Styles */
+.uni-badge {
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.uni-badge-danger {
+    background: #fee2e2;
+    color: #dc2626;
+}
+
+.uni-badge-warning {
+    background: #fef3c7;
+    color: #d97706;
+}
+
+.uni-badge-info {
+    background: #dbeafe;
+    color: #2563eb;
+}
+
+/* Report Section */
+.uni-report-section {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
+}
+
+.uni-report-toggle {
+    border-radius: 8px;
+    font-weight: 600;
+    padding: 10px 20px;
+}
+
+.uni-report-info {
+    margin-top: 20px;
+}
+
+.uni-info-card {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 25px;
+    background: #f0f9ff;
+    border-radius: 12px;
+    border: 1px solid #e0f2fe;
+}
+
+.uni-info-card i {
+    font-size: 2rem;
+    color: #0284c7;
+    flex-shrink: 0;
+}
+
+.uni-info-card h5 {
+    margin: 0 0 8px 0;
+    color: #0c4a6e;
+    font-weight: 700;
+}
+
+.uni-info-card p {
+    margin: 0;
+    color: #075985;
+    line-height: 1.5;
+}
+
+/* Report Form */
+.uni-report-form-container {
+    margin-top: 25px;
+    padding: 25px;
+    background: #fafbfc;
+    border-radius: 12px;
+    border: 1px solid #e5e7eb;
+}
+
+.uni-form-group {
+    margin-bottom: 20px;
+}
+
+.uni-form-label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #374151;
+    font-size: 0.95rem;
+}
+
+.uni-form-input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    transition: border-color 0.2s ease;
+    background: #ffffff;
+}
+
+.uni-form-input:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.uni-form-actions {
+    display: flex;
+    gap: 15px;
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 1px solid #e5e7eb;
+}
+
+.uni-submit-btn,
+.uni-cancel-btn {
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+}
+
+.uni-submit-btn:hover {
+    background: #16a34a;
+    transform: translateY(-1px);
+}
+
+.uni-cancel-btn:hover {
+    background: #64748b;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .uni-profile-wrapper {
+        padding: 15px 0;
+    }
+
+    .uni-profile-card,
+    .uni-notifications-section,
+    .uni-report-section {
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+
+    .uni-section-header {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+
+    .uni-notification-item {
+        flex-direction: column;
+        text-align: center;
+        gap: 15px;
+    }
+
+    .uni-notification-header {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+
+    .uni-notification-meta {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .uni-form-actions {
+        flex-direction: column;
+    }
+
+    .uni-info-item {
+        flex-direction: column;
+        gap: 8px;
+        text-align: center;
+    }
+
+    .uni-info-value {
+        max-width: 100%;
+        text-align: center;
+    }
+}
+
+@media (max-width: 576px) {
+    .uni-avatar-image {
+        width: 90px;
+        height: 90px;
+    }
+
+    .uni-student-name {
+        font-size: 1.5rem;
+    }
+
+    .uni-section-title {
+        font-size: 1.1rem;
+    }
+}

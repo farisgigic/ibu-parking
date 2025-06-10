@@ -6,7 +6,8 @@ const StudentDropdown = ({ handleLogout }) => {
     const dropdownRef = useRef(null);
     
     const student = JSON.parse(localStorage.getItem("user"));
-    const studentName = student.given_name;
+    console.log("Student data from localStorage:", student);
+    const studentName = student.first_name;
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -27,7 +28,7 @@ const StudentDropdown = ({ handleLogout }) => {
             </button>
             {open && (
                 <div className="dropdown-menu show">
-                    <Link to="/home" className="dropdown-item" onClick={() => setOpen(false)}>
+                    <Link to="/profile" className="dropdown-item" onClick={() => setOpen(false)}>
                         Profile
                     </Link>
                     <button className="dropdown-item" onClick={handleLogout}>
