@@ -5,7 +5,7 @@
 @import '@components/HomePage/ParkingModal.module.css';
 @import '@components/Dropdown/StudentDropdown.module.css';
 @import '@pages/ParkingSlots/ParkingSlots.module.css';
-@import '@pages/ProfilePage/ProfilePage.module.css';
+@import '@pages/ProfilePage/ProfilePage.module.css'; 
 @import '@components/Footer/Footer.module.css';
 
 /* Root Variables */

@@ -5,7 +5,6 @@ const ParkingArea = ({
   icon,
   title,
   slots,
-  gridClassName,
   selectedSlot,
   bookingStatus,
   onSlotClick

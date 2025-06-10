@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-
+import { notificationApi } from '../../api/NotificationApi'; 
 
 const UniversityProfile = () => {
   const [loading, setLoading] = useState(true);
   const [studentData, setStudentData] = useState(null);
   const [notifications, setNotifications] = useState([]);
+  const [notificationsError, setNotificationsError] = useState(null);
   const [reportForm, setReportForm] = useState({
     category: '',
     title: '',
@@ -13,66 +14,38 @@ const UniversityProfile = () => {
   });
   const [showReportForm, setShowReportForm] = useState(false);
 
-  // Mock data - replace with actual API call
   useEffect(() => {
-    setTimeout(() => {
-      setStudentData({
-        first_name: 'Sarah',
-        last_name: 'Johnson',
-        email: 'sarah.johnson@university.edu',
-        google_id: '1234567890',
-        picture_url: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face',
-        role: 'student',
-        created_at: '2024-01-15T10:30:00Z',
-        updated_at: '2024-06-01T14:22:00Z'
-      });
+    const loadProfileData = async () => {
+      setLoading(true);
+      try {
+        const notificationsData = await notificationApi.getAllNotifications();
+        setNotifications(notificationsData);
 
-      setNotifications([
-        {
-          id: 1,
-          type: 'parking',
-          title: 'New Parking Rates Effective July 1st',
-          message: 'Monthly parking permits will increase to $45/month. Daily rates remain $8.',
-          date: '2025-06-08',
-          priority: 'high',
-          icon: 'bi-car-front'
-        },
-        {
-          id: 2,
-          type: 'alert',
-          title: 'Campus Construction Notice',
-          message: 'East parking lot will be closed June 15-20 for maintenance. Use West lot as alternative.',
-          date: '2025-06-07',
-          priority: 'medium',
-          icon: 'bi-cone-striped'
-        },
-        {
-          id: 3,
-          type: 'pricing',
-          title: 'Student ID Replacement Fee Update',
-          message: 'Lost student ID replacement fee reduced from $25 to $15 effective immediately.',
-          date: '2025-06-05',
-          priority: 'low',
-          icon: 'bi-credit-card'
-        },
-        {
-          id: 4,
-          type: 'parking',
-          title: 'Reserved Parking Spots Available',
-          message: '10 new reserved spots available in North lot. Apply through student portal.',
-          date: '2025-06-03',
-          priority: 'medium',
-          icon: 'bi-p-square'
-        }
-      ]);
+        // Student data is still static for now, as requested
+        setStudentData({
+          first_name: 'Sarah',
+          last_name: 'Johnson',
+          email: 'sarah.johnson@university.edu',
+          google_id: '1234567890',
+          picture_url: 'https://images.unsplash.com/photo-1494790108375-2616b612b786?w=150&h=150&fit=crop&crop=face',
+          role: 'student',
+          created_at: '2024-01-15T10:30:00Z',
+          updated_at: '2024-06-01T14:22:00Z'
+        });
 
-      setLoading(false);
-    }, 1000);
+      } catch (error) {
+        setNotificationsError('Failed to load university notifications. Please try again later.');
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadProfileData();
   }, []);
 
   const handleReportSubmit = (e) => {
     e.preventDefault();
-    // Handle form submission here
     console.log('Report submitted:', reportForm);
     alert('Thank you! Your report has been submitted successfully.');
     setReportForm({ category: '', title: '', description: '', priority: 'medium' });
@@ -175,38 +148,46 @@ const UniversityProfile = () => {
                   <i className="bi bi-bell"></i>
                   University Notifications
                 </h3>
-                <span className="uni-notification-count">
-                  {notifications.length} active
-                </span>
+                {!notificationsError && (
+                  <span className="uni-notification-count">
+                    {notifications.length} active
+                  </span>
+                )}
               </div>
               
               <div className="uni-notifications-list">
-                {notifications.map(notification => (
-                  <div key={notification.id} className="uni-notification-item">
-                    <div className="uni-notification-icon">
-                      <i className={`bi ${notification.icon}`}></i>
-                    </div>
-                    <div className="uni-notification-content">
-                      <div className="uni-notification-header">
-                        <h5 className="uni-notification-title">{notification.title}</h5>
-                        <span className={`uni-badge ${getPriorityBadge(notification.priority)}`}>
-                          {notification.priority}
-                        </span>
+                {notificationsError ? (
+                  <div className="alert alert-danger">{notificationsError}</div>
+                ) : notifications.length > 0 ? (
+                  notifications.map(notification => (
+                    <div key={notification.id} className="uni-notification-item">
+                      <div className="uni-notification-icon">
+                        <i className={`bi ${notification.icon || 'bi-info-circle'}`}></i>
                       </div>
-                      <p className="uni-notification-message">{notification.message}</p>
-                      <div className="uni-notification-meta">
-                        <span className="uni-notification-type">
-                          <i className="bi bi-tag"></i>
-                          {notification.type}
-                        </span>
-                        <span className="uni-notification-date">
-                          <i className="bi bi-calendar3"></i>
-                          {formatDate(notification.date)}
-                        </span>
+                      <div className="uni-notification-content">
+                        <div className="uni-notification-header">
+                          <h5 className="uni-notification-title">{notification.title}</h5>
+                          <span className={`uni-badge ${getPriorityBadge(notification.priority)}`}>
+                            {notification.priority}
+                          </span>
+                        </div>
+                        <p className="uni-notification-message">{notification.message}</p>
+                        <div className="uni-notification-meta">
+                          <span className="uni-notification-type">
+                            <i className="bi bi-tag"></i>
+                            {notification.type}
+                          </span>
+                          <span className="uni-notification-date">
+                            <i className="bi bi-calendar3"></i>
+                            {formatDate(notification.date)}
+                          </span>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  ))
+                ) : (
+                  <p>No new notifications at the moment.</p>
+                )}
               </div>
             </div>
 

@@ -2,23 +2,23 @@ import React, { useEffect, useState } from 'react';
 import { Car, Calendar, History, MapPin, Clock, Shield, Settings, Star } from 'lucide-react';
 import { ratingsApi } from './../../api/RatingsApi'; 
 
+// 1. Uvezite styles iz CSS Modula
+import styles from './HomePage.module.css';
+
 const HomePage = () => {
   const [user, setUser] = useState(null);
   const [isAuthorized, setIsAuthorized] = useState(false);
   
-  // Novi state za testimonijale
   const [testimonials, setTestimonials] = useState([]);
   const [loadingTestimonials, setLoadingTestimonials] = useState(true);
   const [errorTestimonials, setErrorTestimonials] = useState(null);
 
   useEffect(() => {
     const userFromStorage = localStorage.getItem("user");
-
     if (userFromStorage) {
       try {
         const parsedUser = JSON.parse(userFromStorage);
         setUser(parsedUser);
-
         if (parsedUser?.email?.endsWith('@stu.ibu.edu.ba')) {
           setIsAuthorized(true);
         } else {
@@ -31,7 +31,6 @@ const HomePage = () => {
     }
   }, []);
 
-  // Novi useEffect za dohvatanje testimonijala
   useEffect(() => {
     const fetchTestimonials = async () => {
       try {
@@ -44,9 +43,8 @@ const HomePage = () => {
         setLoadingTestimonials(false);
       }
     };
-
     fetchTestimonials();
-  }, []); // Prazan niz zavisnosti znači da se ovo izvršava samo jednom, pri učitavanju
+  }, []);
 
   if (!user) {
     return <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', fontSize: '1.2rem', color: '#00396d' }}>Loading...</div>;
@@ -55,7 +53,6 @@ const HomePage = () => {
   const firstName = user.first_name || user.name?.split(' ')[0];
 
   const features = [
-    // ... vaš features niz ostaje isti ...
     {
       icon: <MapPin size={28} />,
       title: 'View Parking',
@@ -86,93 +83,84 @@ const HomePage = () => {
     }
   ];
 
-  // Uklonili smo hardkodovani testimonials niz odavde
-
   return (
-    <>
-      <div className="homepage-container">
-        {/* Hero Section - ostaje isti */}
-        <div className="hero-section">
-            <div className="hero-content">
-                <h1>Welcome to Student Parking</h1>
-                <p>Hi {firstName}! Your smart campus parking solution is here.</p>
-                <div className="stats-grid">
-                    <div className="stat-card"><Car size={24} /><div className="stat-number">127</div><div className="stat-label">Available Spots</div></div>
-                    <div className="stat-card"><Calendar size={24} /><div className="stat-number">3</div><div className="stat-label">Your Reservations</div></div>
-                    <div className="stat-card"><Clock size={24} /><div className="stat-number">24</div><div className="stat-label">Hours Saved</div></div>
-                </div>
-            </div>
-        </div>
-
-        {isAuthorized ? (
-          <div className="main-content">
-            {/* Features Section - ostaje isti */}
-            <h2 className="section-title">Parking Features</h2>
-            <div className="features-grid">
-                {features.map((feature) => (
-                    <div key={feature.title} className="feature-card" onClick={feature.action}>
-                        <div className="feature-image" style={{ backgroundImage: `url(${feature.image})` }}><div className="feature-icon">{feature.icon}</div></div>
-                        <div className="feature-content">
-                            <h3 className="feature-title">{feature.title}</h3>
-                            <p className="feature-description">{feature.description}</p>
-                            <span className="feature-action">Learn More →</span>
-                        </div>
-                    </div>
-                ))}
-            </div>
-
-            {/* CTA Section - ostaje isti */}
-            <div className="cta-section">
-                <h2 className="cta-title">Ready to Get Started?</h2>
-                <p className="cta-description">Join thousands of students who have simplified their parking experience with our smart reservation system.</p>
-                <div className="cta-buttons">
-                    <button className="btn-primary" onClick={() => console.log('Navigate to reservations')}>View My Reservations</button>
-                    <button className="btn-secondary" onClick={() => console.log('Navigate to slots')}>Reserve Now</button>
-                </div>
-            </div>
-
-            {/* MODIFIKOVANI TESTIMONIALS SECTION */}
-            <div className="testimonials-section">
-              <h2 className="section-title">What Students Say</h2>
-              {loadingTestimonials ? (
-                <p>Loading feedback...</p>
-              ) : errorTestimonials ? (
-                <p style={{ color: 'red', textAlign: 'center' }}>{errorTestimonials}</p>
-              ) : (
-                <div className="testimonials-grid">
-                  {testimonials.map((testimonial) => (
-                    <div key={testimonial.id} className="testimonial-card">
-                      <div className="stars">
-                        {/* Važno: Pretvaramo rating (koji je string) u broj */}
-                        {[...Array(Number(testimonial.rating))].map((_, i) => (
-                          <Star key={i} size={16} fill="currentColor" />
-                        ))}
-                      </div>
-                      <p className="testimonial-text">"{testimonial.comment}"</p>
-                      <div className="testimonial-author">{testimonial.name}</div>
-                      <div className="testimonial-role">{testimonial.role}</div>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-            
-            {/* Trust Section - ostaje isti */}
-            <div className="trust-section">
-              <div className="trust-icon"><Shield size={32} /></div>
-              <h3 className="trust-title">Secure & Reliable</h3>
-              <p className="trust-description">Your data is protected with enterprise-grade security. Our system ensures your parking reservations are always confirmed and your personal information stays safe.</p>
-            </div>
+    // 2. Primenite klase koristeći 'styles' objekat
+    <div className={styles.homepageContainer}>
+      <div className={styles.heroSection}>
+          <div className={styles.heroContent}>
+              <h1>Welcome to Student Parking</h1>
+              <p>Hi {firstName}! Your smart campus parking solution is here.</p>
+              <div className={styles.statsGrid}>
+                  <div className={styles.statCard}><Car size={24} /><div className={styles.statNumber}>127</div><div className={styles.statLabel}>Available Spots</div></div>
+                  <div className={styles.statCard}><Calendar size={24} /><div className={styles.statNumber}>3</div><div className={styles.statLabel}>Your Reservations</div></div>
+                  <div className={styles.statCard}><Clock size={24} /><div className={styles.statNumber}>24</div><div className={styles.statLabel}>Hours Saved</div></div>
+              </div>
           </div>
-        ) : (
-          <div className="access-denied">
-            <div className="access-denied-icon"><Shield size={32} /></div>
-            <h2>Access Restricted</h2>
-            <p>Only students with <code>@stu.ibu.edu.ba</code> email addresses are allowed to access this system.</p>
-          </div>
-        )}
       </div>
-    </>
+
+      {isAuthorized ? (
+        <div className={styles.mainContent}>
+          <h2 className={styles.sectionTitle}>Parking Features</h2>
+          <div className={styles.featuresGrid}>
+              {features.map((feature) => (
+                  <div key={feature.title} className={styles.featureCard} onClick={feature.action}>
+                      <div className={styles.featureImage} style={{ backgroundImage: `url(${feature.image})` }}><div className={styles.featureIcon}>{feature.icon}</div></div>
+                      <div className={styles.featureContent}>
+                          <h3 className={styles.featureTitle}>{feature.title}</h3>
+                          <p className={styles.featureDescription}>{feature.description}</p>
+                          <span className={styles.featureAction}>Learn More →</span>
+                      </div>
+                  </div>
+              ))}
+          </div>
+
+          <div className={styles.ctaSection}>
+              <h2 className={styles.ctaTitle}>Ready to Get Started?</h2>
+              <p className={styles.ctaDescription}>Join thousands of students who have simplified their parking experience with our smart reservation system.</p>
+              <div className={styles.ctaButtons}>
+                  <button className={styles.btnPrimary} onClick={() => console.log('Navigate to reservations')}>View My Reservations</button>
+                  <button className={styles.btnSecondary} onClick={() => console.log('Navigate to slots')}>Reserve Now</button>
+              </div>
+          </div>
+
+          <div className={styles.testimonialsSection}>
+            <h2 className={styles.sectionTitle}>What Students Say</h2>
+            {loadingTestimonials ? (
+              <p>Loading feedback...</p>
+            ) : errorTestimonials ? (
+              <p style={{ color: 'red', textAlign: 'center' }}>{errorTestimonials}</p>
+            ) : (
+              <div className={styles.testimonialsGrid}>
+                {testimonials.map((testimonial) => (
+                  <div key={testimonial.id} className={styles.testimonialCard}>
+                    <div className={styles.stars}>
+                      {[...Array(Number(testimonial.rating))].map((_, i) => (
+                        <Star key={i} size={16} fill="currentColor" />
+                      ))}
+                    </div>
+                    <p className={styles.testimonialText}>"{testimonial.comment}"</p>
+                    <div className={styles.testimonialAuthor}>{testimonial.name}</div>
+                    <div className={styles.testimonialRole}>{testimonial.role}</div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+          
+          <div className={styles.trustSection}>
+            <div className={styles.trustIcon}><Shield size={32} /></div>
+            <h3 className={styles.trustTitle}>Secure & Reliable</h3>
+            <p className={styles.trustDescription}>Your data is protected with enterprise-grade security. Our system ensures your parking reservations are always confirmed and your personal information stays safe.</p>
+          </div>
+        </div>
+      ) : (
+        <div className={styles.accessDenied}>
+          <div className={styles.accessDeniedIcon}><Shield size={32} /></div>
+          <h2>Access Restricted</h2>
+          <p>Only students with <code>@stu.ibu.edu.ba</code> email addresses are allowed to access this system.</p>
+        </div>
+      )}
+    </div>
   );
 }
 
