@@ -1,4 +1,3 @@
-import React from 'react';
 import ParkingSlot from '../ParkingSlot/ParkingSlot';
 
 const ParkingArea = ({

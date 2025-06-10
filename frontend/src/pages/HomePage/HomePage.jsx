@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Car, Calendar, History, MapPin, Clock, Shield, Settings, Star } from 'lucide-react';
 import { ratingsApi } from './../../api/RatingsApi'; 
 
-// 1. Uvezite styles iz CSS Modula
 import styles from './HomePage.module.css';
 
 const HomePage = () => {
@@ -73,18 +72,10 @@ const HomePage = () => {
       description: 'Track your past bookings and manage your parking history efficiently.',
       action: () => console.log('Navigate to history'),
       image: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=400&h=250&fit=crop'
-    },
-    {
-      icon: <Settings size={28} />,
-      title: 'Account Settings',
-      description: 'Manage your profile, notification preferences, and account security.',
-      action: () => console.log('Navigate to settings'),
-      image: 'https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=400&h=250&fit=crop'
     }
   ];
 
   return (
-    // 2. Primenite klase koristeći 'styles' objekat
     <div className={styles.homepageContainer}>
       <div className={styles.heroSection}>
           <div className={styles.heroContent}>
