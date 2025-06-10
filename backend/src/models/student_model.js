@@ -2,14 +2,13 @@ import { DataTypes } from 'sequelize';
 import bcrypt from 'bcryptjs';
 import sequelize from '../config/sequelize.js';
 
-
-
 const Student = sequelize.define('Student',
     {
       student_id: { 
         type: DataTypes.INTEGER, 
         primaryKey: true, 
-        autoIncrement: true 
+        autoIncrement: true,
+        allowNull: false
       },
       first_name: { 
         type: DataTypes.STRING,
@@ -22,17 +21,13 @@ const Student = sequelize.define('Student',
       email: {
         type: DataTypes.STRING,
         unique: true,
+        allowNull: false,
         validate: { isEmail: true },
       },
       google_id : {
         type: DataTypes.STRING,
         unique: true,
-        allowNull: false,
-      },
-      createdAt: {
-        field: 'created_at',
-        type: DataTypes.DATE,
-        defaultValue: DataTypes.NOW
+        allowNull: false, 
       },
       picture_url: {
         type : DataTypes.STRING,
@@ -40,25 +35,36 @@ const Student = sequelize.define('Student',
       },
       password: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: true
       },
       role: {
         type: DataTypes.STRING,
         allowNull: false,
+        defaultValue: 'student'
+      },
+      login_count: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 1, 
       },
     },
     {
       tableName: 'students',
-      timestamps: false,
+      underscored: true,
+      timestamps: true, 
       hooks: {
         beforeCreate: async (student) => {
-          student.password = await bcrypt.hash(student.password, 10);
+            if (student.password) {
+                const salt = await bcrypt.genSalt(10);
+                student.password = await bcrypt.hash(student.password, salt);
+            }
         },
         beforeUpdate: async (student) => {
-          if (student.changed('password')) {
-            student.password = await bcrypt.hash(student.password, 10);
-          }
-        },
+            if (student.changed('password')) {
+                const salt = await bcrypt.genSalt(10);
+                student.password = await bcrypt.hash(student.password, salt);
+            }
+        }
       }
     }
   );

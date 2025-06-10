@@ -1,31 +1,32 @@
 import ParkingSlot from '../models/parkingSlot_model.js';
+const parkingSlotService = {
 
-const bookParkingSlot = async (id, reservedBy) => {
-    const parkingSlot = await ParkingSlot.findByPk(id);
+    async bookParkingSlot(id, reservedBy) {
+        const parkingSlot = await ParkingSlot.findByPk(id);
 
-    if (!parkingSlot) {
-        throw new Error('Parking slot not found');
-    }
+        if (!parkingSlot) {
+            throw new Error('Parking slot not found');
+        }
 
-    if (!parkingSlot.is_available) {
-        throw new Error('Parking slot is already booked');
-    }
+        if (!parkingSlot.is_available) {
+            throw new Error('Parking slot is already booked');
+        }
 
-    parkingSlot.is_available = false;
-    parkingSlot.reserved_by = reservedBy;
-    parkingSlot.reservation_start_date = new Date();
-    
-    const endDate = new Date();
-    endDate.setDate(endDate.getDate() + 30);
-    parkingSlot.reservation_end_date = endDate;
+        parkingSlot.is_available = false;
+        parkingSlot.reserved_by = reservedBy;
+        parkingSlot.reservation_start_date = new Date();
 
-    parkingSlot.status = 'pending';
+        const endDate = new Date();
+        endDate.setDate(endDate.getDate() + 30);
+        parkingSlot.reservation_end_date = endDate;
 
-    await parkingSlot.save();
+        parkingSlot.status = 'pending';
 
-    return parkingSlot;
-};
+        await parkingSlot.save();
 
-export default {
-    bookParkingSlot,
-};
+        return parkingSlot;
+    },
+}
+
+
+export default parkingSlotService;

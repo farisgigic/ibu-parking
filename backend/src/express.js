@@ -6,7 +6,9 @@ import helmet from 'helmet';
 import compression from 'compression';
 import studentRoutes from './routes/student_router.js';
 import parkingslotRoutes from './routes/parkingSlot_router.js';
-import emailRoutes from './routes/email_router.js';
+import authRoutes from './routes/auth_router.js';
+
+
 
 const app = express();
 
@@ -28,6 +30,6 @@ app.use(compression());
 // Route handlers
 app.use('/students', studentRoutes);
 app.use('/parking_slots', parkingslotRoutes);
-app.use('/email', emailRoutes);
+app.use('/auth', authRoutes);
 
 export default app;
