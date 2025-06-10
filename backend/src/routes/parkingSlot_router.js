@@ -13,4 +13,6 @@ router.route('/by_id/:reserved_by')
     .put(parkingSlotCtrl.updateParkingSlot)
     .delete(parkingSlotCtrl.deleteParkingSlot);
 
+router.route('/book/:id').put(parkingSlotCtrl.bookParkingSlot);
+
 export default router;

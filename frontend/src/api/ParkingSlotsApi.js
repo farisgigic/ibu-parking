@@ -1,11 +1,12 @@
 import { API } from './Api';
-
-// Slots API methods
 export const slotsApi = {
-  // Get all parking slots
-  getAllSlots: async () => {
+  // Get all parking slots with optional month and year filtering
+  getAllSlots: async (month, year) => {
     try {
-      const response = await API.get('/parking_slots/all');
+      const response = await API.get('/parking_slots/all', {
+        params: { month, year }
+      });
+
       // console.log('Fetched all parking slots:', response.data);
       return response.data;
     } catch (error) {
@@ -13,7 +14,6 @@ export const slotsApi = {
       throw error;
     }
   },
-
   // Get slots by section
   getSlotsBySection: async (section) => {
     try {
@@ -113,57 +113,5 @@ export const slotsApi = {
     }
   }
 };
-
-// Mock data fallback for development/testing
-export const mockSlotsData = [
-  // L1 Professor spaces (A1-A12)
-  ...Array.from({length: 12}, (_, i) => ({
-    id: i + 1,
-    slot_code: `A${i + 1}`,
-    location: 'International Burch University',
-    is_available: Math.random() > 0.3,
-    reserved_by: null,
-    reserved_at: null,
-    section: 'L1',
-    type: 'professor parking space',
-    status: null
-  })),
-  // L1 Student spaces (B1-B24)
-  ...Array.from({length: 24}, (_, i) => ({
-    id: i + 13,
-    slot_code: `B${i + 1}`,
-    location: 'International Burch University',
-    is_available: Math.random() > 0.4,
-    reserved_by: null,
-    reserved_at: null,
-    section: 'L1',
-    type: 'student parking',
-    status: null
-  })),
-  // L2 Professor spaces (C1-C12)
-  ...Array.from({length: 12}, (_, i) => ({
-    id: i + 37,
-    slot_code: `C${i + 1}`,
-    location: 'International Burch University',
-    is_available: Math.random() > 0.3,
-    reserved_by: null,
-    reserved_at: null,
-    section: 'L2',
-    type: 'professor parking space',
-    status: null
-  })),
-  // L2 Student spaces (D1-D24)
-  ...Array.from({length: 24}, (_, i) => ({
-    id: i + 49,
-    slot_code: `D${i + 1}`,
-    location: 'International Burch University',
-    is_available: Math.random() > 0.4,
-    reserved_by: null,
-    reserved_at: null,
-    section: 'L2',
-    type: 'student parking',
-    status: null
-  }))
-];
 
 export default slotsApi;

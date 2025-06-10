@@ -1,6 +1,5 @@
-import { where } from 'sequelize';
+
 import ParkingSlot from '/src/models/parkingSlot_model.js';
-import Student from '/src/models/student_model.js';
 
 const createParkingSlot = async (req, res) => {
     try {
@@ -11,15 +10,51 @@ const createParkingSlot = async (req, res) => {
     }
 }
 
-const getAllParkingSlots = async (_, res) => {
+const getAllParkingSlots = async (req, res) => {
     try {
-        console.log("GET /parkingSlots called");
-        const parkingSlots = await ParkingSlot.findAll();
-        res.status(200).json(parkingSlots);
+        const { month, year } = req.query;
+
+        if (!month || !year) {
+            return res.status(400).json({ message: 'Month and year are required' });
+        }
+
+        const startOfMonth = new Date(Date.UTC(year, month - 1, 1));
+        const endOfMonth = new Date(Date.UTC(year, month, 1)); // Start of next month
+
+        // Find all slots that are NOT reserved within the given month.
+        // A slot is considered available for the month if its reservation period
+        // does not overlap with the month.
+        // For simplicity, let's first get all slots and process their availability.
+
+        const allSlots = await ParkingSlot.findAll();
+
+        // This is a simplified approach. A more robust solution involves complex date queries.
+        // Let's create a dynamic `is_available` property based on the selected month.
+        const slotsWithAvailability = allSlots.map(slot => {
+            let isAvailable = true;
+            if (slot.reservation_start_date && slot.reservation_end_date) {
+                const reservationStart = new Date(slot.reservation_start_date);
+                const reservationEnd = new Date(slot.reservation_end_date);
+
+                // Check for overlap: (StartA <= EndB) and (EndA >= StartB)
+                if (reservationStart < endOfMonth && reservationEnd > startOfMonth) {
+                    isAvailable = false;
+                }
+            }
+            // Return a new object to avoid mutating the original Sequelize instance
+            return {
+                ...slot.toJSON(),
+                is_available: isAvailable
+            };
+        });
+
+        res.status(200).json(slotsWithAvailability);
+
     } catch (error) {
-        res.status(500).json({ message: 'Error fetching parking slots', error });
+        console.error('Error in getAllParkingSlots:', error);
+        res.status(500).json({ message: 'Error fetching parking slots', error: error.message });
     }
-}
+};
 const getParkingSlotById = async (req, res) => {
     try {
         const { id } = req.params;
@@ -165,4 +200,16 @@ const getParkingSlotsBySlotCode = async (req, res) => {
     }
 }
 
-export default { getAllParkingSlots, getParkingSlotByStudentId, createParkingSlot, getParkingSlotById, updateParkingSlot, deleteParkingSlot, getAvailableParkingSlots, getParkingSlotsBySection, getParkingSlotsByType, getParkingSlotsByLocation, getParkingSlotsByAvailability, getParkingSlotsByReservedBy, getParkingSlotsByReservedAt, getParkingSlotsBySlotCode };
+const bookParkingSlot = async (req, res) => {
+    const { id } = req.params;
+    const { reserved_by } = req.body;
+
+    try {
+        const result = await bookingService.bookParkingSlot(id, reserved_by);
+        res.status(200).json(result);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+export default { getAllParkingSlots, getParkingSlotByStudentId, createParkingSlot, getParkingSlotById, updateParkingSlot, deleteParkingSlot, getAvailableParkingSlots, getParkingSlotsBySection, getParkingSlotsByType, getParkingSlotsByLocation, getParkingSlotsByAvailability, getParkingSlotsByReservedBy, getParkingSlotsByReservedAt, getParkingSlotsBySlotCode, bookParkingSlot };

@@ -36,6 +36,23 @@ const ParkingSlot = sequelize.define('ParkingSlot',
       type: {
         type: DataTypes.STRING,
         allowNull: false,
+      },
+      status: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        defaultValue: 'available', // can be 'available', 'reserved', or 'locked'
+      },
+      is_locked: {
+        type: DataTypes.BOOLEAN,
+        // defaultValue: false, // Indicates if the slot is locked
+      },
+      reservation_start_date: {
+        type: DataTypes.DATE,
+        allowNull: true, // Allows null if not reserved
+      },
+      reservation_end_date: {
+        type: DataTypes.DATE,
+        allowNull: true, // Allows null if not reserved
       }
     },
     {

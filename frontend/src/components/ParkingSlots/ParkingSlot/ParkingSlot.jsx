@@ -1,30 +1,40 @@
-// src/components/ParkingSlot.jsx
 import React from 'react';
 
 const ParkingSlot = ({ slot, isSelected, bookingStatus, onSlotClick }) => {
-  const isClickable = bookingStatus === 'selecting' && slot.status === 'available';
+  const isClickable = bookingStatus === 'selecting' && slot.is_available && !slot.is_locked;
 
   const getSlotClass = () => {
     if (isSelected) return 'parking-slot selected';
-    if (bookingStatus === 'confirmed') return 'parking-slot locked';
-    if (slot.status === 'available') return 'parking-slot available';
-    return 'parking-slot not-available';
+    if (slot.is_locked) return 'parking-slot locked';                            // grey
+    if (slot.is_available && !slot.is_locked) return 'parking-slot available';   // green
+    return 'parking-slot not-available';                                         // red
   };
 
   return (
     <div
-      key={slot.id}
+      key={slot.slot_code}
       className={getSlotClass()}
-      onClick={() => onSlotClick(slot.id, slot.status)}
+      onClick={() =>
+        isClickable && onSlotClick(slot.slot_code, slot.is_available ? 'available' : 'not-available')
+      }
       style={{
         cursor: isClickable ? 'pointer' : 'not-allowed',
+        backgroundColor: slot.is_locked ? '#a0a0a0' : undefined, // grey background if locked
+        opacity: slot.is_locked ? 0.6 : 1,
+        userSelect: 'none',
       }}
-      title={`${slot.id} - ${slot.status}`}
+      title={
+        slot.is_locked
+          ? `Slot ${slot.slot_code} is locked`
+          : slot.is_available
+            ? `Slot ${slot.slot_code} is available`
+            : `Slot ${slot.slot_code} is not available`
+      }
     >
-      <div className="slot-label">{slot.id}</div>
+      <div className="slot-label">{slot.slot_code}</div>
       <div className="car-icon">🚗</div>
       <div className="slot-status">
-        {slot.status === 'available' ? '✓' : '✗'}
+        {slot.is_locked ? '🔒' : (slot.is_available ? '✓' : '✗')}
       </div>
     </div>
   );
