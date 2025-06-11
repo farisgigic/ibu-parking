@@ -1,9 +1,5 @@
 import axios from 'axios';
-
-// Konfiguracija Axios instance
-const API = axios.create({
-    baseURL: 'http://localhost:8787', // <-- NAJČEŠĆE REŠENJE: Postavite prefiks ovde
-});
+import { API } from './Api';
 
 export const loginWithGoogle = async (googlePayload) => {
     try {

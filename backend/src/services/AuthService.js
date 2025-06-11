@@ -1,13 +1,13 @@
-import Student from '../models/student_model.js'; // <-- PROMENA: Uvozimo Student model
+import Student from '../models/student_model.js'; 
 
 const handleGoogleLogin = async (payload) => {
-    const { email, sub, given_name, family_name, hd } = payload;
+    const { email, sub, given_name, family_name, hd, picture } = payload;
 
     // Provera da li je studentski domen (host domain) ispravan
     if (hd !== 'stu.ibu.edu.ba') {
         throw new Error('Prijava je dozvoljena samo sa IBU studentskim nalozima.');
     }
-
+    // console.log(picture);
     // Koristimo Sequelize `findOrCreate` na Student modelu
     const [student, created] = await Student.findOrCreate({
         where: { email: email },
@@ -15,8 +15,8 @@ const handleGoogleLogin = async (payload) => {
             google_id: sub,
             first_name: given_name,
             last_name: family_name,
-            email: email, // osiguravamo da email bude sačuvan
-            // login_count se automatski postavlja na 1 zbog defaultValue u modelu
+            email: email, 
+            picture_url: picture
         }
     });
 

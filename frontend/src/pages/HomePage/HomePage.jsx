@@ -16,6 +16,7 @@ const HomePage = () => {
 
   useEffect(() => {
     const userFromStorage = localStorage.getItem("user");
+    console.log(userFromStorage);
     if (userFromStorage) {
       try {
         const parsedUser = JSON.parse(userFromStorage);

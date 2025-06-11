@@ -6,7 +6,7 @@ const StudentDropdown = ({ handleLogout, className = "" }) => {
     const dropdownRef = useRef(null);
 
     const student = JSON.parse(localStorage.getItem("user"));
-    const studentName = student?.first_name || "User";
+    const studentName = student?.name || "User";
     const studentEmail = student?.email || "";
 
     const getInitials = (name) =>

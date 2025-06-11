@@ -1,66 +1,70 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { GoogleLogin } from "@react-oauth/google";
-import { jwtDecode } from "jwt-decode";
-import { loginWithGoogle } from '../../api/AuthApi'; 
+import { useGoogleLogin } from "@react-oauth/google";
+import axios from "axios";
+import { loginWithGoogle } from '../../api/AuthApi';
 
 const LoginPage = () => {
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
 
-    const handleSuccess = async (credentialResponse) => {
-        setIsLoading(true);
-        setError(null);
+    const handleGoogleLogin = useGoogleLogin({
+        onSuccess: async (tokenResponse) => {
+            setIsLoading(true);
+            setError(null);
 
-        try {
-            const googlePayload = jwtDecode(credentialResponse.credential);
-            // console.log("Payload od Google-a:", googlePayload);
+            try {
+                const googleUserInfo = await axios.get("https://www.googleapis.com/oauth2/v3/userinfo", {
+                    headers: {
+                        Authorization: `Bearer ${tokenResponse.access_token}`,
+                    },
+                });
 
-            const response = await loginWithGoogle(googlePayload);
-            
-            const { student, message } = response;
-            // console.log(message);
-            // console.log("Podaci o studentu sa servera:", student);
-            const sessionData = {
-                ...student, // Kopiramo sve podatke o studentu (ime, email, student_id...)
-                // 2. Ručno dodajemo vreme isteka sesije (npr. 1 sat od sada)
-                expireAt: Date.now() + 60 * 60 * 1000 // 60 minuta * 60 sekundi * 1000 milisekundi
-            };
-            localStorage.setItem("user", JSON.stringify(sessionData));
-            
-            
-            window.dispatchEvent(new Event("storage"));
-            navigate("/home");
+                // console.log("Google profil:", googleUserInfo.data);
+                const response = await loginWithGoogle(googleUserInfo.data);
+                const sessionData = {
+                    ...googleUserInfo.data,
+                    expireAt: Date.now() + 60 * 60 * 1000
+                };
+                localStorage.setItem("user", JSON.stringify(sessionData));
+                window.dispatchEvent(new Event("storage"));
 
-        } catch (err) {
-            const errorMessage = err.response?.data?.message || "Došlo je do greške prilikom prijave. Pokušajte ponovo.";
-            console.error("Greška pri prijavi:", errorMessage);
-            setError(errorMessage);
-        } finally {
-            setIsLoading(false);
-        }
-    };
+                navigate("/home");
 
-    const handleError = () => {
-        console.log("Google prijava nije uspela.");
-        setError("Prijava putem Google-a nije uspela. Proverite vaš nalog i pokušajte ponovo.");
-    };
+            } catch (err) {
+                const errorMessage = err.response?.data?.message || "Došlo je do greške prilikom prijave. Pokušajte ponovo.";
+                console.error("Greška pri prijavi:", errorMessage);
+                setError(errorMessage);
+            } finally {
+                setIsLoading(false);
+            }
+        },
+        onError: () => {
+            console.error("Google login failed");
+            setError("Google login failed. Please try again.");
+        },
+        scope: "profile email",
+    });
 
     return (
         <div className="login-page">
             <div className="login_box">
                 <img src="/images/logo.png" alt="IBU Logo" className="logo" />
-                <h3>Log in using your account on:</h3>
-                
+                {/* <h3>Log in using your account on:</h3> */}
+
                 <div className="google-login-container">
                     {isLoading ? (
-                        <p>Proveravam podatke...</p>
+                        <p>Checking data</p>
                     ) : (
-                        <GoogleLogin
-                            onSuccess={handleSuccess}
-                            onError={handleError}
-                        />
+                        <button onClick={() => handleGoogleLogin()} className="google-login-button">
+                            <img
+                                src="images/google.png"
+                                alt="Google logo"
+                                className="google-logo"
+                            />
+                            Log in using Google Account
+                        </button>
                     )}
                 </div>
 
