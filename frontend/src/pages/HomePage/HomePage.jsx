@@ -1,6 +1,11 @@
 import { useEffect, useState } from 'react';
 import { Car, Calendar, History, MapPin, Clock, Shield, Settings, Star } from 'lucide-react';
 import { ratingsApi } from './../../api/RatingsApi';
+
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css"; 
+import "slick-carousel/slick/slick-theme.css";
+
 const HomePage = () => {
   const [user, setUser] = useState(null);
   const [isAuthorized, setIsAuthorized] = useState(false);
@@ -87,9 +92,23 @@ const HomePage = () => {
     );
   }
 
+  const carouselSettings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 5,
+    slidesToScroll: 1,
+    autoplay: false, 
+    responsive: [
+      { breakpoint: 1400, settings: { slidesToShow: 4 } },
+      { breakpoint: 1024, settings: { slidesToShow: 3 } },
+      { breakpoint: 768, settings: { slidesToShow: 2 } },
+      { breakpoint: 600, settings: { slidesToShow: 1 } }
+    ]
+  };
+
   return (
     <div className="homepage-container">
-      {/* Campus Header Image */}
       <div className="campus-header">
         <div className="campus-image-container">
           <img
@@ -102,12 +121,30 @@ const HomePage = () => {
             <div className="campus-content">
               <h1 className="campus-title">International Burch University</h1>
               <p className="campus-subtitle">Smart Campus Parking Solution</p>
+              <p>Hi {firstName}! Your smart campus parking solution is here.</p>
+              <div className="stats-grid">
+                <div className="stat-card">
+                  <Car size={24} />
+                  <div className="stat-number">127</div>
+                  <div className="stat-label">Available Spots</div>
+                </div>
+                <div className="stat-card">
+                  <Calendar size={24} />
+                  <div className="stat-number">3</div>
+                  <div className="stat-label">Your Reservations</div>
+                </div>
+                <div className="stat-card">
+                  <Clock size={24} />
+                  <div className="stat-number">24</div>
+                  <div className="stat-label">Hours Saved</div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="hero-section">
+      {/* <div className="hero-section">
         <div className="hero-content">
           <h1>Welcome to Student Parking</h1>
           <p>Hi {firstName}! Your smart campus parking solution is here.</p>
@@ -129,10 +166,10 @@ const HomePage = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
 
       {isAuthorized ? (
-        <div className="main-content">
+        <div className="main-content-home">
           <h2 className="section-title">Parking Features</h2>
           <div className="features-grid">
             {features.map((feature) => (
@@ -164,29 +201,35 @@ const HomePage = () => {
             </div>
           </div>
 
-          <div className="testimonials-section">
-            <h2 className="section-title">What Students Say</h2>
-            {loadingTestimonials ? (
-              <p>Loading feedback...</p>
-            ) : errorTestimonials ? (
-              <p style={{ color: 'red', textAlign: 'center' }}>{errorTestimonials}</p>
-            ) : (
-              <div className="testimonials-grid">
+          <div className="content-card testimonials-section">
+          <h2 className="section-title">What Students Say</h2>
+          {loadingTestimonials ? (
+            <p style={{ textAlign: 'center' }}>Loading feedback...</p>
+          ) : errorTestimonials ? (
+            <p style={{ color: 'red', textAlign: 'center' }}>{errorTestimonials}</p>
+          ) : (
+            <div className="carousel-container">
+              <Slider {...carouselSettings}>
                 {testimonials.map((testimonial) => (
-                  <div key={testimonial.id} className="testimonial-card">
-                    <div className="stars">
-                      {[...Array(Number(testimonial.rating))].map((_, i) => (
-                        <Star key={i} size={16} fill="currentColor" />
-                      ))}
+                  <div key={testimonial.id} className="testimonial-slide-wrapper">
+                    <div className="testimonial-card">
+                      <div className="stars">
+                        {[...Array(Number(testimonial.rating))].map((_, i) => (
+                          <Star key={i} size={16} fill="currentColor" />
+                        ))}
+                      </div>
+                      <p className="testimonial-text">"{testimonial.comment}"</p>
+                      <div className="testimonial-author-group">
+                        <div className="testimonial-author">{testimonial.name}</div>
+                        <div className="testimonial-role">{testimonial.role}</div>
+                      </div>
                     </div>
-                    <p className="testimonial-text">"{testimonial.comment}"</p>
-                    <div className="testimonial-author">{testimonial.name}</div>
-                    <div className="testimonial-role">{testimonial.role}</div>
                   </div>
                 ))}
-              </div>
-            )}
-          </div>
+              </Slider>
+            </div>
+          )}
+        </div>
 
           <div className="trust-section">
             <div className="trust-icon">

@@ -1,6 +1,6 @@
 @import '@components/Navigator/Header.module.css';
 @import '@pages/LoginPage/LoginPage.module.css';
-/* @import '@pages/HomePage/HomePage.module.css'; */
+@import '@pages/HomePage/HomePage.module.css';
 @import '@components/HomePage/ParkingModal.module.css';
 @import '@components/Dropdown/StudentDropdown.module.css';
 @import '@pages/ParkingSlots/ParkingSlots.module.css';
