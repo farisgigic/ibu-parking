@@ -144,31 +144,6 @@ const HomePage = () => {
           </div>
         </div>
       </div>
-
-      {/* <div className="hero-section">
-        <div className="hero-content">
-          <h1>Welcome to Student Parking</h1>
-          <p>Hi {firstName}! Your smart campus parking solution is here.</p>
-          <div className="stats-grid">
-            <div className="stat-card">
-              <Car size={24} />
-              <div className="stat-number">127</div>
-              <div className="stat-label">Available Spots</div>
-            </div>
-            <div className="stat-card">
-              <Calendar size={24} />
-              <div className="stat-number">3</div>
-              <div className="stat-label">Your Reservations</div>
-            </div>
-            <div className="stat-card">
-              <Clock size={24} />
-              <div className="stat-number">24</div>
-              <div className="stat-label">Hours Saved</div>
-            </div>
-          </div>
-        </div>
-      </div> */}
-
       {isAuthorized ? (
         <div className="main-content-home">
           <h2 className="section-title">Parking Features</h2>

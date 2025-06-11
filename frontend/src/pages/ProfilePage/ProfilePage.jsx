@@ -1,5 +1,9 @@
-import  { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { notificationApi } from '../../api/NotificationApi';
+import { studentApi } from '../../api/StudentApi';
+
+// A default avatar to use when the student's picture is missing
+const DEFAULT_AVATAR_URL = 'https://i.pravatar.cc/150?u=a042581f4e29026704d';
 
 const UniversityProfile = () => {
   const [loading, setLoading] = useState(true);
@@ -22,7 +26,43 @@ const UniversityProfile = () => {
   });
   const [showReportForm, setShowReportForm] = useState(false);
 
+  // useEffect for loading student data (runs once)
   useEffect(() => {
+    const loadStudentData = async () => {
+      try {
+        const studentDataString = localStorage.getItem("studentData");
+        const parsedData = JSON.parse(studentDataString);
+        const studentID = parsedData?.student_id;
+
+        if (studentID) {
+          const studentResponse = await studentApi.getStudentById(studentID);
+          setStudentData(studentResponse);
+        } else {
+          // Fallback data for development
+          setStudentData({
+            first_name: 'Sarah',
+            last_name: 'Johnson',
+            email: 'sarah.johnson@university.edu',
+            google_id: '1234567890',
+            picture_url: null, // Simulating a missing picture
+            role: 'student',
+            created_at: '2025-06-11 22:21:22.84+02', // Using your new format
+            updated_at: null, // Simulating a missing date
+          });
+        }
+      } catch (err) {
+        console.error("Failed to load student data:", err);
+      }
+    };
+
+    loadStudentData();
+  }, []);
+
+  // useEffect for loading notifications (runs when page or student data changes)
+  useEffect(() => {
+    // We only load notifications once we have student data
+    if (!studentData) return;
+
     const loadProfileData = async () => {
       setLoading(true);
       try {
@@ -35,19 +75,6 @@ const UniversityProfile = () => {
         });
         setNotificationsError(null);
 
-        if (!studentData) {
-          setStudentData({
-            first_name: 'Sarah',
-            last_name: 'Johnson',
-            email: 'sarah.johnson@university.edu',
-            google_id: '1234567890',
-            picture_url: 'https://images.unsplash.com/photo-1494790108375-2616b612b786?w=150&h=150&fit=crop&crop=face',
-            role: 'student',
-            created_at: '2024-01-15T10:30:00Z',
-            updated_at: '2024-06-01T14:22:00Z'
-          });
-        }
-
       } catch (error) {
         setNotificationsError('Failed to load university notifications. Please try again later.');
         console.error(error);
@@ -58,6 +85,7 @@ const UniversityProfile = () => {
 
     loadProfileData();
   }, [currentPage, studentData]);
+
 
   const handlePageChange = (newPage) => {
     if (newPage > 0 && newPage <= paginationInfo.totalPages) {
@@ -73,13 +101,30 @@ const UniversityProfile = () => {
     setShowReportForm(false);
   };
 
-  const formatDate = (dateString) => new Date(dateString).toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric'
-  });
+  // FIX: Simplified and more robust date formatting function
+  const formatDate = (dateString) => {
+    // 1. Handle null, undefined, or empty string inputs
+    if (!dateString) {
+      return 'N/A';
+    }
+    // 2. The new Date() constructor can parse "2025-06-11 22:21:22.84+02" directly.
+    const date = new Date(dateString);
 
-  if (loading && !studentData) {
+    // 3. Check if the date is valid after parsing
+    if (isNaN(date.getTime())) {
+      return 'Invalid Date';
+    }
+
+    // 4. Format it to the user's local, which is usually what you want.
+    return date.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+    });
+  };
+
+  // FIX: A better loading state check to prevent errors
+  if (!studentData) {
     return (
       <div className="loading-container">
         <div className="loading-content">
@@ -96,14 +141,16 @@ const UniversityProfile = () => {
         <div className="main-grid">
           {/* Profile Card */}
           <div className="profile-card">
+            {/* We already checked for studentData above, so this check is redundant but safe */}
             {studentData && (
               <>
                 <div className="profile-header">
                   <div className="profile-avatar-container">
                     <div className="profile-avatar-wrapper">
                       <img
-                        src={studentData.picture_url}
-                        alt="Student Profile"
+                        // FIX: Use the student's picture OR the default avatar
+                        src={studentData.picture_url || DEFAULT_AVATAR_URL}
+                        alt={`${studentData.first_name} ${studentData.last_name}`}
                         className="profile-avatar"
                       />
                       <div className="profile-status"></div>
@@ -130,11 +177,11 @@ const UniversityProfile = () => {
                     </div>
                     <div className="profile-info-item">
                       <span className="profile-info-label">Member Since:</span>
-                      <span className="profile-info-value">{formatDate(studentData.created_at)}</span>
+                      <span className="profile-info-value">{formatDate(studentData.createdAt)}</span>
                     </div>
                     <div className="profile-info-item">
                       <span className="profile-info-label">Last Updated:</span>
-                      <span className="profile-info-value">{formatDate(studentData.updated_at)}</span>
+                      <span className="profile-info-value">{formatDate(studentData.updatedAt)}</span>
                     </div>
                   </div>
                 </div>
@@ -142,6 +189,7 @@ const UniversityProfile = () => {
             )}
           </div>
 
+          {/* ... The rest of your component remains the same ... */}
           {/* Main Content Area */}
           <div className="content-area">
             {/* Notifications Section */}
@@ -259,7 +307,7 @@ const UniversityProfile = () => {
                 )}
 
                 {showReportForm && (
-                  <div className="report-form">
+                  <form onSubmit={handleReportSubmit} className="report-form">
                     <div className="form-grid">
                       <div className="form-group">
                         <label className="form-label">
@@ -323,8 +371,7 @@ const UniversityProfile = () => {
 
                     <div className="form-buttons">
                       <button
-                        type="button"
-                        onClick={handleReportSubmit}
+                        type="submit"
                         className="btn btn-success"
                       >
                         📤 Submit Report
@@ -337,10 +384,11 @@ const UniversityProfile = () => {
                         Cancel
                       </button>
                     </div>
-                  </div>
+                  </form>
                 )}
               </div>
             </div>
+
           </div>
         </div>
       </div>

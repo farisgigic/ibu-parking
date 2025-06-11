@@ -30,6 +30,7 @@ const getStudentById = async (req, res) => {
         res.status(500).json({ message: 'Error fetching student', error });
     }
 }
+
 const updateStudent = async (req, res) => {
     try {
         const { id } = req.params;
