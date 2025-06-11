@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { googleLogout } from '@react-oauth/google';
 import logo from '@images/logo.png';
@@ -6,24 +6,15 @@ import API_BASE_URL from '@data/API_BASE_URL.js';
 import StudentDropdown from '@components/Dropdown/StudentDropdown.jsx';
 
 const Navigator = () => {
-    const student = JSON.parse(localStorage.getItem('user'))
+    const student = JSON.parse(localStorage.getItem('user'));
     const studentEmail = student?.email || '';
 
-    const [user, setUser] = useState(() => {
-        return JSON.parse(localStorage.getItem('user')) || null;
-    });
-
+    const [user, setUser] = useState(() => JSON.parse(localStorage.getItem('user')) || null);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
     const navigate = useNavigate();
 
-    // Effect to update state when localStorage changes
     useEffect(() => {
-        const handleStorageChange = () => {
-            const storedUser = JSON.parse(localStorage.getItem('user'));
-            setUser(storedUser);
-        };
-
+        const handleStorageChange = () => setUser(JSON.parse(localStorage.getItem('user')));
         window.addEventListener('storage', handleStorageChange);
         return () => window.removeEventListener('storage', handleStorageChange);
     }, []);
@@ -35,12 +26,9 @@ const Navigator = () => {
         navigate("/");
     };
 
-    const toggleMobileMenu = () => {
-        setIsMobileMenuOpen(!isMobileMenuOpen);
-    };
+    const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
 
     const currentUrl = window.location.href;
-
     if (currentUrl === API_BASE_URL + "/login") {
         return (
             <header className="login-header">
@@ -94,11 +82,10 @@ const Navigator = () => {
                 </div>
 
                 <div className="right-section">
-                    {/* User Section */}
                     <div className="user-section">
                         {user ? (
                             isIBUEmail ? (
-                                <StudentDropdown  handleLogout={handleLogout} />
+                                <StudentDropdown handleLogout={handleLogout} />
                             ) : (
                                 <button onClick={handleLogout} className="logout-btn">
                                     <svg className="logout-icon" viewBox="0 0 24 24" fill="none">
@@ -121,7 +108,6 @@ const Navigator = () => {
                         )}
                     </div>
 
-                    {/* Mobile Menu Button */}
                     <button className="mobile-menu-btn" onClick={toggleMobileMenu}>
                         {isMobileMenuOpen ? (
                             <svg viewBox="0 0 24 24" fill="none">

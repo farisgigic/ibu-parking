@@ -3,32 +3,35 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-// Komponente
+// Components
 import Navigator from '@navigator/Navigator';
 import Footer from './components/Footer/Footer';
 import AuthGuard from './components/AuthLogin/AuthGuard';
 import SessionWatcher from './components/SessionWatcher/SessionWatcher';
 
-// Stranice
+// Pages
 import HomePage from '@pages/HomePage/HomePage';
 import LoginPage from '@pages/LoginPage/LoginPage';
 import ParkingSlots from './pages/ParkingSlots/ParkingSlots';
 import UniversityProfile from './pages/ProfilePage/ProfilePage';
 
-// Glavna komponenta za renderovanje sadržaja
+//Bootstrap
+// import 'bootstrap/dist/css/bootstrap.min.css';
+// import 'bootstrap-icons/font/bootstrap-icons.css';
+
+// Main Application
 function AppContent() {
   const location = useLocation();
-  const hideLayoutOnRoutes = ['/login'];
+  const hideLayoutOnRoutes = ['/login', '/'];
 
-  // Proveravamo da li treba prikazati Navigator i Footer
+  // Check if the current route should hide the layout
   const showLayout = !hideLayoutOnRoutes.includes(location.pathname);
 
   return (
-    // Ovaj div je ključan za "sticky footer" layout
+    // sticky footer"
     <div className="app-container">
       {showLayout && <Navigator />}
       
-      {/* Glavni sadržaj stranice */}
       <main className="main-content">
         <SessionWatcher />
         <Routes>
@@ -67,7 +70,7 @@ function AppContent() {
   );
 }
 
-// Glavna App komponenta
+// Main App component
 function App() {
   return (
     <GoogleOAuthProvider clientId="119759847656-munl4duj90dnheqmmukhnnr78s0hf7tt.apps.googleusercontent.com">

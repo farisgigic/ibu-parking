@@ -21,7 +21,7 @@ const Header = () => {
           WebkitBackgroundClip: 'text',
           WebkitTextFillColor: 'transparent'
         }}>
-          🚗 PARKING SLOT BOOKING
+          🚗 Parking Slot Booking
         </h1>
 
         <div style={{ display: 'flex', gap: '25px', flexWrap: 'wrap', fontSize: '16px' }}>

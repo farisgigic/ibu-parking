@@ -1,11 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import { notificationApi } from '../../api/NotificationApi'; 
+import  { useState, useEffect } from 'react';
+import { notificationApi } from '../../api/NotificationApi';
 
 const UniversityProfile = () => {
   const [loading, setLoading] = useState(true);
   const [studentData, setStudentData] = useState(null);
   const [notifications, setNotifications] = useState([]);
   const [notificationsError, setNotificationsError] = useState(null);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [paginationInfo, setPaginationInfo] = useState({
+    totalPages: 1,
+    totalItems: 0,
+  });
+  const NOTIFICATIONS_PER_PAGE = 3;
+
   const [reportForm, setReportForm] = useState({
     category: '',
     title: '',
@@ -18,20 +26,27 @@ const UniversityProfile = () => {
     const loadProfileData = async () => {
       setLoading(true);
       try {
-        const notificationsData = await notificationApi.getAllNotifications();
-        setNotifications(notificationsData);
+        const notificationsData = await notificationApi.getAllNotifications(currentPage, NOTIFICATIONS_PER_PAGE);
 
-        // Student data is still static for now, as requested
-        setStudentData({
-          first_name: 'Sarah',
-          last_name: 'Johnson',
-          email: 'sarah.johnson@university.edu',
-          google_id: '1234567890',
-          picture_url: 'https://images.unsplash.com/photo-1494790108375-2616b612b786?w=150&h=150&fit=crop&crop=face',
-          role: 'student',
-          created_at: '2024-01-15T10:30:00Z',
-          updated_at: '2024-06-01T14:22:00Z'
+        setNotifications(notificationsData.notifications);
+        setPaginationInfo({
+          totalPages: notificationsData.totalPages,
+          totalItems: notificationsData.totalItems,
         });
+        setNotificationsError(null);
+
+        if (!studentData) {
+          setStudentData({
+            first_name: 'Sarah',
+            last_name: 'Johnson',
+            email: 'sarah.johnson@university.edu',
+            google_id: '1234567890',
+            picture_url: 'https://images.unsplash.com/photo-1494790108375-2616b612b786?w=150&h=150&fit=crop&crop=face',
+            role: 'student',
+            created_at: '2024-01-15T10:30:00Z',
+            updated_at: '2024-06-01T14:22:00Z'
+          });
+        }
 
       } catch (error) {
         setNotificationsError('Failed to load university notifications. Please try again later.');
@@ -42,265 +57,289 @@ const UniversityProfile = () => {
     };
 
     loadProfileData();
-  }, []);
+  }, [currentPage, studentData]);
+
+  const handlePageChange = (newPage) => {
+    if (newPage > 0 && newPage <= paginationInfo.totalPages) {
+      setCurrentPage(newPage);
+    }
+  };
 
   const handleReportSubmit = (e) => {
     e.preventDefault();
     console.log('Report submitted:', reportForm);
-    alert('Thank you! Your report has been submitted successfully.');
+    alert('Report submitted successfully.');
     setReportForm({ category: '', title: '', description: '', priority: 'medium' });
     setShowReportForm(false);
   };
 
-  const formatDate = (dateString) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric'
-    });
-  };
+  const formatDate = (dateString) => new Date(dateString).toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric'
+  });
 
-  const getPriorityBadge = (priority) => {
-    const badges = {
-      high: 'uni-badge-danger',
-      medium: 'uni-badge-warning',
-      low: 'uni-badge-info'
-    };
-    return badges[priority] || 'uni-badge-secondary';
-  };
-
-  if (loading) {
+  if (loading && !studentData) {
     return (
-      <div className="uni-loading-container">
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet" />
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.0/font/bootstrap-icons.min.css" rel="stylesheet" />
-        <div className="uni-loading-content">
-          <div className="spinner-border text-primary" role="status">
-            <span className="visually-hidden">Loading...</span>
-          </div>
-          <p className="mt-3">Loading your profile...</p>
+      <div className="loading-container">
+        <div className="loading-content">
+          <div className="loading-spinner"></div>
+          <p className="loading-text">Loading your profile...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="uni-profile-wrapper">
-      <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet" />
-      <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.0/font/bootstrap-icons.min.css" rel="stylesheet" />
-      
-      <div className="container-fluid">
-        <div className="row">
-          {/* Profile Information Section */}
-          <div className="col-lg-4 col-md-12">
-            <div className="uni-profile-card">
-              <div className="uni-profile-header">
-                <div className="uni-avatar-container">
-                  <img 
-                    src={studentData.picture_url} 
-                    alt="Student Profile" 
-                    className="uni-avatar-image"
-                  />
-                  <div className="uni-status-dot"></div>
+    <div className="university-profile">
+      <div className="container">
+        <div className="main-grid">
+          {/* Profile Card */}
+          <div className="profile-card">
+            {studentData && (
+              <>
+                <div className="profile-header">
+                  <div className="profile-avatar-container">
+                    <div className="profile-avatar-wrapper">
+                      <img
+                        src={studentData.picture_url}
+                        alt="Student Profile"
+                        className="profile-avatar"
+                      />
+                      <div className="profile-status"></div>
+                    </div>
+                    <h2 className="profile-name">{studentData.first_name} {studentData.last_name}</h2>
+                    <span className="profile-role-badge">
+                      🎓 {studentData.role.charAt(0).toUpperCase() + studentData.role.slice(1)}
+                    </span>
+                  </div>
                 </div>
-                <h2 className="uni-student-name">
-                  {studentData.first_name} {studentData.last_name}
-                </h2>
-                <span className="uni-role-badge">
-                  <i className="bi bi-mortarboard"></i>
-                  {studentData.role.charAt(0).toUpperCase() + studentData.role.slice(1)}
-                </span>
-              </div>
 
-              <div className="uni-info-section">
-                <h4 className="uni-section-title">
-                  <i className="bi bi-person-circle"></i>
-                  Personal Information
-                </h4>
-                <div className="uni-info-list">
-                  <div className="uni-info-item">
-                    <span className="uni-info-label">Email:</span>
-                    <span className="uni-info-value">{studentData.email}</span>
-                  </div>
-                  <div className="uni-info-item">
-                    <span className="uni-info-label">Role:</span>
-                    <span className="uni-info-value">{studentData.role}</span>
-                  </div>
-                  <div className="uni-info-item">
-                    <span className="uni-info-label">Member Since:</span>
-                    <span className="uni-info-value">{formatDate(studentData.created_at)}</span>
-                  </div>
-                  <div className="uni-info-item">
-                    <span className="uni-info-label">Last Updated:</span>
-                    <span className="uni-info-value">{formatDate(studentData.updated_at)}</span>
+                <div className="profile-info">
+                  <h4 className="profile-info-title">
+                    👤 Personal Information
+                  </h4>
+                  <div className="profile-info-list">
+                    <div className="profile-info-item">
+                      <span className="profile-info-label">Email:</span>
+                      <span className="profile-info-value">{studentData.email}</span>
+                    </div>
+                    <div className="profile-info-item">
+                      <span className="profile-info-label">Role:</span>
+                      <span className="profile-info-value">{studentData.role}</span>
+                    </div>
+                    <div className="profile-info-item">
+                      <span className="profile-info-label">Member Since:</span>
+                      <span className="profile-info-value">{formatDate(studentData.created_at)}</span>
+                    </div>
+                    <div className="profile-info-item">
+                      <span className="profile-info-label">Last Updated:</span>
+                      <span className="profile-info-value">{formatDate(studentData.updated_at)}</span>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </div>
+              </>
+            )}
           </div>
 
           {/* Main Content Area */}
-          <div className="col-lg-8 col-md-12">
-            {/* University Notifications Section */}
-            <div className="uni-notifications-section">
-              <div className="uni-section-header">
-                <h3 className="uni-section-title">
-                  <i className="bi bi-bell"></i>
-                  University Notifications
-                </h3>
-                {!notificationsError && (
-                  <span className="uni-notification-count">
-                    {notifications.length} active
-                  </span>
-                )}
+          <div className="content-area">
+            {/* Notifications Section */}
+            <div className="section-card">
+              <div className="section-header">
+                <div className="section-header-content">
+                  <h3 className="section-title">
+                    🔔 University Notifications
+                  </h3>
+                  {!notificationsError && (
+                    <span className="section-badge">
+                      {paginationInfo.totalItems} total
+                    </span>
+                  )}
+                </div>
               </div>
-              
-              <div className="uni-notifications-list">
-                {notificationsError ? (
-                  <div className="alert alert-danger">{notificationsError}</div>
+
+              <div className="section-content">
+                {loading ? (
+                  <div className="notifications-loading">
+                    <div className="loading-spinner"></div>
+                  </div>
+                ) : notificationsError ? (
+                  <div className="notifications-error">
+                    {notificationsError}
+                  </div>
                 ) : notifications.length > 0 ? (
-                  notifications.map(notification => (
-                    <div key={notification.id} className="uni-notification-item">
-                      <div className="uni-notification-icon">
-                        <i className={`bi ${notification.icon || 'bi-info-circle'}`}></i>
-                      </div>
-                      <div className="uni-notification-content">
-                        <div className="uni-notification-header">
-                          <h5 className="uni-notification-title">{notification.title}</h5>
-                          <span className={`uni-badge ${getPriorityBadge(notification.priority)}`}>
-                            {notification.priority}
-                          </span>
+                  <div className="notifications-list">
+                    {notifications.map(notification => (
+                      <div key={notification.id} className="notification-item">
+                        <div className="notification-icon">
+                          <span>ℹ️</span>
                         </div>
-                        <p className="uni-notification-message">{notification.message}</p>
-                        <div className="uni-notification-meta">
-                          <span className="uni-notification-type">
-                            <i className="bi bi-tag"></i>
-                            {notification.type}
-                          </span>
-                          <span className="uni-notification-date">
-                            <i className="bi bi-calendar3"></i>
-                            {formatDate(notification.date)}
-                          </span>
+                        <div className="notification-content">
+                          <div className="notification-header">
+                            <h5 className="notification-title">{notification.title}</h5>
+                            <span className={`priority-badge priority-${notification.priority}`}>
+                              {notification.priority}
+                            </span>
+                          </div>
+                          <p className="notification-message">{notification.message}</p>
+                          <div className="notification-meta">
+                            <span className="notification-meta-item">
+                              🏷️ {notification.type}
+                            </span>
+                            <span className="notification-meta-item">
+                              📅 {formatDate(notification.date)}
+                            </span>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  ))
+                    ))}
+                  </div>
                 ) : (
-                  <p>No new notifications at the moment.</p>
+                  <p className="notifications-empty">No new notifications at the moment.</p>
                 )}
               </div>
-            </div>
 
-            {/* Report a Problem Section */}
-            <div className="uni-report-section">
-              <div className="uni-section-header">
-                <h3 className="uni-section-title">
-                  <i className="bi bi-exclamation-triangle"></i>
-                  Report a Problem
-                </h3>
-                <button 
-                  className="btn btn-primary uni-report-toggle"
-                  onClick={() => setShowReportForm(!showReportForm)}
-                >
-                  {showReportForm ? 'Cancel' : 'New Report'}
-                </button>
-              </div>
-
-              {!showReportForm && (
-                <div className="uni-report-info">
-                  <div className="uni-info-card">
-                    <i className="bi bi-info-circle"></i>
-                    <div>
-                      <h5>Need Help?</h5>
-                      <p>Report technical issues, facility problems, or submit feedback to help us improve your university experience.</p>
-                    </div>
+              {paginationInfo.totalItems > 0 && !loading && !notificationsError && (
+                <div className="pagination">
+                  <span className="pagination-info">
+                    Page {currentPage} of {paginationInfo.totalPages}
+                  </span>
+                  <div className="pagination-buttons">
+                    <button
+                      onClick={() => handlePageChange(currentPage - 1)}
+                      disabled={currentPage === 1}
+                      className="pagination-button"
+                    >
+                      Previous
+                    </button>
+                    <button
+                      onClick={() => handlePageChange(currentPage + 1)}
+                      disabled={currentPage === paginationInfo.totalPages}
+                      className="pagination-button"
+                    >
+                      Next
+                    </button>
                   </div>
                 </div>
               )}
+            </div>
 
-              {showReportForm && (
-                <div className="uni-report-form-container">
-                  <form onSubmit={handleReportSubmit} className="uni-report-form">
-                    <div className="row">
-                      <div className="col-md-6">
-                        <div className="uni-form-group">
-                          <label htmlFor="category" className="uni-form-label">Category</label>
-                          <select 
-                            id="category"
-                            className="form-control uni-form-input"
-                            value={reportForm.category}
-                            onChange={(e) => setReportForm({...reportForm, category: e.target.value})}
-                            required
-                          >
-                            <option value="">Select a category</option>
-                            <option value="parking">Parking Issues</option>
-                            <option value="facilities">Facility Problems</option>
-                            <option value="technical">Technical Issues</option>
-                            <option value="safety">Safety Concerns</option>
-                            <option value="billing">Billing/Payment</option>
-                            <option value="other">Other</option>
-                          </select>
-                        </div>
+            {/* Report Section */}
+            <div className="section-card">
+              <div className="section-header">
+                <div className="section-header-content">
+                  <h3 className="section-title">
+                    ⚠️ Report a Problem
+                  </h3>
+                  <button
+                    onClick={() => setShowReportForm(!showReportForm)}
+                    className="btn btn-primary"
+                  >
+                    {showReportForm ? 'Cancel' : 'New Report'}
+                  </button>
+                </div>
+              </div>
+
+              <div className="section-content">
+                {!showReportForm && (
+                  <div className="report-info">
+                    <div className="report-info-content">
+                      <div className="report-info-icon">
+                        <span>ℹ️</span>
                       </div>
-                      <div className="col-md-6">
-                        <div className="uni-form-group">
-                          <label htmlFor="priority" className="uni-form-label">Priority</label>
-                          <select 
-                            id="priority"
-                            className="form-control uni-form-input"
-                            value={reportForm.priority}
-                            onChange={(e) => setReportForm({...reportForm, priority: e.target.value})}
-                          >
-                            <option value="low">Low</option>
-                            <option value="medium">Medium</option>
-                            <option value="high">High</option>
-                          </select>
-                        </div>
+                      <div>
+                        <h5 className="report-info-title">Need Help?</h5>
+                        <p className="report-info-text">
+                          Report technical issues, facility problems, or submit feedback to help us improve your university experience.
+                        </p>
                       </div>
                     </div>
-                    
-                    <div className="uni-form-group">
-                      <label htmlFor="title" className="uni-form-label">Issue Title</label>
-                      <input 
+                  </div>
+                )}
+
+                {showReportForm && (
+                  <div className="report-form">
+                    <div className="form-grid">
+                      <div className="form-group">
+                        <label className="form-label">
+                          Category
+                        </label>
+                        <select
+                          value={reportForm.category}
+                          onChange={(e) => setReportForm({ ...reportForm, category: e.target.value })}
+                          className="form-select"
+                        >
+                          <option value="">Select a category</option>
+                          <option value="parking">Parking Issues</option>
+                          <option value="facilities">Facility Problems</option>
+                          <option value="technical">Technical Issues</option>
+                          <option value="safety">Safety Concerns</option>
+                          <option value="billing">Billing/Payment</option>
+                          <option value="other">Other</option>
+                        </select>
+                      </div>
+                      <div className="form-group">
+                        <label className="form-label">
+                          Priority
+                        </label>
+                        <select
+                          value={reportForm.priority}
+                          onChange={(e) => setReportForm({ ...reportForm, priority: e.target.value })}
+                          className="form-select"
+                        >
+                          <option value="low">Low</option>
+                          <option value="medium">Medium</option>
+                          <option value="high">High</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div className="form-group">
+                      <label className="form-label">
+                        Issue Title
+                      </label>
+                      <input
                         type="text"
-                        id="title"
-                        className="form-control uni-form-input"
                         placeholder="Brief description of the issue"
                         value={reportForm.title}
-                        onChange={(e) => setReportForm({...reportForm, title: e.target.value})}
-                        required
+                        onChange={(e) => setReportForm({ ...reportForm, title: e.target.value })}
+                        className="form-input"
                       />
                     </div>
-                    
-                    <div className="uni-form-group">
-                      <label htmlFor="description" className="uni-form-label">Description</label>
-                      <textarea 
-                        id="description"
-                        className="form-control uni-form-input"
-                        rows="4"
+
+                    <div className="form-group">
+                      <label className="form-label">
+                        Description
+                      </label>
+                      <textarea
+                        rows={4}
                         placeholder="Please provide detailed information about the problem..."
                         value={reportForm.description}
-                        onChange={(e) => setReportForm({...reportForm, description: e.target.value})}
-                        required
-                      ></textarea>
+                        onChange={(e) => setReportForm({ ...reportForm, description: e.target.value })}
+                        className="form-textarea"
+                      />
                     </div>
-                    
-                    <div className="uni-form-actions">
-                      <button type="submit" className="btn btn-success uni-submit-btn">
-                        <i className="bi bi-send"></i>
-                        Submit Report
+
+                    <div className="form-buttons">
+                      <button
+                        type="button"
+                        onClick={handleReportSubmit}
+                        className="btn btn-success"
+                      >
+                        📤 Submit Report
                       </button>
-                      <button 
-                        type="button" 
-                        className="btn btn-secondary uni-cancel-btn"
+                      <button
+                        type="button"
                         onClick={() => setShowReportForm(false)}
+                        className="btn btn-secondary"
                       >
                         Cancel
                       </button>
                     </div>
-                  </form>
-                </div>
-              )}
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>

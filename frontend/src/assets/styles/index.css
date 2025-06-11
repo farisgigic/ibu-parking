@@ -1,11 +1,13 @@
-@import '@components/Navigator/Header.module.css';
-@import '@pages/LoginPage/LoginPage.module.css';
-@import '@pages/HomePage/HomePage.module.css';
+@import '@components/Navigator/Navigator.module.css';
 @import '@components/HomePage/ParkingModal.module.css';
 @import '@components/Dropdown/StudentDropdown.module.css';
+@import '@components/Footer/Footer.module.css';
+
+@import '@pages/LoginPage/LoginPage.module.css';
+@import '@pages/HomePage/HomePage.module.css';
 @import '@pages/ParkingSlots/ParkingSlots.module.css';
 @import '@pages/ProfilePage/ProfilePage.module.css'; 
-@import '@components/Footer/Footer.module.css';
+
 
 :root {
   --primary-color: #4a90e2;

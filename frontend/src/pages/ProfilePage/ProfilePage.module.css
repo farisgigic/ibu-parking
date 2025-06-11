@@ -1,441 +1,576 @@
-/* UniversityProfile.css - Specific CSS to avoid conflicts */
+/* University Profile CSS */
 
-/* Base Wrapper */
-.uni-profile-wrapper {
-    min-height: 100vh;
-    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-    padding: 25px 0;
-    font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+/* Reset and Base Styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-/* Loading States */
-.uni-loading-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    background: #f1f3f4;
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  line-height: 1.6;
+  color: #374151;
 }
 
-.uni-loading-content {
-    text-align: center;
-    color: #495057;
+/* Container and Layout */
+.university-profile {
+  min-height: 100vh;
+  background-color: #f9fafb;
+  padding: 2rem 0;
 }
 
-/* Profile Card Styles */
-.uni-profile-card {
-    background: #ffffff;
-    border-radius: 16px;
-    padding: 30px;
-    margin-bottom: 25px;
-    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
-    backdrop-filter: blur(4px);
-    border: 1px solid rgba(255, 255, 255, 0.18);
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 1rem;
 }
 
-.uni-profile-header {
-    text-align: center;
-    margin-bottom: 30px;
-    padding-bottom: 25px;
-    border-bottom: 2px solid #f8f9fa;
+@media (min-width: 640px) {
+  .container {
+    padding: 0 1.5rem;
+  }
 }
 
-.uni-avatar-container {
-    position: relative;
-    display: inline-block;
-    margin-bottom: 20px;
+@media (min-width: 1024px) {
+  .container {
+    padding: 0 2rem;
+  }
 }
 
-.uni-avatar-image {
-    width: 110px;
-    height: 110px;
-    border-radius: 50%;
-    border: 4px solid #ffffff;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
-    object-fit: cover;
+.main-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
 }
 
-.uni-status-dot {
-    position: absolute;
-    bottom: 8px;
-    right: 8px;
-    width: 18px;
-    height: 18px;
-    background: #10b981;
-    border: 3px solid white;
-    border-radius: 50%;
+@media (min-width: 1024px) {
+  .main-grid {
+    grid-template-columns: 1fr 2fr;
+  }
 }
 
-.uni-student-name {
-    font-size: 1.75rem;
-    font-weight: 700;
-    color: #1f2937;
-    margin: 0 0 12px 0;
-    letter-spacing: -0.025em;
+/* Loading State */
+.loading-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: #f9fafb;
 }
 
-.uni-role-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: #e0f2fe;
-    color: #0277bd;
-    padding: 8px 16px;
-    border-radius: 25px;
-    font-weight: 600;
-    font-size: 0.95rem;
+.loading-content {
+  text-align: center;
 }
 
-/* Information Section */
-.uni-info-section {
-    margin-top: 25px;
+.loading-spinner {
+  width: 3rem;
+  height: 3rem;
+  border: 2px solid transparent;
+  border-bottom: 2px solid #2563eb;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto;
 }
 
-.uni-section-title {
-    font-size: 1.2rem;
-    font-weight: 700;
-    color: #374151;
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
+.loading-text {
+  margin-top: 1rem;
+  color: #6b7280;
 }
 
-.uni-info-list {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
-.uni-info-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 12px 0;
-    border-bottom: 1px solid #f3f4f6;
+/* Profile Card */
+.profile-card {
+  background: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
 }
 
-.uni-info-item:last-child {
-    border-bottom: none;
+.profile-header {
+  background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+  padding: 2rem 1.5rem;
+  color: white;
 }
 
-.uni-info-label {
-    font-weight: 600;
-    color: #6b7280;
-    font-size: 0.95rem;
+.profile-avatar-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.uni-info-value {
-    font-weight: 500;
-    color: #1f2937;
-    font-size: 0.95rem;
-    text-align: right;
-    max-width: 60%;
-    word-break: break-word;
+.profile-avatar-wrapper {
+  position: relative;
 }
 
-/* Notifications Section */
-.uni-notifications-section {
-    background: #ffffff;
-    border-radius: 16px;
-    padding: 30px;
-    margin-bottom: 25px;
-    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
+.profile-avatar {
+  width: 6rem;
+  height: 6rem;
+  border-radius: 50%;
+  border: 4px solid white;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 
-.uni-section-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 25px;
-    padding-bottom: 15px;
-    border-bottom: 2px solid #f8f9fa;
+.profile-status {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 1.5rem;
+  height: 1.5rem;
+  background-color: #10b981;
+  border-radius: 50%;
+  border: 2px solid white;
 }
 
-.uni-notification-count {
-    background: #dbeafe;
-    color: #1e40af;
-    padding: 6px 12px;
-    border-radius: 15px;
-    font-size: 0.85rem;
-    font-weight: 600;
+.profile-name {
+  margin-top: 1rem;
+  font-size: 1.5rem;
+  font-weight: 700;
 }
 
-.uni-notifications-list {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+.profile-role-badge {
+  margin-top: 0.5rem;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  background-color: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(4px);
 }
 
-.uni-notification-item {
-    display: flex;
-    gap: 20px;
-    padding: 20px;
-    background: #f9fafb;
-    border-radius: 12px;
-    border-left: 4px solid #e5e7eb;
-    transition: all 0.2s ease;
+.profile-info {
+  padding: 1.5rem;
 }
 
-.uni-notification-item:hover {
-    background: #f0f9ff;
-    border-left-color: #3b82f6;
+.profile-info-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
 }
 
-.uni-notification-icon {
-    flex-shrink: 0;
-    width: 45px;
-    height: 45px;
-    background: #dbeafe;
-    color: #1e40af;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.2rem;
+.profile-info-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
 }
 
-.uni-notification-content {
-    flex: 1;
-    min-width: 0;
+.profile-info-item {
+  display: flex;
+  justify-content: space-between;
 }
 
-.uni-notification-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 10px;
-    gap: 15px;
+.profile-info-label {
+  color: #6b7280;
+  font-weight: 500;
 }
 
-.uni-notification-title {
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: #1f2937;
-    margin: 0;
-    line-height: 1.3;
+.profile-info-value {
+  color: #111827;
 }
 
-.uni-notification-message {
-    color: #4b5563;
-    font-size: 0.95rem;
-    line-height: 1.5;
-    margin: 0 0 15px 0;
+/* Main Content Area */
+.content-area {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
 }
 
-.uni-notification-meta {
-    display: flex;
-    gap: 20px;
-    font-size: 0.85rem;
-    color: #6b7280;
+/* Section Cards */
+.section-card {
+  background: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
-.uni-notification-type,
-.uni-notification-date {
-    display: flex;
-    align-items: center;
-    gap: 5px;
+.section-header {
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid #e5e7eb;
 }
 
-/* Badge Styles */
-.uni-badge {
-    padding: 4px 10px;
-    border-radius: 12px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+.section-header-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.uni-badge-danger {
-    background: #fee2e2;
-    color: #dc2626;
+.section-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #111827;
+  display: flex;
+  align-items: center;
 }
 
-.uni-badge-warning {
-    background: #fef3c7;
-    color: #d97706;
+.section-badge {
+  background-color: #dbeafe;
+  color: #1e40af;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 500;
 }
 
-.uni-badge-info {
-    background: #dbeafe;
-    color: #2563eb;
+.section-content {
+  padding: 1.5rem;
 }
 
-/* Report Section */
-.uni-report-section {
-    background: #ffffff;
-    border-radius: 16px;
-    padding: 30px;
-    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
+/* Notifications */
+.notifications-loading {
+  display: flex;
+  justify-content: center;
+  padding: 3rem 0;
 }
 
-.uni-report-toggle {
-    border-radius: 8px;
-    font-weight: 600;
-    padding: 10px 20px;
+.notifications-error {
+  background-color: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 0.375rem;
+  padding: 1rem;
+  color: #b91c1c;
 }
 
-.uni-report-info {
-    margin-top: 20px;
+.notifications-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
-.uni-info-card {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    padding: 25px;
-    background: #f0f9ff;
-    border-radius: 12px;
-    border: 1px solid #e0f2fe;
+.notification-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1rem;
+  background-color: #f9fafb;
+  border-radius: 0.5rem;
+  transition: background-color 0.2s ease;
 }
 
-.uni-info-card i {
-    font-size: 2rem;
-    color: #0284c7;
-    flex-shrink: 0;
+.notification-item:hover {
+  background-color: #f3f4f6;
 }
 
-.uni-info-card h5 {
-    margin: 0 0 8px 0;
-    color: #0c4a6e;
-    font-weight: 700;
+.notification-icon {
+  flex-shrink: 0;
+  width: 2.5rem;
+  height: 2.5rem;
+  background-color: #dbeafe;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.uni-info-card p {
-    margin: 0;
-    color: #075985;
-    line-height: 1.5;
+.notification-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.notification-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.notification-title {
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: #111827;
+}
+
+.notification-message {
+  color: #374151;
+  margin-bottom: 0.75rem;
+}
+
+.notification-meta {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.notification-meta-item {
+  display: flex;
+  align-items: center;
+}
+
+.notifications-empty {
+  text-align: center;
+  padding: 2rem 0;
+  color: #6b7280;
+}
+
+/* Priority Badges */
+.priority-badge {
+  padding: 0.125rem 0.5rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.priority-high {
+  background-color: #fef2f2;
+  color: #b91c1c;
+  border: 1px solid #fecaca;
+}
+
+.priority-medium {
+  background-color: #fffbeb;
+  color: #d97706;
+  border: 1px solid #fed7aa;
+}
+
+.priority-low {
+  background-color: #eff6ff;
+  color: #1d4ed8;
+  border: 1px solid #bfdbfe;
+}
+
+/* Pagination */
+.pagination {
+  padding: 1rem 1.5rem;
+  border-top: 1px solid #e5e7eb;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.pagination-info {
+  font-size: 0.875rem;
+  color: #374151;
+}
+
+.pagination-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.pagination-button {
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #374151;
+  background: white;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.pagination-button:hover:not(:disabled) {
+  background-color: #f9fafb;
+}
+
+.pagination-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 /* Report Form */
-.uni-report-form-container {
-    margin-top: 25px;
-    padding: 25px;
-    background: #fafbfc;
-    border-radius: 12px;
-    border: 1px solid #e5e7eb;
+.report-info {
+  background-color: #eff6ff;
+  border: 1px solid #bfdbfe;
+  border-radius: 0.5rem;
+  padding: 1rem;
 }
 
-.uni-form-group {
-    margin-bottom: 20px;
+.report-info-content {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
 }
 
-.uni-form-label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: 600;
-    color: #374151;
-    font-size: 0.95rem;
+.report-info-icon {
+  flex-shrink: 0;
+  color: #2563eb;
+  font-size: 1.25rem;
 }
 
-.uni-form-input {
-    width: 100%;
-    padding: 12px 16px;
-    border: 2px solid #e5e7eb;
-    border-radius: 8px;
-    font-size: 0.95rem;
-    transition: border-color 0.2s ease;
-    background: #ffffff;
+.report-info-title {
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: #1e3a8a;
 }
 
-.uni-form-input:focus {
-    outline: none;
-    border-color: #3b82f6;
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+.report-info-text {
+  color: #1e40af;
+  margin-top: 0.25rem;
 }
 
-.uni-form-actions {
-    display: flex;
-    gap: 15px;
-    margin-top: 25px;
-    padding-top: 20px;
-    border-top: 1px solid #e5e7eb;
+.report-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
-.uni-submit-btn,
-.uni-cancel-btn {
-    padding: 12px 24px;
-    border-radius: 8px;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    transition: all 0.2s ease;
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
 }
 
-.uni-submit-btn:hover {
-    background: #16a34a;
-    transform: translateY(-1px);
+@media (min-width: 768px) {
+  .form-grid {
+    grid-template-columns: 1fr 1fr;
+  }
 }
 
-.uni-cancel-btn:hover {
-    background: #64748b;
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 0.5rem;
+}
+
+.form-input,
+.form-select,
+.form-textarea {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+}
+
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 2px #3b82f633;
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-radius: 0.375rem;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  text-decoration: none;
+}
+
+.btn-primary {
+  background-color: #2563eb;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #1d4ed8;
+}
+
+.btn-success {
+  background-color: #059669;
+  color: white;
+}
+
+.btn-success:hover {
+  background-color: #047857;
+}
+
+.btn-secondary {
+  background-color: #4b5563;
+  color: white;
+}
+
+.btn-secondary:hover {
+  background-color: #374151;
+}
+
+.form-buttons {
+  display: flex;
+  gap: 1rem;
 }
 
 /* Responsive Design */
-@media (max-width: 768px) {
-    .uni-profile-wrapper {
-        padding: 15px 0;
-    }
-
-    .uni-profile-card,
-    .uni-notifications-section,
-    .uni-report-section {
-        padding: 20px;
-        margin-bottom: 20px;
-    }
-
-    .uni-section-header {
-        flex-direction: column;
-        gap: 15px;
-        text-align: center;
-    }
-
-    .uni-notification-item {
-        flex-direction: column;
-        text-align: center;
-        gap: 15px;
-    }
-
-    .uni-notification-header {
-        flex-direction: column;
-        gap: 10px;
-        text-align: center;
-    }
-
-    .uni-notification-meta {
-        justify-content: center;
-        flex-wrap: wrap;
-    }
-
-    .uni-form-actions {
-        flex-direction: column;
-    }
-
-    .uni-info-item {
-        flex-direction: column;
-        gap: 8px;
-        text-align: center;
-    }
-
-    .uni-info-value {
-        max-width: 100%;
-        text-align: center;
-    }
+@media (max-width: 767px) {
+  .university-profile {
+    padding: 1rem 0;
+  }
+  
+  .container {
+    padding: 0 0.5rem;
+  }
+  
+  .main-grid {
+    gap: 1rem;
+  }
+  
+  .section-header {
+    padding: 0.75rem 1rem;
+  }
+  
+  .section-content {
+    padding: 1rem;
+  }
+  
+  .notification-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .notification-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .pagination {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+  }
+  
+  .form-buttons {
+    flex-direction: column;
+  }
 }
 
-@media (max-width: 576px) {
-    .uni-avatar-image {
-        width: 90px;
-        height: 90px;
-    }
+/* Utility Classes */
+.hidden {
+  display: none;
+}
 
-    .uni-student-name {
-        font-size: 1.5rem;
-    }
+.text-center {
+  text-align: center;
+}
 
-    .uni-section-title {
-        font-size: 1.1rem;
-    }
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
