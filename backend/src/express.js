@@ -9,6 +9,7 @@ import parkingslotRoutes from './routes/parkingSlot_router.js';
 import authRoutes from './routes/auth_router.js';
 import ratingRoutes from './routes/ratings_router.js';
 import notificationRoutes from './routes/notifications_router.js'
+import adminRoutes from './routes/admin_router.js';
 
 const app = express();
 
@@ -33,5 +34,6 @@ app.use('/parking_slots', parkingslotRoutes);
 app.use('/auth', authRoutes);
 app.use('/ratings', ratingRoutes);
 app.use('/notifications', notificationRoutes);
+app.use('/administrators', adminRoutes);
 
 export default app;
