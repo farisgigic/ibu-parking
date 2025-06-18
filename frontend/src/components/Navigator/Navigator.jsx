@@ -8,6 +8,7 @@ import StudentDropdown from '@components/Dropdown/StudentDropdown.jsx';
 const Navigator = () => {
     const [user, setUser] = useState(() => JSON.parse(localStorage.getItem('user')) || null);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const [isAdmin, setIsAdmin] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -37,6 +38,22 @@ const Navigator = () => {
             </header>
         );
     }
+    useEffect(() => {
+        const userFromLocalStorage = localStorage.getItem("user");
+        if (userFromLocalStorage) {
+            try {
+                const parsed = JSON.parse(userFromLocalStorage);
+                if (parsed.role?.toLowerCase() === "admin") {
+                    setIsAdmin(true);
+                } else {
+                    setIsAdmin(false);
+                }
+            } catch (err) {
+                console.error("Error parsing user from localStorage:", err);
+                setIsAdmin(false);
+            }
+        }
+    }, []);
 
     return (
         <header className="main-header">
@@ -71,6 +88,14 @@ const Navigator = () => {
                             </svg>
                             Students
                         </NavLink>
+                        {isAdmin && (
+                            <NavLink
+                                to="/profile"
+                                className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
+                            >
+                                Admin Panel
+                            </NavLink>
+                        )}
                     </nav>
                 </div>
 
