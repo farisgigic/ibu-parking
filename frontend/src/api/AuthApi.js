@@ -3,7 +3,6 @@ import { API } from './Api';
 
 export const loginWithGoogle = async (googlePayload) => {
     try {
-        // Sada će URL biti ispravan: http://localhost:8787/api/auth/google/callback
         const response = await API.post('/auth/google/callback', googlePayload);
         return response.data;
     } catch (error) {

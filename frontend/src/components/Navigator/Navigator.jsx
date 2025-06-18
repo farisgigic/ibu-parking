@@ -6,9 +6,6 @@ import API_BASE_URL from '@data/API_BASE_URL.js';
 import StudentDropdown from '@components/Dropdown/StudentDropdown.jsx';
 
 const Navigator = () => {
-    const student = JSON.parse(localStorage.getItem('user'));
-    const studentEmail = student?.email || '';
-
     const [user, setUser] = useState(() => JSON.parse(localStorage.getItem('user')) || null);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const navigate = useNavigate();
@@ -41,8 +38,6 @@ const Navigator = () => {
         );
     }
 
-    const isIBUEmail = studentEmail.endsWith("@stu.ibu.edu.ba") || studentEmail.endsWith("@ibu.edu.ba");
-
     return (
         <header className="main-header">
             <div className="header-container">
@@ -54,7 +49,7 @@ const Navigator = () => {
                     {/* Desktop Navigation */}
                     <nav className="desktop-nav">
                         <NavLink
-                            to={isIBUEmail ? "/home" : "/"}
+                            to="/home"
                             className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
                         >
                             <svg className="nav-icon" viewBox="0 0 24 24" fill="none">
@@ -64,38 +59,25 @@ const Navigator = () => {
                             Home
                         </NavLink>
 
-                        {isIBUEmail && (
-                            <NavLink
-                                to="/slots"
-                                className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
-                            >
-                                <svg className="nav-icon" viewBox="0 0 24 24" fill="none">
-                                    <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                                    <circle cx="9" cy="7" r="4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                                    <path d="M22 21v-2a4 4 0 0 0-3-3.87" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                                    <path d="M16 3.13a4 4 0 0 1 0 7.75" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                                </svg>
-                                Students
-                            </NavLink>
-                        )}
+                        <NavLink
+                            to="/slots"
+                            className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
+                        >
+                            <svg className="nav-icon" viewBox="0 0 24 24" fill="none">
+                                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                                <circle cx="9" cy="7" r="4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                                <path d="M22 21v-2a4 4 0 0 0-3-3.87" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                            </svg>
+                            Students
+                        </NavLink>
                     </nav>
                 </div>
 
                 <div className="right-section">
                     <div className="user-section">
                         {user ? (
-                            isIBUEmail ? (
-                                <StudentDropdown handleLogout={handleLogout} />
-                            ) : (
-                                <button onClick={handleLogout} className="logout-btn">
-                                    <svg className="logout-icon" viewBox="0 0 24 24" fill="none">
-                                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                                        <polyline points="16,17 21,12 16,7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                                        <line x1="21" y1="12" x2="9" y2="12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                                    </svg>
-                                    Log out
-                                </button>
-                            )
+                            <StudentDropdown handleLogout={handleLogout} />
                         ) : (
                             <NavLink to="/login" className="login-btn">
                                 <svg className="login-icon" viewBox="0 0 24 24" fill="none">
@@ -128,7 +110,7 @@ const Navigator = () => {
             {/* Mobile Navigation */}
             <nav className={`mobile-nav ${isMobileMenuOpen ? 'open' : ''}`}>
                 <NavLink
-                    to={isIBUEmail ? "/home" : "/"}
+                    to="/home"
                     className={({ isActive }) => `mobile-nav-link ${isActive ? 'active' : ''}`}
                     onClick={() => setIsMobileMenuOpen(false)}
                 >
@@ -139,38 +121,25 @@ const Navigator = () => {
                     Home
                 </NavLink>
 
-                {isIBUEmail && (
-                    <NavLink
-                        to="/slots"
-                        className={({ isActive }) => `mobile-nav-link ${isActive ? 'active' : ''}`}
-                        onClick={() => setIsMobileMenuOpen(false)}
-                    >
-                        <svg className="nav-icon" viewBox="0 0 24 24" fill="none">
-                            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                            <circle cx="9" cy="7" r="4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                            <path d="M22 21v-2a4 4 0 0 0-3-3.87" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                            <path d="M16 3.13a4 4 0 0 1 0 7.75" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                        </svg>
-                        Students
-                    </NavLink>
-                )}
+                <NavLink
+                    to="/slots"
+                    className={({ isActive }) => `mobile-nav-link ${isActive ? 'active' : ''}`}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                >
+                    <svg className="nav-icon" viewBox="0 0 24 24" fill="none">
+                        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                        <circle cx="9" cy="7" r="4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                        <path d="M22 21v-2a4 4 0 0 0-3-3.87" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                    Students
+                </NavLink>
 
                 <div className="mobile-user-section">
                     {user ? (
-                        isIBUEmail ? (
-                            <div className="mobile-dropdown-wrapper">
-                                <StudentDropdown className="mobile-user-dropdown" handleLogout={handleLogout} />
-                            </div>
-                        ) : (
-                            <button onClick={handleLogout} className="mobile-logout-btn">
-                                <svg className="logout-icon" viewBox="0 0 24 24" fill="none">
-                                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                                    <polyline points="16,17 21,12 16,7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                                    <line x1="21" y1="12" x2="9" y2="12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                                </svg>
-                                Log out
-                            </button>
-                        )
+                        <div className="mobile-dropdown-wrapper">
+                            <StudentDropdown className="mobile-user-dropdown" handleLogout={handleLogout} />
+                        </div>
                     ) : (
                         <NavLink to="/login" className="mobile-login-btn" onClick={() => setIsMobileMenuOpen(false)}>
                             <svg className="login-icon" viewBox="0 0 24 24" fill="none">

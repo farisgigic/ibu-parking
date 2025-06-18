@@ -1,10 +1,10 @@
 import Student from '../models/student_model.js'; 
-
+import Administrator from '../models/admininstrator_model.js';
 const handleGoogleLogin = async (payload) => {
     const { email, sub, given_name, family_name, hd, picture } = payload;
+    const admin = Administrator.findOne({ where: { email } });
 
-    // Provera da li je studentski domen (host domain) ispravan
-    if (hd !== 'stu.ibu.edu.ba') {
+    if (hd !== 'stu.ibu.edu.ba' && !admin) {
         throw new Error('Prijava je dozvoljena samo sa IBU studentskim nalozima.');
     }
     // console.log(picture);
@@ -16,7 +16,8 @@ const handleGoogleLogin = async (payload) => {
             first_name: given_name,
             last_name: family_name,
             email: email, 
-            picture_url: picture
+            picture_url: picture,
+            role: 'student',
         }
     });
 
@@ -26,7 +27,6 @@ const handleGoogleLogin = async (payload) => {
         await student.increment('login_count');
     }
 
-    // Vraćamo finalni objekat studenta nakon što ga ponovo učitamo sa svežim podacima
     await student.reload();
     return student;
 };

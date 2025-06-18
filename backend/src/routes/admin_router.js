@@ -8,4 +8,9 @@ router.get(
     adminCtrl.getAllAdministrators
 );
 
+router.get(
+    '/:email',
+    adminCtrl.getAdminbyEmail
+);
+
 export default router;

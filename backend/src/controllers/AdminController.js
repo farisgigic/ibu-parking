@@ -1,5 +1,5 @@
 import Administrator from "../models/admininstrator_model";
-
+import Student from "../models/student_model";
 const getAllAdministrators = async (_, res) => {
     try {
         console.log("GET /administrators called");
@@ -10,4 +10,24 @@ const getAllAdministrators = async (_, res) => {
     }
 }
 
-export default { getAllAdministrators };
+const getAdminbyEmail = async (req, res) => {
+    const { email } = req.params;
+    try {
+        console.log(`GET /administrators/${email} called`);
+        const administrator = await Administrator.findOne({ where: { email } });
+        if (!administrator) {
+            const student = await Student.findOne({ where: { email } });
+            if (student) {
+                return res.status(200).json(student);
+            } else {
+                return res.status(404).json({ message: 'Administrator or Student not found' });
+            }
+        } else {
+            return res.status(200).json(administrator);
+        }
+    } catch (error) {
+        res.status(500).json({ message: 'Error fetching administrator', error });
+    }
+}
+
+export default { getAllAdministrators, getAdminbyEmail };

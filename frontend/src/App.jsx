@@ -15,9 +15,6 @@ import LoginPage from '@pages/LoginPage/LoginPage';
 import ParkingSlots from './pages/ParkingSlots/ParkingSlots';
 import UniversityProfile from './pages/ProfilePage/ProfilePage';
 
-//Bootstrap
-// import 'bootstrap/dist/css/bootstrap.min.css';
-// import 'bootstrap-icons/font/bootstrap-icons.css';
 
 // Main Application
 function AppContent() {

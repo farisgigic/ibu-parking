@@ -12,8 +12,7 @@ const googleLoginCallback = async (req, res) => {
 
     } catch (error) {
         console.error("Error while logging.", error);
-        // Šaljemo specifičnu grešku ako je prijava sa pogrešnog domena
-        if (error.message.includes('dozvoljena samo sa IBU')) {
+        if (error.message.includes('allowed just with IBU')) {
             return res.status(403).json({ message: error.message }); // 403 Forbidden
         }
         res.status(500).json({ message: "Internal server error. Please try again later." });

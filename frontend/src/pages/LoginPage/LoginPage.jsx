@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 import { loginWithGoogle } from '../../api/AuthApi';
+import { adminApi } from '../../api/AdminApi';
 
 const LoginPage = () => {
     const navigate = useNavigate();
@@ -21,15 +22,25 @@ const LoginPage = () => {
                     },
                 });
 
-                // console.log("Google profil:", googleUserInfo.data);
                 const response = await loginWithGoogle(googleUserInfo.data);
+
+                let isAdmin = false;
+
+                const admin = await adminApi.getAdminByEmail(response.student.email);
+                console.log(admin);
+                if (admin.role != "Student") {
+                    isAdmin = true;
+                } else isAdmin = false;
+                console.log(isAdmin);
+
                 const sessionData = {
                     ...googleUserInfo.data,
-                    expireAt: Date.now() + 60 * 60 * 1000
+                    expireAt: Date.now() + 60 * 60 * 1000, // 1 hour
+                    role: isAdmin ? "admin" : "student",
                 };
+
                 localStorage.setItem("user", JSON.stringify(sessionData));
                 window.dispatchEvent(new Event("storage"));
-
                 navigate("/home");
 
             } catch (err) {
@@ -47,12 +58,11 @@ const LoginPage = () => {
         scope: "profile email",
     });
 
+
     return (
         <div className="login-page">
             <div className="login_box">
                 <img src="/images/logo.png" alt="IBU Logo" className="logo" />
-                {/* <h3>Log in using your account on:</h3> */}
-
                 <div className="google-login-container">
                     {isLoading ? (
                         <p>Checking data</p>
