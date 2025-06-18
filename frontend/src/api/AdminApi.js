@@ -18,6 +18,16 @@ export const adminApi = {
             console.error(`Error fetching administrator with email ${email}:`, error);
             throw error;
         }
-    }
+    },
+    ifAdministrator: async (email) => {
+        try {
+            const response = await API.get(`/administrators/ifAdministrator/${email}`);
+            return response.data;
+        } catch (error) {
+            console.error(`Error checking if ${email} is an administrator:`, error);
+            throw error;
+        }
+    },
+
 };
 export default adminApi;

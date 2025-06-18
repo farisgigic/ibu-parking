@@ -29,5 +29,19 @@ const getAdminbyEmail = async (req, res) => {
         res.status(500).json({ message: 'Error fetching administrator', error });
     }
 }
+const ifAdministrator = async (req, res) => {
+    const { email } = req.params;   
+    try {
+            console.log(`GET /administrators/ifAdministrator/${email} called`);
+            const administrator = await Administrator.findOne({ where: { email } });
+            if (administrator) {
+                return res.status(200).json({ isAdmin: true });
+            } else {
+                return res.status(200).json({ isAdmin: false });
+            }
+        } catch (error) {
+            res.status(500).json({ message: 'Error checking administrator status', error });
+        }
+}
 
-export default { getAllAdministrators, getAdminbyEmail };
+export default { getAllAdministrators, getAdminbyEmail, ifAdministrator };

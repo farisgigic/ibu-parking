@@ -19,7 +19,6 @@ app.use(cors({
   credentials: true,
 }));
 
-// This line handles OPTIONS preflight for all routes
 
 
 app.use(bodyParser.json());

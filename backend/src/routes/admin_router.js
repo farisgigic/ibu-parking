@@ -13,4 +13,9 @@ router.get(
     adminCtrl.getAdminbyEmail
 );
 
+router.get(
+    '/ifAdministrator/:email',
+    adminCtrl.ifAdministrator
+);
+
 export default router;
