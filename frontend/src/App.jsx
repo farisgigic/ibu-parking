@@ -14,6 +14,7 @@ import HomePage from '@pages/HomePage/HomePage';
 import LoginPage from '@pages/LoginPage/LoginPage';
 import ParkingSlots from './pages/ParkingSlots/ParkingSlots';
 import UniversityProfile from './pages/ProfilePage/ProfilePage';
+import AdminDashboard from './pages/AdminDashboard/AdminDashboard';
 
 
 // Main Application
@@ -57,6 +58,14 @@ function AppContent() {
                 <UniversityProfile />
               </AuthGuard>
             } 
+          />
+          <Route
+            path = "/admin"
+            element= {
+              <AuthGuard>
+                <AdminDashboard />
+              </AuthGuard>
+            }
           />
           <Route path="*" element={<div>Page Not Found</div>} />
         </Routes>

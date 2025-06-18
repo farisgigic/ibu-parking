@@ -90,7 +90,7 @@ const Navigator = () => {
                         </NavLink>
                         {isAdmin && (
                             <NavLink
-                                to="/profile"
+                                to="/admin"
                                 className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
                             >
                                 Admin Panel
