@@ -13,8 +13,9 @@ router.post(
 );
 
 router.route('/student/:id')
-    .get(studentCtrl.getStudentById)
     .put(studentCtrl.updateStudent)
     .delete(studentCtrl.deleteStudent);
+
+router.get('/student/:google_id', studentCtrl.getStudentById);
 
 export default router;

@@ -7,7 +7,7 @@ const DEFAULT_AVATAR_URL = 'https://i.pravatar.cc/150?u=a042581f4e29026704d';
 
 const UniversityProfile = () => {
   const [loading, setLoading] = useState(true);
-  const [studentData, setStudentData] = useState(null);
+  const [studentData, setStudentData] = useState();
   const [notifications, setNotifications] = useState([]);
   const [notificationsError, setNotificationsError] = useState(null);
 
@@ -26,13 +26,12 @@ const UniversityProfile = () => {
   });
   const [showReportForm, setShowReportForm] = useState(false);
 
-  // useEffect for loading student data (runs once)
   useEffect(() => {
     const loadStudentData = async () => {
       try {
-        const studentDataString = localStorage.getItem("studentData");
+        const studentDataString = localStorage.getItem("user");
         const parsedData = JSON.parse(studentDataString);
-        const studentID = parsedData?.student_id;
+        const studentID = parsedData?.sub;
 
         if (studentID) {
           const studentResponse = await studentApi.getStudentById(studentID);
@@ -58,7 +57,6 @@ const UniversityProfile = () => {
     loadStudentData();
   }, []);
 
-  // useEffect for loading notifications (runs when page or student data changes)
   useEffect(() => {
     // We only load notifications once we have student data
     if (!studentData) return;
@@ -101,21 +99,19 @@ const UniversityProfile = () => {
     setShowReportForm(false);
   };
 
-  // FIX: Simplified and more robust date formatting function
   const formatDate = (dateString) => {
-    // 1. Handle null, undefined, or empty string inputs
+
     if (!dateString) {
       return 'N/A';
     }
-    // 2. The new Date() constructor can parse "2025-06-11 22:21:22.84+02" directly.
+
     const date = new Date(dateString);
 
-    // 3. Check if the date is valid after parsing
     if (isNaN(date.getTime())) {
       return 'Invalid Date';
     }
 
-    // 4. Format it to the user's local, which is usually what you want.
+
     return date.toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'short',
@@ -123,7 +119,6 @@ const UniversityProfile = () => {
     });
   };
 
-  // FIX: A better loading state check to prevent errors
   if (!studentData) {
     return (
       <div className="loading-container">
@@ -139,19 +134,17 @@ const UniversityProfile = () => {
     <div className="university-profile">
       <div className="container">
         <div className="main-grid">
-          {/* Profile Card */}
           <div className="profile-card">
-            {/* We already checked for studentData above, so this check is redundant but safe */}
             {studentData && (
               <>
                 <div className="profile-header">
                   <div className="profile-avatar-container">
                     <div className="profile-avatar-wrapper">
                       <img
-                        // FIX: Use the student's picture OR the default avatar
                         src={studentData.picture_url || DEFAULT_AVATAR_URL}
                         alt={`${studentData.first_name} ${studentData.last_name}`}
                         className="profile-avatar"
+                        referrerpolicy="no-referrer" 
                       />
                       <div className="profile-status"></div>
                     </div>
