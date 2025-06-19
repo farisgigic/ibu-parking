@@ -37,7 +37,7 @@ const useMenuData = () => {
       path: '/students',
       hasSubmenu: true,
       submenu: [
-        { id: 'all-students', label: 'All Students', path: '/students/all' },
+        { id: 'all-students', label: 'All Students', path: '/admin/students/all' },
         { id: 'add-student', label: 'Add Student', path: '/students/add' },
         { id: 'student-groups', label: 'Student Groups', path: '/students/groups' }
       ]

@@ -3,6 +3,7 @@
 @import '@components/Dropdown/StudentDropdown.module.css';
 @import '@components/Footer/Footer.module.css';
 @import '@components/AdminDashboard/SideBar/SideBar.module.css';
+@import '@components/AdminDashboard/Workspace/students/all-students/Studentworkspace.module.css';
 
 @import '@pages/LoginPage/LoginPage.module.css';
 @import '@pages/HomePage/HomePage.module.css';

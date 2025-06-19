@@ -1,0 +1,307 @@
+/* Container Styles */
+        .students-container {
+          max-width: 1200px;
+          margin: 0 auto;
+          padding: 24px;
+          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        /* Header Styles */
+        .students-header {
+          font-size: 2rem;
+          font-weight: bold;
+          color: #1f2937;
+          margin-bottom: 24px;
+          margin-top: 0;
+        }
+
+        /* Filter and Search Container */
+        .filter-search-container {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 24px;
+          gap: 16px;
+          flex-wrap: wrap;
+        }
+
+        .filter-section {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+        }
+
+        .filter-label {
+          font-size: 0.875rem;
+          font-weight: 500;
+          color: #374151;
+        }
+
+        /* Filter Button Styles */
+        .filter-button {
+          display: inline-flex;
+          align-items: center;
+          padding: 6px 12px;
+          border-radius: 6px;
+          font-size: 0.875rem;
+          font-weight: 500;
+          border: 1px solid #d1d5db;
+          background-color: #f9fafb;
+          color: #374151;
+          cursor: pointer;
+          transition: all 0.2s ease;
+        }
+
+        .filter-button:hover {
+          background-color: #f3f4f6;
+        }
+
+        .filter-button--active {
+          background-color: #3b82f6;
+          color: white;
+          border-color: #3b82f6;
+        }
+
+        .filter-button__close {
+          margin-left: 8px;
+          font-weight: bold;
+        }
+
+        /* Search and Add Section */
+        .search-add-section {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+        }
+
+        .search-container {
+          position: relative;
+        }
+
+        .search-input {
+          padding: 8px 12px 8px 40px;
+          border: 1px solid #d1d5db;
+          border-radius: 6px;
+          font-size: 0.875rem;
+          width: 250px;
+          outline: none;
+          transition: border-color 0.2s ease;
+        }
+
+        .search-input:focus {
+          border-color: #3b82f6;
+          box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .search-icon {
+          position: absolute;
+          left: 12px;
+          top: 50%;
+          transform: translateY(-50%);
+          width: 16px;
+          height: 16px;
+          color: #9ca3af;
+        }
+
+        .add-button {
+          padding: 8px;
+          background-color: #3b82f6;
+          color: white;
+          border: none;
+          border-radius: 6px;
+          cursor: pointer;
+          transition: background-color 0.2s ease;
+        }
+
+        .add-button:hover {
+          background-color: #2563eb;
+        }
+
+        .add-icon {
+          width: 20px;
+          height: 20px;
+        }
+
+        /* Results Summary */
+        .results-summary {
+          margin-bottom: 16px;
+          font-size: 0.875rem;
+          color: #6b7280;
+        }
+
+        /* Table Container */
+        .table-container {
+          background-color: white;
+          border-radius: 8px;
+          box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+          overflow: hidden;
+          margin-bottom: 24px;
+        }
+
+        /* Table Styles */
+        .students-table {
+          width: 100%;
+          border-collapse: collapse;
+        }
+
+        .table-header {
+          background-color: #f9fafb;
+        }
+
+        .table-header th {
+          padding: 12px 24px;
+          text-align: left;
+          font-size: 0.75rem;
+          font-weight: 500;
+          color: #6b7280;
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+          border-bottom: 1px solid #e5e7eb;
+        }
+
+        .table-body tr {
+          border-bottom: 1px solid #e5e7eb;
+          transition: background-color 0.2s ease;
+        }
+
+        .table-body tr:hover {
+          background-color: #f9fafb;
+        }
+
+        .table-body tr:last-child {
+          border-bottom: none;
+        }
+
+        .table-body td {
+          padding: 16px 24px;
+          font-size: 0.875rem;
+          color: #374151;
+          white-space: nowrap;
+        }
+
+        .table-body td:first-child {
+          font-weight: 500;
+          color: #1f2937;
+        }
+
+        /* Action Buttons */
+        .actions-container {
+          display: flex;
+          gap: 8px;
+        }
+
+        .action-button {
+          padding: 8px;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+          transition: background-color 0.2s ease;
+          color: #6b7280;
+        }
+
+        .action-button:hover {
+          background-color: #f3f4f6;
+        }
+
+        .action-button--delete {
+          color: #dc2626;
+        }
+
+        .action-button--delete:hover {
+          background-color: #fef2f2;
+        }
+
+        .action-icon {
+          width: 16px;
+          height: 16px;
+        }
+
+        /* No Results */
+        .no-results {
+          padding: 24px;
+          text-align: center;
+          color: #6b7280;
+          font-size: 0.875rem;
+        }
+
+        /* Pagination Styles */
+        .pagination {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 4px;
+          margin-top: 24px;
+        }
+
+        .pagination__nav,
+        .pagination__button {
+          padding: 8px 12px;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+          font-size: 0.875rem;
+          transition: all 0.2s ease;
+          background-color: transparent;
+          color: #6b7280;
+        }
+
+        .pagination__nav:hover:not(.pagination__nav--disabled),
+        .pagination__button:hover:not(.pagination__button--active) {
+          background-color: #f3f4f6;
+        }
+
+        .pagination__nav--disabled {
+          color: #d1d5db;
+          cursor: not-allowed;
+        }
+
+        .pagination__button--active {
+          background-color: #3b82f6;
+          color: white;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+          .students-container {
+            padding: 16px;
+          }
+
+          .filter-search-container {
+            flex-direction: column;
+            align-items: stretch;
+          }
+
+          .filter-section {
+            justify-content: flex-start;
+          }
+
+          .search-add-section {
+            justify-content: space-between;
+          }
+
+          .search-input {
+            width: 200px;
+          }
+
+          .table-container {
+            overflow-x: auto;
+          }
+
+          .students-table {
+            min-width: 800px;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .students-header {
+            font-size: 1.5rem;
+          }
+
+          .search-input {
+            width: 150px;
+          }
+
+          .filter-search-container {
+            gap: 12px;
+          }
+        }

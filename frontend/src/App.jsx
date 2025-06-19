@@ -9,6 +9,9 @@ import Footer from './components/Footer/Footer';
 import AuthGuard from './components/AuthLogin/AuthGuard';
 import SessionWatcher from './components/SessionWatcher/SessionWatcher';
 
+// Admin Components
+import StudentsTable from './components/AdminDashboard/Workspace/students/all-students/StudentsWorkspace';
+
 // Pages
 import HomePage from '@pages/HomePage/HomePage';
 import LoginPage from '@pages/LoginPage/LoginPage';
@@ -29,44 +32,47 @@ function AppContent() {
     // sticky footer"
     <div className="app-container">
       {showLayout && <Navigator />}
-      
+
       <main className="main-content">
         <SessionWatcher />
         <Routes>
           <Route path="/" element={<LoginPage />} />
           <Route path="/login" element={<LoginPage />} />
-          <Route 
-            path="/home" 
+          <Route
+            path="/home"
             element={
               <AuthGuard>
                 <HomePage />
               </AuthGuard>
             }
           />
-          <Route 
-            path="/slots" 
+          <Route
+            path="/slots"
             element={
               <AuthGuard>
                 <ParkingSlots />
               </AuthGuard>
-            } 
+            }
           />
-          <Route 
-            path="/profile" 
+          <Route
+            path="/profile"
             element={
               <AuthGuard>
                 <UniversityProfile />
               </AuthGuard>
-            } 
+            }
           />
           <Route
-            path = "/admin"
-            element= {
+            path="/admin"
+            element={
               <AuthGuard>
                 <AdminDashboard />
               </AuthGuard>
             }
-          />
+          >
+            <Route path="students/all" element={<StudentsTable />} />
+          </Route>
+
           <Route path="*" element={<div>Page Not Found</div>} />
         </Routes>
       </main>

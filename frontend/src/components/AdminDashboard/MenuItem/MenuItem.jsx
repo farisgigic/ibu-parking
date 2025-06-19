@@ -1,7 +1,9 @@
+import { useNavigate } from 'react-router-dom';
 import { ChevronDown, ChevronRight } from "lucide-react";
 import Badge from "../Badge/Badge";
 import Submenu from "../Submenu/Submenu";
 import IconRenderer from "../IconRenderer/IconRenderer";
+
 const MenuItem = ({ 
   item, 
   isActive, 
@@ -11,11 +13,16 @@ const MenuItem = ({
   onSubmenuClick,
   activeItem 
 }) => {
+  const navigate = useNavigate();
+
   const handleClick = () => {
     if (item.hasSubmenu) {
       onToggleExpand(item.id);
     } else {
       onItemClick(item.id);
+      if (item.path) {
+        navigate(item.path); // ✅ Navigacija
+      }
     }
   };
 

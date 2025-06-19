@@ -17,4 +17,5 @@ const Submenu = ({ items, activeItem, onItemClick, isExpanded }) => {
   );
 };
 
+
 export default Submenu;
