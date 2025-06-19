@@ -28,7 +28,8 @@
   justify-content: center;
 }
 
-.logo-text h1, .logo-text h2 {
+.logo-text h1,
+.logo-text h2 {
   font-size: 1.25rem;
   font-weight: 700;
   color: #111827;
@@ -150,3 +151,40 @@
   background-color: #eff6ff;
   color: #1d4ed8;
 }
+
+/* Pagination Styles */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  margin-top: 24px;
+}
+
+.pagination__nav,
+.pagination__button {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  transition: all 0.2s ease;
+  background-color: transparent;
+  color: #6b7280;
+}
+
+.pagination__nav:hover:not(.pagination__nav--disabled),
+.pagination__button:hover:not(.pagination__button--active) {
+  background-color: #f3f4f6;
+}
+
+.pagination__nav--disabled {
+  color: #d1d5db;
+  cursor: not-allowed;
+}
+
+.pagination__button--active {
+  background-color: #3b82f6;
+  color: white;
+}
+

@@ -11,7 +11,7 @@ import SessionWatcher from './components/SessionWatcher/SessionWatcher';
 
 // Admin Components
 import StudentsTable from './components/AdminDashboard/Workspace/students/all-students/StudentsWorkspace';
-
+import ReservationsTable from './components/AdminDashboard/Workspace/reservations/ReservationsWorkspace';
 // Pages
 import HomePage from '@pages/HomePage/HomePage';
 import LoginPage from '@pages/LoginPage/LoginPage';
@@ -71,6 +71,7 @@ function AppContent() {
             }
           >
             <Route path="students/all" element={<StudentsTable />} />
+            <Route path="reservations" element={<ReservationsTable />} />
           </Route>
 
           <Route path="*" element={<div>Page Not Found</div>} />

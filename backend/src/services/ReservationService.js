@@ -1,8 +1,8 @@
 
 import { ParkingSlot, Reservation } from '../models/index.js';
-
+import Student from '../models/student_model.js';
 const { Op } = require('sequelize');
-
+import Sequelize from 'sequelize';
 
 const reservationService = {
   async getSlotsWithMonthlyReservations(month, year) {
@@ -74,6 +74,46 @@ const reservationService = {
     await slot.save();
 
     return reservation;
+  },
+
+  getAllReservations: async () => {
+    const reservations = await Reservation.findAll({
+      include: [
+        {
+          model: ParkingSlot,
+          as: 'slot',
+          attributes: ['slot_code']
+        },
+        {
+          model: Student,
+          as: 'student',
+          attributes: [
+            [Sequelize.literal(`CONCAT(student.first_name, ' ', student.last_name)`), 'full_name'],
+            'email']
+        }
+      ]
+    });
+
+    return reservations.map(reservation => reservation.toJSON());
+  },
+  deleteReservation: async (reservationId) => {
+    const reservation = await Reservation.findByPk(reservationId);
+
+    if (!reservation) {
+      throw new Error('Reservation not found');
+    }
+
+    // Update the parking slot to mark it as available
+    const slot = await ParkingSlot.findByPk(reservation.parking_slot_id);
+    if (slot) {
+      slot.is_available = true;
+      slot.reserved_by = null;
+      slot.reserved_at = null;
+      await slot.save();
+    }
+
+    await reservation.destroy();
+    return { message: 'Reservation deleted successfully' };
   }
 };
 

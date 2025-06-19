@@ -2,11 +2,13 @@ import sequelize from '../config/sequelize.js';
 
 import ParkingSlot from './parkingSlot_model.js';
 import Reservation from './reservations_model.js';
+import Student from './student_model.js';
 
 const models = {
   sequelize,
   ParkingSlot,
-  Reservation
+  Reservation,
+  Student
 };
 
 // Ako modeli imaju definisane "associate" metode, pozovi ih
@@ -20,7 +22,8 @@ Object.values(models).forEach((model) => {
 export {
   sequelize,
   ParkingSlot,
-  Reservation
+  Reservation,
+  Student
 };
 
 export default models;

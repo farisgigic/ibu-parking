@@ -2,7 +2,7 @@ import { useState } from 'react';
 import Logo from '@components/AdminDashboard/Logo/Logo';
 import HomeButton from '@components/AdminDashboard/HomeButton/HomeButton';
 import MenuItem from '@components/AdminDashboard/MenuItem/MenuItem';
-import './SideBar.module.css'; 
+
 
 const Navigation = ({ menuItems, activeItem, expandedItems, onItemClick, onToggleExpand, onSubmenuClick }) => {
   return (
@@ -38,21 +38,20 @@ const useMenuData = () => {
       hasSubmenu: true,
       submenu: [
         { id: 'all-students', label: 'All Students', path: '/admin/students/all' },
-        { id: 'add-student', label: 'Add Student', path: '/students/add' },
-        { id: 'student-groups', label: 'Student Groups', path: '/students/groups' }
+        { id: 'add-student', label: 'Add Student', path: '/admin/students/add' }
       ]
     },
     {
       id: 'parking',
       label: 'Parking Slots',
       iconName: 'Car',
-      path: '/parking'
+      path: '/admin/parking'
     },
     {
       id: 'notifications',
       label: 'Notifications',
       iconName: 'Bell',
-      path: '/notifications',
+      path: '/admin/notifications',
       badge: '3'
     },
     {
@@ -63,15 +62,14 @@ const useMenuData = () => {
       hasSubmenu: true,
       submenu: [
         { id: 'student-reports', label: 'Student Reports', path: '/reports/students' },
-        { id: 'parking-reports', label: 'Parking Reports', path: '/reports/parking' },
-        { id: 'financial-reports', label: 'Financial Reports', path: '/reports/financial' }
+        { id: 'parking-reports', label: 'Parking Reports', path: '/reports/parking' }
       ]
     },
     {
       id: 'reservations',
       label: 'Reservations',
       iconName: 'Calendar',
-      path: '/reservations'
+      path: '/admin/reservations'
     }
   ];
 };

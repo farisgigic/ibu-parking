@@ -33,6 +33,24 @@ export const reservationApi = {
             console.error('Error reserving slot:', error);
             throw error;
         }
+    },
+    getAllReservations: async () => {
+        try {
+            const response = await API.get('/reservations/all-reservations');
+            return response.data;
+        } catch (error) {
+            console.error('Error fetching all reservations:', error);
+            throw error;
+        }
+    },
+    deleteReservation: async (reservationId) => {
+        try {
+            const response = await API.delete(`/reservations/delete/${reservationId}`);
+            return response.data;
+        } catch (error) {
+            console.error('Error deleting reservation:', error);
+            throw error;
+        }
     }
 
 };
