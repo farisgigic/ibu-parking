@@ -14,7 +14,7 @@ const ReservationsTable = () => {
   const [selectedReservationId, setSelectedReservationId] = useState(null);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   
-  // Add edit form state
+  
   const [selectedReservation, setSelectedReservation] = useState(null);
   const [showEditForm, setShowEditForm] = useState(false);
 

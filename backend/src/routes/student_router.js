@@ -19,13 +19,17 @@ router.get(
     '/email/:email', 
     studentCtrl.getStudentByEmail
 );
-router.route('/student/:id')
-    .put(studentCtrl.updateStudent)
-    .delete(studentCtrl.deleteStudent);
-
-
-router.put('/student/:id', studentCtrl.editStudent);
-
-router.get('/student/:google_id', studentCtrl.getStudentById);
+router.delete(
+    '/student/:id', 
+    studentCtrl.deleteStudent
+);
+router.put(
+    '/student/:id', 
+    studentCtrl.editStudent
+);
+router.get(
+    '/student/:google_id', 
+    studentCtrl.getStudentById
+);
 
 export default router;

@@ -46,5 +46,14 @@ export const studentApi = {
             throw error;
         }
     },  
+    deleteStudent: async (id) => {
+        try {
+            const response = await API.delete(`/students/student/${id}`);
+            return response.data;
+        } catch (error) {
+            console.error(`Error deleting student with ID ${id}:`, error);
+            throw error;
+        }
+    }
 };
 export default studentApi;

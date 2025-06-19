@@ -2,7 +2,8 @@ import { useEffect, useState, useMemo } from 'react';
 import ActionButton from '../../ActionButton/ActionButton';
 import Pagination from '../../PaginationComponent/PaginationComponent';
 import { studentApi } from '../../../../../api/StudentApi';
-import EditStudentForm from '../edit-student/EditStudentForm'; // Changed from EditStudentModal
+import EditStudentForm from '../edit-student/EditStudentForm'; 
+import ConfirmModal from '../../confirm-modal/ConfirmModal';
 
 const StudentsTable = () => {
   const [students, setStudents] = useState([]);
@@ -10,6 +11,7 @@ const StudentsTable = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
 
   const [selectedStudent, setSelectedStudent] = useState(null);
   const [showEditModal, setShowEditModal] = useState(false);
@@ -68,9 +70,25 @@ const StudentsTable = () => {
   };
 
   const handleDelete = (id) => {
-    console.log('Delete student with id:', id);
+    const studentToEdit = students.find(s => s.student_id === id);
+    setSelectedStudent(studentToEdit);
+    setShowConfirmModal(true);
   };
-
+  const confirmDelete = async () => {
+    try {
+      await studentApi.deleteStudent(selectedStudent.student_id);
+      setStudents(students.filter(s => s.student_id !== selectedStudent.student_id));
+      setShowConfirmModal(false); 
+      setSelectedStudent(null);
+    } catch (err) { 
+      console.error('Delete failed:', err);
+      setError('Failed to delete student');
+    }
+  };
+const cancelDelete = () => {
+    setShowConfirmModal(false);
+    setSelectedReservationId(null);
+  };
   const handleAdd = () => {
     console.log('Add new student');
   };
@@ -176,6 +194,13 @@ const StudentsTable = () => {
           currentPage={currentPage}
           totalPages={totalPages}
           onPageChange={setCurrentPage}
+        />
+      )}
+      {showConfirmModal && (
+        <ConfirmModal
+          message="Are you sure you want to delete this student from system?"
+          onConfirm={confirmDelete}
+          onCancel={cancelDelete}
         />
       )}
     </div>
