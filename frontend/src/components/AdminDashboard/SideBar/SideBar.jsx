@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Logo from '@components/AdminDashboard/Logo/Logo';
 import HomeButton from '@components/AdminDashboard/HomeButton/HomeButton';
 import MenuItem from '@components/AdminDashboard/MenuItem/MenuItem';
@@ -79,6 +80,7 @@ const Sidebar = () => {
   const [activeItem, setActiveItem] = useState('dashboard');
   const [expandedItems, setExpandedItems] = useState({});
   const menuItems = useMenuData();
+  const navigate = useNavigate();
 
   const toggleExpanded = (item) => {
     setExpandedItems(prev => ({
@@ -86,7 +88,9 @@ const Sidebar = () => {
       [item]: !prev[item]
     }));
   };
-
+  const handleHomeClick = () => {
+    navigate('/home');
+  };
   const handleItemClick = (itemId) => {
     setActiveItem(itemId);
   };
@@ -97,7 +101,6 @@ const Sidebar = () => {
 
   return (
     <>
-      {/* <style>{styles}</style> */}
       <div className="sidebar">
         <Logo />
         <Navigation
@@ -110,7 +113,7 @@ const Sidebar = () => {
         />
         <HomeButton
           isActive={activeItem === 'home'}
-          onClick={handleItemClick}
+          onClick={handleHomeClick}
         />
       </div>
     </>

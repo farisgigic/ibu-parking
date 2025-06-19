@@ -25,16 +25,14 @@ const LoginPage = () => {
                 const response = await loginWithGoogle(googleUserInfo.data);
 
                 let isAdmin = false;
-
                 const admin = await adminApi.getAdminByEmail(response.student.email);
-                console.log(admin);
-                if (admin.role != "Student") {
+                if (admin.role !== "student") {
                     isAdmin = true;
-                } else isAdmin = false;
-                console.log(isAdmin);
+                }
 
                 const sessionData = {
                     ...googleUserInfo.data,
+                    access_token: tokenResponse.access_token, // store token
                     expireAt: Date.now() + 60 * 60 * 1000, // 1 hour
                     role: isAdmin ? "admin" : "student",
                 };
@@ -51,6 +49,7 @@ const LoginPage = () => {
                 setIsLoading(false);
             }
         },
+
         onError: () => {
             console.error("Google login failed");
             setError("Google login failed. Please try again.");

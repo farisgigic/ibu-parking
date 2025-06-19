@@ -29,8 +29,7 @@ const HomePage = () => {
           } catch (err) {
             console.warn("Admin check failed or user is not an admin:", err);
           }
-          
-          setIsAuthorized(isStudent || isAdmin);
+          setIsAuthorized(isAdmin);
         } catch (err) {
           console.error("Failed to parse user:", err);
           setIsAuthorized(false);

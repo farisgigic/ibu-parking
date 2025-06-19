@@ -32,7 +32,7 @@ const Navigator = () => {
             <header className="login-header">
                 <div className="header-container">
                     <div className="logo-section">
-                        <img src={logo} alt="logo" className="logo-img" />
+                        <img src={logo} alt="logo" className="logo-img" referrerpolicy="no-referrer" />
                     </div>
                 </div>
             </header>
@@ -54,6 +54,7 @@ const Navigator = () => {
             }
         }
     }, []);
+
 
     return (
         <header className="main-header">

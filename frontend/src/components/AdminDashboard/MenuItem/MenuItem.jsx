@@ -21,7 +21,7 @@ const MenuItem = ({
     } else {
       onItemClick(item.id);
       if (item.path) {
-        navigate(item.path); // ✅ Navigacija
+        navigate(item.path); 
       }
     }
   };
