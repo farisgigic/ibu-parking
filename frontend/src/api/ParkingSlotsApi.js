@@ -6,8 +6,6 @@ export const slotsApi = {
       const response = await API.get('/parking_slots/all', {
         params: { month, year }
       });
-
-      // console.log('Fetched all parking slots:', response.data);
       return response.data;
     } catch (error) {
       console.error('Error fetching parking slots:', error);

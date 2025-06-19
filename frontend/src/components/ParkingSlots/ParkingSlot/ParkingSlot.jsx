@@ -1,5 +1,3 @@
-import React from 'react';
-
 const ParkingSlot = ({ slot, isSelected, bookingStatus, onSlotClick }) => {
   const isClickable = bookingStatus === 'selecting' && slot.is_available && !slot.is_locked;
 

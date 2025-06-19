@@ -1,6 +1,3 @@
-// src/components/BookingDetails.jsx
-import React from 'react';
-
 const BookingDetails = ({ selectedSlot, totalAmount, buttonText, isButtonDisabled, onBook }) => {
     return (
         <div style={{

@@ -1,10 +1,10 @@
-// src/ParkingSlotBooking.jsx
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Header from './../../components/ParkingSlots/Header/Header';
 import ParkingArea from './../../components/ParkingSlots/ParkingArea/ParkingArea';
 import BookingDetails from './../../components/ParkingSlots/BookingDetails/BookingDetails';
 import Toast from './../../components/ParkingSlots/Toast';
 import { slotsApi } from './../../api/ParkingSlotsApi';
+import { reservationApi } from './../../api/ReservationApi';
 import MonthCalendar from '../../components/ParkingSlots/MonthCalendar/MonthCalendar';
 
 const ParkingSlotBooking = () => {
@@ -23,7 +23,7 @@ const ParkingSlotBooking = () => {
         setLoading(true);
         const month = selectedDate.getMonth() + 1;
         const year = selectedDate.getFullYear();
-        const data = await slotsApi.getAllSlots(month, year);
+        const data = await reservationApi.getSlotsWithMonthlyReservations(month, year);
         setParkingSlots(data);
       } catch (err) {
         setError(err.message || 'Failed to load parking slots');
