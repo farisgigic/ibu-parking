@@ -15,4 +15,9 @@ router.route('/by_id/:reserved_by')
 
 router.route('/book/:id').put(parkingSlotCtrl.bookParkingSlot);
 
+router.get(
+    '/by_slot_code/:slot_code',
+    parkingSlotCtrl.getIdBySlotCode
+)
+
 export default router;

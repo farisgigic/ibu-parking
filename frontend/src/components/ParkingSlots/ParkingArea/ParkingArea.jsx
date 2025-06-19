@@ -66,7 +66,7 @@ const ParkingArea = ({
             slot={slot}
             isSelected={selectedSlot === slot.id}
             bookingStatus={bookingStatus}
-            onClick={onSlotClick}
+            onSlotClick={onSlotClick}
           />
         ))}
       </div>

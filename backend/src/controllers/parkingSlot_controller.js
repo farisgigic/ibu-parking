@@ -15,7 +15,7 @@ const getAllParkingSlots = async (req, res) => {
         const { month, year } = req.query;
 
         if (!month || !year) {
-            return res.status(400).json({ message: 'Month and year are required' });
+            return res.status(400).json({ message: 'Month and year are requiredddddd' });
         }
 
         const startOfMonth = new Date(Date.UTC(year, month - 1, 1));
@@ -28,8 +28,6 @@ const getAllParkingSlots = async (req, res) => {
 
         const allSlots = await ParkingSlot.findAll();
 
-        // This is a simplified approach. A more robust solution involves complex date queries.
-        // Let's create a dynamic `is_available` property based on the selected month.
         const slotsWithAvailability = allSlots.map(slot => {
             let isAvailable = true;
             if (slot.reservation_start_date && slot.reservation_end_date) {
@@ -212,4 +210,22 @@ const bookParkingSlot = async (req, res) => {
     }
 };
 
-export default { getAllParkingSlots, getParkingSlotByStudentId, createParkingSlot, getParkingSlotById, updateParkingSlot, deleteParkingSlot, getAvailableParkingSlots, getParkingSlotsBySection, getParkingSlotsByType, getParkingSlotsByLocation, getParkingSlotsByAvailability, getParkingSlotsByReservedBy, getParkingSlotsByReservedAt, getParkingSlotsBySlotCode, bookParkingSlot };
+const getIdBySlotCode = async (req, res) => {
+    const { slot_code } = req.params;
+    try {
+        const parkingSlot = await ParkingSlot.findOne({
+            where: { slot_code }
+        });
+
+        if (!parkingSlot) {
+            return res.status(404).json({ message: 'Parking slot not found' });
+        }
+
+        res.status(200).json({ id: parkingSlot.id });
+    } catch (error) {
+        res.status(500).json({ message: 'Error fetching parking slot by slot code', error });
+    }
+}
+
+
+export default { getAllParkingSlots, getParkingSlotByStudentId, createParkingSlot, getParkingSlotById, updateParkingSlot, deleteParkingSlot, getAvailableParkingSlots, getParkingSlotsBySection, getParkingSlotsByType, getParkingSlotsByLocation, getParkingSlotsByAvailability, getParkingSlotsByReservedBy, getParkingSlotsByReservedAt, getParkingSlotsBySlotCode, bookParkingSlot, getIdBySlotCode};

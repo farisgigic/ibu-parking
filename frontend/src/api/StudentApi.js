@@ -26,6 +26,15 @@ export const studentApi = {
             console.error('Error creating student:', error);
             throw error;
         }
-    }
+    },
+    getStudentByEmail: async (email) => {
+        try {
+            const response = await API.get(`/students/email/${email}`);
+            return response.data;
+        } catch (error) {
+            console.error(`Error fetching student with email ${email}:`, error);
+            throw error;
+        }
+    },
 };
 export default studentApi;

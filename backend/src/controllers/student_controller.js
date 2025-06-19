@@ -59,5 +59,18 @@ const deleteStudent = async (req, res) => {
         res.status(500).json({ message: 'Error deleting student', error });
     }
 };
+const getStudentByEmail = async (req, res) => {
+    try {
+        const { email } = req.params;
+        console.log("GET /students/email/:email called with email:", email);
+        const student = await Student.findOne({ where: { email } });
+        if (!student) {
+            return res.status(404).json({ message: 'Student not found' });
+        }
+        res.status(200).json(student);
+    } catch (error) {
+        res.status(500).json({ message: 'Error fetching student by email', error });
+    }
+}
 
-export default { createStudent, getAllStudents, getStudentById, updateStudent, deleteStudent };
+export default { createStudent, getAllStudents, getStudentById, updateStudent, deleteStudent, getStudentByEmail };

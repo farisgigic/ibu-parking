@@ -19,7 +19,22 @@ export const reservationApi = {
             console.error('Error fetching slots with monthly reservations:', error);
             throw error;
         }
+    },
+    reserveSlot: async ({ slotId, studentId, startDate, endDate }) => {
+        try {
+            const response = await API.post('/reservations/reserve-slot', {
+                slotId,
+                studentId,
+                startDate,
+                endDate
+            });
+            return response.data;
+        } catch (error) {
+            console.error('Error reserving slot:', error);
+            throw error;
+        }
     }
+
 };
 
 export default reservationApi;  

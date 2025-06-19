@@ -47,6 +47,33 @@ const reservationService = {
     });
 
     return processedSlots;
+  },
+
+  async reserveSlot(slotId, studentId, startDate, endDate) {
+    const slot = await ParkingSlot.findByPk(slotId);
+
+    if (!slot) {
+      throw new Error('Parking slot not found');
+    }
+
+    if (!slot.is_available) {
+      throw new Error('Parking slot is not available for reservation');
+    }
+
+    const reservation = await Reservation.create({
+      parking_slot_id: slotId,
+      student_id: studentId,
+      reservations_start_date: startDate,
+      reservations_end_date: endDate
+    });
+
+    // Update the parking slot to mark it as reserved
+    slot.is_available = false;
+    slot.reserved_by = studentId;
+    slot.reserved_at = new Date();
+    await slot.save();
+
+    return reservation;
   }
 };
 

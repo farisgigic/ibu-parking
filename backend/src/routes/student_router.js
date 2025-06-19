@@ -11,7 +11,14 @@ router.post(
     '/',
     studentCtrl.createStudent
 );
-
+router.get(
+    '/all', 
+    studentCtrl.getAllStudents
+);
+router.get(
+    '/email/:email', 
+    studentCtrl.getStudentByEmail
+);
 router.route('/student/:id')
     .put(studentCtrl.updateStudent)
     .delete(studentCtrl.deleteStudent);

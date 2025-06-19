@@ -3,10 +3,11 @@ import Header from './../../components/ParkingSlots/Header/Header';
 import ParkingArea from './../../components/ParkingSlots/ParkingArea/ParkingArea';
 import BookingDetails from './../../components/ParkingSlots/BookingDetails/BookingDetails';
 import Toast from './../../components/ParkingSlots/Toast';
-import { slotsApi } from './../../api/ParkingSlotsApi';
-import { reservationApi } from './../../api/ReservationApi';
 import MonthCalendar from '../../components/ParkingSlots/MonthCalendar/MonthCalendar';
 
+import { studentApi } from './../../api/StudentApi';
+import { reservationApi } from './../../api/ReservationApi';
+import { slotsApi } from '../../api/ParkingSlotsApi';
 const ParkingSlotBooking = () => {
   const [parkingSlots, setParkingSlots] = useState([]);
   const [selectedSlot, setSelectedSlot] = useState(null);
@@ -90,15 +91,44 @@ const ParkingSlotBooking = () => {
     setTotalAmount(50);
   };
 
-  const handleBookingButtonClick = () => {
+  const handleBookingButtonClick = async () => {
+    const local = localStorage.getItem("user");
+    const parsedStudent = JSON.parse(local);
+    // console.log(parsedStudent);
+    const user_email = parsedStudent?.email;
+    console.log(user_email);
+
+    const student = await studentApi.getStudentByEmail(user_email);
+    // console.log(student);
+    const user_id = student.student_id;
+    console.log(user_id);
+
+
     if (bookingStatus === 'idle') {
       setBookingStatus('selecting');
     } else if (bookingStatus === 'selecting' && selectedSlot) {
-      setBookingStatus('confirmed');
-      setShowToast(true);
-      setTimeout(() => setShowToast(false), 5000);
+      try {
+        const slotId = await slotsApi.getBySlotCode(selectedSlot);
+        const slot_id = slotId.id;
+
+        const response = await reservationApi.reserveSlot({
+          slotId: slot_id,
+          studentId: user_id, 
+          startDate: selectedDate.toISOString().split('T')[0], // format YYYY-MM-DD
+          endDate: selectedDate.toISOString().split('T')[0],   // same day or range
+        });
+
+        setBookingStatus('confirmed');
+        setShowToast(true);
+        setTimeout(() => setShowToast(false), 5000);
+        
+      } catch (error) {
+        console.error('Booking failed:', error);
+        alert('Failed to book the slot. Please try again.');
+      }
     }
   };
+
 
   const getButtonText = () => {
     if (bookingStatus === 'idle') return 'Start Booking';
