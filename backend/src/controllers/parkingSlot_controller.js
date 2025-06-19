@@ -9,6 +9,14 @@ const createParkingSlot = async (req, res) => {
         res.status(500).json({ message: 'Error creating parking slot', error });
     }
 }
+const getAll = async (req, res) => {
+    try {
+        const parkingSlots = await ParkingSlot.findAll();
+        res.status(200).json(parkingSlots);
+    } catch (error) {
+        res.status(500).json({ message: 'Error fetching parking slots', error });
+    }
+};
 
 const getAllParkingSlots = async (req, res) => {
     try {
@@ -228,4 +236,4 @@ const getIdBySlotCode = async (req, res) => {
 }
 
 
-export default { getAllParkingSlots, getParkingSlotByStudentId, createParkingSlot, getParkingSlotById, updateParkingSlot, deleteParkingSlot, getAvailableParkingSlots, getParkingSlotsBySection, getParkingSlotsByType, getParkingSlotsByLocation, getParkingSlotsByAvailability, getParkingSlotsByReservedBy, getParkingSlotsByReservedAt, getParkingSlotsBySlotCode, bookParkingSlot, getIdBySlotCode};
+export default { getAllParkingSlots, getParkingSlotByStudentId, createParkingSlot, getParkingSlotById, updateParkingSlot, deleteParkingSlot, getAvailableParkingSlots, getParkingSlotsBySection, getParkingSlotsByType, getParkingSlotsByLocation, getParkingSlotsByAvailability, getParkingSlotsByReservedBy, getParkingSlotsByReservedAt, getParkingSlotsBySlotCode, bookParkingSlot, getIdBySlotCode, getAll};

@@ -12,6 +12,24 @@ export const slotsApi = {
       throw error;
     }
   },
+  getAll: async () => {
+    try {
+      const response = await API.get('/parking_slots/all-slots');
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching all parking slots:', error);
+      throw error;
+    }
+  },
+  getAllParkingSlots: async () => {
+    try {
+      const response = await API.get('/parking_slots/all');
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching all parking slots:', error);
+      throw error;
+    }
+  },
   // Get slots by section
   getSlotsBySection: async (section) => {
     try {

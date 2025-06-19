@@ -46,7 +46,7 @@ const useMenuData = () => {
       id: 'parking',
       label: 'Parking Slots',
       iconName: 'Car',
-      path: '/admin/parking'
+      path: '/admin/parking-slots'
     },
     {
       id: 'notifications',

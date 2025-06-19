@@ -20,4 +20,9 @@ router.get(
     parkingSlotCtrl.getIdBySlotCode
 )
 
+router.get(
+    '/all-slots',
+    parkingSlotCtrl.getAll
+);
+
 export default router;
