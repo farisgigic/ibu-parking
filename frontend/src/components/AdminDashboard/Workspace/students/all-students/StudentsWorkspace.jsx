@@ -1,8 +1,8 @@
-import React, { useEffect, useState, useMemo } from 'react';
-import FilterButton from '../../FilterButton/FilterButton';
+import { useEffect, useState, useMemo } from 'react';
 import ActionButton from '../../ActionButton/ActionButton';
 import Pagination from '../../PaginationComponent/PaginationComponent';
-import { studentApi } from '../../../../../api/studentApi';
+import { studentApi } from '../../../../../api/StudentApi';
+import EditStudentForm from '../edit-student/EditStudentForm'; // Changed from EditStudentModal
 
 const StudentsTable = () => {
   const [students, setStudents] = useState([]);
@@ -10,6 +10,9 @@ const StudentsTable = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  const [selectedStudent, setSelectedStudent] = useState(null);
+  const [showEditModal, setShowEditModal] = useState(false);
 
   const itemsPerPage = 5;
 
@@ -54,7 +57,14 @@ const StudentsTable = () => {
   }, [searchTerm]);
 
   const handleEdit = (id) => {
-    console.log('Edit student with id:', id);
+    const studentToEdit = students.find(s => s.student_id === id);
+    setSelectedStudent(studentToEdit);
+    setShowEditModal(true);
+  };
+
+  const handleUpdate = async () => {
+    const data = await studentApi.getAllStudents();
+    setStudents(data);
   };
 
   const handleDelete = (id) => {
@@ -94,6 +104,15 @@ const StudentsTable = () => {
           </button>
         </div>
       </div>
+
+      {/* Edit form appears here - above the table */}
+      {showEditModal && selectedStudent && (
+        <EditStudentForm
+          student={selectedStudent}
+          onClose={() => setShowEditModal(false)}
+          onUpdate={handleUpdate}
+        />
+      )}
 
       <div className="results-summary">
         Showing {paginatedData.length} of {filteredData.length} students

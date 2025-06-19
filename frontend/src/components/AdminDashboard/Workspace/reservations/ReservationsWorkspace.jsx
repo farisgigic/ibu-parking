@@ -2,6 +2,7 @@ import { useEffect, useState, useMemo } from 'react';
 import ActionButton from '../ActionButton/ActionButton';
 import Pagination from '../PaginationComponent/PaginationComponent';
 import ConfirmModal from '../confirm-modal/ConfirmModal';
+import EditReservationForm from './edit-reservation/EditReservationForm'; // Add this import
 import { reservationApi } from '../../../../api/ReservationApi';
 
 const ReservationsTable = () => {
@@ -12,6 +13,10 @@ const ReservationsTable = () => {
   const [error, setError] = useState(null);
   const [selectedReservationId, setSelectedReservationId] = useState(null);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
+  
+  // Add edit form state
+  const [selectedReservation, setSelectedReservation] = useState(null);
+  const [showEditForm, setShowEditForm] = useState(false);
 
   const itemsPerPage = 5;
 
@@ -55,6 +60,18 @@ const ReservationsTable = () => {
   useEffect(() => {
     setCurrentPage(1);
   }, [searchTerm]);
+
+  // Add edit handler
+  const handleEdit = (id) => {
+    const reservationToEdit = reservations.find(r => r.id === id);
+    setSelectedReservation(reservationToEdit);
+    setShowEditForm(true);
+  };
+
+  // Add update handler
+  const handleUpdate = async () => {
+    await fetchReservations(); // Refresh the list
+  };
 
   const handleDelete = (id) => {
     setSelectedReservationId(id);
@@ -102,6 +119,15 @@ const ReservationsTable = () => {
         </div>
       </div>
 
+      {/* Edit form appears here - above the table */}
+      {showEditForm && selectedReservation && (
+        <EditReservationForm
+          reservation={selectedReservation}
+          onClose={() => setShowEditForm(false)}
+          onUpdate={handleUpdate}
+        />
+      )}
+
       <div className="results-summary">
         Showing {paginatedData.length} of {filteredData.length} reservations
         {searchTerm && ` for "${searchTerm}"`}
@@ -116,6 +142,7 @@ const ReservationsTable = () => {
               <th>Slot</th>
               <th>Start Date</th>
               <th>End Date</th>
+              <th>Status</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -138,9 +165,10 @@ const ReservationsTable = () => {
                       ? new Date(reservation.reservations_end_date).toLocaleDateString()
                       : 'N/A'}
                   </td>
+                  <td>{reservation.status}</td>
                   <td>
                     <div className="actions-container">
-                      <ActionButton onClick={() => console.log('Edit not implemented')}>
+                      <ActionButton onClick={() => handleEdit(reservation.id)}>
                         <svg className="action-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                         </svg>
@@ -156,7 +184,7 @@ const ReservationsTable = () => {
               ))
             ) : (
               <tr>
-                <td colSpan="6" className="no-results">
+                <td colSpan="7" className="no-results">
                   No reservations found matching your search.
                 </td>
               </tr>

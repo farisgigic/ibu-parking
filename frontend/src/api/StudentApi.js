@@ -36,5 +36,15 @@ export const studentApi = {
             throw error;
         }
     },
+
+    editStudent: async (id, studentData) => {
+        try {
+            const response = await API.put(`/students/student/${id}`, studentData);
+            return response.data;
+        } catch (error) {
+            console.error(`Error editing student with ID ${id}:`, error);
+            throw error;
+        }
+    },  
 };
 export default studentApi;

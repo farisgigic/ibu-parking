@@ -51,6 +51,19 @@ export const reservationApi = {
             console.error('Error deleting reservation:', error);
             throw error;
         }
+    },
+    updateReservation: async (reservationId, { reservations_start_date, reservations_end_date, status }) => {
+        try {
+            const response = await API.put(`/reservations/edit/${reservationId}`, {
+                reservations_start_date,
+                reservations_end_date,
+                status
+            });
+            return response.data;
+        } catch (error) {
+            console.error('Error updating reservation:', error);
+            throw error;
+        }
     }
 
 };

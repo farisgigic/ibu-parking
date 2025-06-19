@@ -5,7 +5,8 @@
 @import '@components/AdminDashboard/SideBar/SideBar.module.css';
 @import '@components/AdminDashboard/Workspace/students/all-students/Studentworkspace.module.css';
 @import '@components/AdminDashboard/Workspace/confirm-modal/ConfirmModal.module.css';
-
+@import '@components/AdminDashboard/Workspace/students/edit-student/EditStudentForm.module.css';
+@import '@components/AdminDashboard/Workspace/reservations/edit-reservation/EditReservationForm.module.css';
 
 @import '@pages/LoginPage/LoginPage.module.css';
 @import '@pages/HomePage/HomePage.module.css';

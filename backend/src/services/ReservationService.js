@@ -89,7 +89,7 @@ const reservationService = {
           as: 'student',
           attributes: [
             [Sequelize.literal(`CONCAT(student.first_name, ' ', student.last_name)`), 'full_name'],
-            'email']
+            'email', 'picture_url']
         }
       ]
     });
@@ -114,7 +114,33 @@ const reservationService = {
 
     await reservation.destroy();
     return { message: 'Reservation deleted successfully' };
+  },
+  updateReservation: async (reservationId, reservations_start_date, reservations_end_date, status) => {
+    const reservation = await Reservation.findByPk(reservationId);
+    if (!reservation) {
+      throw new Error('Reservation not found');
+    }
+
+    const startDate = new Date(reservations_start_date);
+    const endDate = new Date(reservations_end_date);
+
+    if (isNaN(startDate) || isNaN(endDate)) {
+      throw new Error('Invalid date format');
+    }
+
+    if (startDate >= endDate) {
+      throw new Error('End date must be after start date');
+    }
+
+    reservation.reservations_start_date = startDate;
+    reservation.reservations_end_date = endDate;
+    reservation.status = status || reservation.status;
+
+    await reservation.save();
+    return reservation;
   }
+
+
 };
 
 export default reservationService;

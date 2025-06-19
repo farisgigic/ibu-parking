@@ -121,7 +121,6 @@ const ParkingSlotBooking = () => {
         setBookingStatus('confirmed');
         setShowToast(true);
         setTimeout(() => setShowToast(false), 5000);
-        
       } catch (error) {
         console.error('Booking failed:', error);
         alert('Failed to book the slot. Please try again.');

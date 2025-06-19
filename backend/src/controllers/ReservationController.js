@@ -1,4 +1,4 @@
-import reservationService from '../services/ReservationService.js';  
+import reservationService from '../services/ReservationService.js';
 
 const reservationController = {
   async getSlotsWithMonthlyReservations(req, res) {
@@ -56,6 +56,30 @@ const reservationController = {
       }
 
       res.status(200).json({ message: 'Reservation deleted successfully!' });
+    } catch (error) {
+      console.error('Error:', error);
+      res.status(500).json({ message: 'Server error', error: error.message });
+    }
+  },
+
+  async updateReservation(req, res) {
+    try {
+      const { reservationId } = req.params;
+      const { reservations_start_date, reservations_end_date, status } = req.body;
+
+      if (!reservationId || !reservations_start_date || !reservations_end_date || !status) {
+        return res.status(400).json({ message: 'Reservation ID, start date, end date and status are required!' });
+      }
+
+      const updatedReservation = await reservationService.updateReservation(
+        reservationId,
+        reservations_start_date,
+        reservations_end_date,
+        status
+      );
+
+
+      res.status(200).json(updatedReservation);
     } catch (error) {
       console.error('Error:', error);
       res.status(500).json({ message: 'Server error', error: error.message });

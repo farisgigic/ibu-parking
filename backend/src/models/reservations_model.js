@@ -5,7 +5,8 @@ const Reservation = sequelize.define('Reservation', {
   reservations_start_date: DataTypes.DATE,
   reservations_end_date: DataTypes.DATE,
   student_id: DataTypes.INTEGER,
-  parking_slot_id: DataTypes.INTEGER
+  parking_slot_id: DataTypes.INTEGER,
+  status: DataTypes.STRING, // e.g., 'pending', 'cancelled', 'accepted/paid'
 },
   {
     tableName: 'reservations',

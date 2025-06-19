@@ -10,4 +10,6 @@ router.post('/reserve-slot', reservationCtrl.reserveSlot);
 
 router.delete('/delete/:reservationId', reservationCtrl.deleteReservation);
 
+router.put('/edit/:reservationId', reservationCtrl.updateReservation);
+
 export default router;
