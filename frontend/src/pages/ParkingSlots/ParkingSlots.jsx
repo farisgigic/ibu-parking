@@ -18,21 +18,21 @@ const ParkingSlotBooking = () => {
   const [showToast, setShowToast] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
 
-  useEffect(() => {
-    const fetchParkingSlots = async () => {
-      try {
-        setLoading(true);
-        const month = selectedDate.getMonth() + 1;
-        const year = selectedDate.getFullYear();
-        const data = await reservationApi.getSlotsWithMonthlyReservations(month, year);
-        setParkingSlots(data);
-      } catch (err) {
-        setError(err.message || 'Failed to load parking slots');
-      } finally {
-        setLoading(false);
-      }
-    };
+  const fetchParkingSlots = async () => {
+    try {
+      setLoading(true);
+      const month = selectedDate.getMonth() + 1;
+      const year = selectedDate.getFullYear();
+      const data = await reservationApi.getSlotsWithMonthlyReservations(month, year);
+      setParkingSlots(data);
+    } catch (err) {
+      setError(err.message || 'Failed to load parking slots');
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     fetchParkingSlots();
   }, [selectedDate]);
 
@@ -40,7 +40,6 @@ const ParkingSlotBooking = () => {
   const organizeSlots = () => {
     const organized = { l1Professor: [], l1Student: [], l2Professor: [], l2Student: [] };
 
-    // Sort function to extract number from slot code and sort numerically
     const sortSlotsByNumber = (slots) => {
       return slots.sort((a, b) => {
         const numA = parseInt(a.slot_code.replace(/[A-Z]/g, ''));
@@ -50,27 +49,20 @@ const ParkingSlotBooking = () => {
     };
 
     parkingSlots.forEach(slot => {
-      const slotData = {
-        id: slot.slot_code,
-        slot_code: slot.slot_code,
-        is_available: slot.is_available ? true : false,
-        is_locked: slot.is_locked || false,
-        type: slot.type,
-        section: slot.section
-      };
-      // console.log('Organizing slot:', slotData);
+      // KLJUČNA PROMJENA #1: Nemojte kreirati novi, nepotpuni objekt.
+      // Proslijedite cijeli `slot` objekt koji ste dobili s backenda.
+      // Tako će svi propertiji, uključujući `status`, biti sačuvani.
       if (slot.section === 'L1' && slot.type === 'professor parking space') {
-        organized.l1Professor.push(slotData);
+        organized.l1Professor.push(slot);
       } else if (slot.section === 'L1' && slot.type === 'student parking') {
-        organized.l1Student.push(slotData);
+        organized.l1Student.push(slot);
       } else if (slot.section === 'L2' && slot.type === 'professor parking space') {
-        organized.l2Professor.push(slotData);
+        organized.l2Professor.push(slot);
       } else if (slot.section === 'L2' && slot.type === 'student parking') {
-        organized.l2Student.push(slotData);
+        organized.l2Student.push(slot);
       }
     });
 
-    // Sort each category by slot number
     organized.l1Professor = sortSlotsByNumber(organized.l1Professor);
     organized.l1Student = sortSlotsByNumber(organized.l1Student);
     organized.l2Professor = sortSlotsByNumber(organized.l2Professor);
@@ -80,13 +72,10 @@ const ParkingSlotBooking = () => {
   };
 
   const handleSlotClick = (id, status) => {
-    // Prevent selection of locked or unavailable slots
+    // Vaša logika ostaje ista
     if (status !== 'available' || bookingStatus !== 'selecting') return;
-
-    // Additional check to ensure the slot isn't locked
     const slot = parkingSlots.find(s => s.slot_code === id);
     if (slot && slot.is_locked) return;
-
     setSelectedSlot(id);
     setTotalAmount(50);
   };
@@ -94,33 +83,37 @@ const ParkingSlotBooking = () => {
   const handleBookingButtonClick = async () => {
     const local = localStorage.getItem("user");
     const parsedStudent = JSON.parse(local);
-    // console.log(parsedStudent);
     const user_email = parsedStudent?.email;
-    console.log(user_email);
 
     const student = await studentApi.getStudentByEmail(user_email);
-    // console.log(student);
     const user_id = student.student_id;
-    console.log(user_id);
-
 
     if (bookingStatus === 'idle') {
       setBookingStatus('selecting');
     } else if (bookingStatus === 'selecting' && selectedSlot) {
       try {
-        const slotId = await slotsApi.getBySlotCode(selectedSlot);
-        const slot_id = slotId.id;
+        const slotData = await slotsApi.getBySlotCode(selectedSlot);
+        const slot_id = slotData.id;
 
-        const response = await reservationApi.reserveSlot({
+        const startDate = new Date(selectedDate);
+        const endDate = new Date(startDate);
+        endDate.setMonth(endDate.getMonth() + 1);
+
+        await reservationApi.reserveSlot({
           slotId: slot_id,
-          studentId: user_id, 
-          startDate: selectedDate.toISOString().split('T')[0], // format YYYY-MM-DD
-          endDate: selectedDate.toISOString().split('T')[0],   // same day or range
+          studentId: user_id,
+          startDate: startDate.toISOString().split('T')[0],
+          endDate: endDate.toISOString().split('T')[0],
         });
+
+        // KLJUČNA PROMJENA #2: Nakon što je rezervacija uspješno poslana,
+        // pozovite `fetchParkingSlots` da osvježite stanje s novim podacima sa servera!
+        await fetchParkingSlots();
 
         setBookingStatus('confirmed');
         setShowToast(true);
         setTimeout(() => setShowToast(false), 5000);
+        setSelectedSlot(null); // Resetiraj odabir nakon uspješne rezervacije
       } catch (error) {
         console.error('Booking failed:', error);
         alert('Failed to book the slot. Please try again.');

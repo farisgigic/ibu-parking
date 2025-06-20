@@ -292,6 +292,10 @@ body {
   color: white;
 }
 
+.parking-slot.pending {
+  background: linear-gradient(135deg, #cbad4a, #e5da4b);
+  color: white;
+}
 .parking-slot.available:hover {
   transform: translateY(-3px) scale(1.05);
   box-shadow: 0 10px 25px rgba(72, 187, 120, 0.4);

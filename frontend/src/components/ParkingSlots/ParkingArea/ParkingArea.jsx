@@ -62,9 +62,9 @@ const ParkingArea = ({
       }}>
         {slots.map(slot => (
           <ParkingSlot
-            key={slot.id}
+            key={slot.slot_code}
             slot={slot}
-            isSelected={selectedSlot === slot.id}
+            isSelected={selectedSlot === slot.slot_code}
             bookingStatus={bookingStatus}
             onSlotClick={onSlotClick}
           />

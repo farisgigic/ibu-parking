@@ -2,7 +2,7 @@ import { useEffect, useState, useMemo } from 'react';
 import ActionButton from '../ActionButton/ActionButton';
 import Pagination from '../PaginationComponent/PaginationComponent';
 import { slotsApi } from '../../../../api/ParkingSlotsApi';
-// import EditSlotForm from '../edit-slot/EditSlotForm'; 
+import EditSlotForm from './edit-parking-slot/EditSlotForm'; 
 import ConfirmModal from '../confirm-modal/ConfirmModal';
 
 const SlotsTable = () => {
@@ -167,13 +167,13 @@ const SlotsTable = () => {
           <tbody className="table-body">
             {paginatedData.length > 0 ? (
               paginatedData.map((slot) => (
-                console.log(slot),
+                // console.log(slot),
                 <tr key={slot.id}>
                   <td>{slot.slot_code}</td>
                   <td>{slot.location}</td>
                   <td>{slot.section}</td>
                   <td>{slot.type}</td>
-                  <td>{slot.is_locked}</td>
+                  <td>{slot.is_locked ? 'Yes' : 'No'}</td>
                   <td>{getStatusBadge(slot)}</td>
                   <td>
                     <div className="actions-container">

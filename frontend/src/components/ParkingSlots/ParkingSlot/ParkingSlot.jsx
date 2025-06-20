@@ -1,8 +1,9 @@
 const ParkingSlot = ({ slot, isSelected, bookingStatus, onSlotClick }) => {
-  const isClickable = bookingStatus === 'selecting' && slot.is_available && !slot.is_locked;
+  const isClickable = bookingStatus === 'selecting' && slot.is_available && !slot.is_locked && slot.status !== 'pending';
 
   const getSlotClass = () => {
     if (isSelected) return 'parking-slot selected';
+    if (slot.status == "pending") return 'parking-slot pending' ;                // yellow
     if (slot.is_locked) return 'parking-slot locked';                            // grey
     if (slot.is_available && !slot.is_locked) return 'parking-slot available';   // green
     return 'parking-slot not-available';                                         // red

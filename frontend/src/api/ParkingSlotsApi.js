@@ -137,7 +137,17 @@ export const slotsApi = {
       console.error(`Error fetching slot by code ${slotCode}:`, error);
       throw error;
     }
-  }
+  },
+
+  updateSlot: async (slotId, slotData) => {
+    try {
+      const response = await API.put(`/parking_slots/update/${slotId}`, slotData);
+      return response.data;
+    } catch (error) {
+      console.error(`Error updating slot ${slotId}:`, error);
+      throw error;
+    }
+  },
 };
 
 export default slotsApi;

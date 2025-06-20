@@ -1,6 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { notificationApi } from '../../api/NotificationApi';
 import { studentApi } from '../../api/StudentApi';
+// import { reportApi } from '../../api/ReportApi'; // Dodaj ovo
 
 // A default avatar to use when the student's picture is missing
 const DEFAULT_AVATAR_URL = 'https://i.pravatar.cc/150?u=a042581f4e29026704d';
@@ -25,6 +26,12 @@ const UniversityProfile = () => {
     priority: 'medium'
   });
   const [showReportForm, setShowReportForm] = useState(false);
+  
+  // Dodaj ovo za upload slika
+  const [selectedImages, setSelectedImages] = useState([]);
+  const [imagePreview, setImagePreview] = useState([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const fileInputRef = useRef(null);
 
   useEffect(() => {
     const loadStudentData = async () => {
@@ -43,10 +50,10 @@ const UniversityProfile = () => {
             last_name: 'Johnson',
             email: 'sarah.johnson@university.edu',
             google_id: '1234567890',
-            picture_url: null, // Simulating a missing picture
+            picture_url: null,
             role: 'student',
-            created_at: '2025-06-11 22:21:22.84+02', // Using your new format
-            updated_at: null, // Simulating a missing date
+            created_at: '2025-06-11 22:21:22.84+02',
+            updated_at: null,
           });
         }
       } catch (err) {
@@ -58,7 +65,6 @@ const UniversityProfile = () => {
   }, []);
 
   useEffect(() => {
-    // We only load notifications once we have student data
     if (!studentData) return;
 
     const loadProfileData = async () => {
@@ -84,23 +90,122 @@ const UniversityProfile = () => {
     loadProfileData();
   }, [currentPage, studentData]);
 
-
   const handlePageChange = (newPage) => {
     if (newPage > 0 && newPage <= paginationInfo.totalPages) {
       setCurrentPage(newPage);
     }
   };
 
-  const handleReportSubmit = (e) => {
+  // Funkcija za handling fajlova
+  const handleFileSelect = (e) => {
+    const files = Array.from(e.target.files);
+    
+    // Ograniči na maksimalno 3 slike
+    if (files.length > 3) {
+      alert('You can upload maximum 3 images');
+      return;
+    }
+
+    // Validacija tipova fajlova
+    const validTypes = ['image/jpeg', 'image/png', 'image/gif'];
+    const invalidFiles = files.filter(file => !validTypes.includes(file.type));
+    
+    if (invalidFiles.length > 0) {
+      alert('Only JPEG, PNG and GIF files are allowed');
+      return;
+    }
+
+    // Validacija veličine (max 5MB po fajlu)
+    const oversizedFiles = files.filter(file => file.size > 5 * 1024 * 1024);
+    if (oversizedFiles.length > 0) {
+      alert('Each file must be smaller than 5MB');
+      return;
+    }
+
+    setSelectedImages(files);
+
+    // Kreiraj preview URL-ove
+    const previews = files.map(file => ({
+      file,
+      url: URL.createObjectURL(file),
+      name: file.name
+    }));
+    
+    setImagePreview(previews);
+  };
+
+  // Ukloni sliku iz preview-a
+  const removeImage = (index) => {
+    const newImages = selectedImages.filter((_, i) => i !== index);
+    const newPreviews = imagePreview.filter((_, i) => i !== index);
+    
+    // Oslobodi memory za URL
+    URL.revokeObjectURL(imagePreview[index].url);
+    
+    setSelectedImages(newImages);
+    setImagePreview(newPreviews);
+  };
+
+  // Ažuriraj handleReportSubmit funkciju
+  const handleReportSubmit = async (e) => {
     e.preventDefault();
-    console.log('Report submitted:', reportForm);
-    alert('Report submitted successfully.');
-    setReportForm({ category: '', title: '', description: '', priority: 'medium' });
-    setShowReportForm(false);
+    setIsSubmitting(true);
+
+    try {
+      // Validacija
+      if (!reportForm.category || !reportForm.title || !reportForm.description) {
+        alert('Please fill in all required fields');
+        return;
+      }
+
+      // Kreiraj FormData
+      const formData = new FormData();
+      formData.append('category', reportForm.category);
+      formData.append('title', reportForm.title);
+      formData.append('description', reportForm.description);
+      formData.append('priority', reportForm.priority);
+      
+      // Dodaj studentID
+      const studentDataString = localStorage.getItem("user");
+      const parsedData = JSON.parse(studentDataString);
+      formData.append('studentId', parsedData?.sub || 'unknown');
+
+      // Dodaj slike
+      selectedImages.forEach((image, index) => {
+        formData.append('images', image);
+      });
+
+      // Pozovi API
+      const response = await reportApi.submitReport(formData);
+      
+      if (response.success) {
+        alert('Report submitted successfully!');
+        
+        // Resetuj form
+        setReportForm({ 
+          category: '', 
+          title: '', 
+          description: '', 
+          priority: 'medium' 
+        });
+        setSelectedImages([]);
+        setImagePreview([]);
+        setShowReportForm(false);
+        
+        // Resetuj file input
+        if (fileInputRef.current) {
+          fileInputRef.current.value = '';
+        }
+      }
+    } catch (error) {
+      console.error('Error submitting report:', error);
+      alert('Failed to submit report. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const formatDate = (dateString) => {
-
     if (!dateString) {
       return 'N/A';
     }
@@ -110,7 +215,6 @@ const UniversityProfile = () => {
     if (isNaN(date.getTime())) {
       return 'Invalid Date';
     }
-
 
     return date.toLocaleDateString('en-US', {
       year: 'numeric',
@@ -182,7 +286,6 @@ const UniversityProfile = () => {
             )}
           </div>
 
-          {/* ... The rest of your component remains the same ... */}
           {/* Main Content Area */}
           <div className="content-area">
             {/* Notifications Section */}
@@ -266,7 +369,7 @@ const UniversityProfile = () => {
               )}
             </div>
 
-            {/* Report Section */}
+            {/* Report Section - AŽURIRANO */}
             <div className="section-card">
               <div className="section-header">
                 <div className="section-header-content">
@@ -292,7 +395,7 @@ const UniversityProfile = () => {
                       <div>
                         <h5 className="report-info-title">Need Help?</h5>
                         <p className="report-info-text">
-                          Report technical issues, facility problems, or submit feedback to help us improve your university experience.
+                          Report technical issues, facility problems, or submit feedback. You can also attach images to help us understand the problem better.
                         </p>
                       </div>
                     </div>
@@ -304,12 +407,13 @@ const UniversityProfile = () => {
                     <div className="form-grid">
                       <div className="form-group">
                         <label className="form-label">
-                          Category
+                          Category *
                         </label>
                         <select
                           value={reportForm.category}
                           onChange={(e) => setReportForm({ ...reportForm, category: e.target.value })}
                           className="form-select"
+                          required
                         >
                           <option value="">Select a category</option>
                           <option value="parking">Parking Issues</option>
@@ -338,7 +442,7 @@ const UniversityProfile = () => {
 
                     <div className="form-group">
                       <label className="form-label">
-                        Issue Title
+                        Issue Title *
                       </label>
                       <input
                         type="text"
@@ -346,12 +450,13 @@ const UniversityProfile = () => {
                         value={reportForm.title}
                         onChange={(e) => setReportForm({ ...reportForm, title: e.target.value })}
                         className="form-input"
+                        required
                       />
                     </div>
 
                     <div className="form-group">
                       <label className="form-label">
-                        Description
+                        Description *
                       </label>
                       <textarea
                         rows={4}
@@ -359,20 +464,92 @@ const UniversityProfile = () => {
                         value={reportForm.description}
                         onChange={(e) => setReportForm({ ...reportForm, description: e.target.value })}
                         className="form-textarea"
+                        required
                       />
+                    </div>
+
+                    {/* NOVA SEKCIJA ZA UPLOAD SLIKA */}
+                    <div className="form-group">
+                      <label className="form-label">
+                        📷 Attach Images (Optional)
+                      </label>
+                      <div className="image-upload-section">
+                        <input
+                          type="file"
+                          ref={fileInputRef}
+                          onChange={handleFileSelect}
+                          accept="image/jpeg,image/png,image/gif"
+                          multiple
+                          className="form-input-file"
+                          style={{ display: 'none' }}
+                        />
+                        
+                        <button
+                          type="button"
+                          onClick={() => fileInputRef.current?.click()}
+                          className="btn btn-outline-primary"
+                          disabled={isSubmitting}
+                        >
+                          📁 Choose Images (Max 3)
+                        </button>
+                        
+                        <p className="form-help-text">
+                          Supported formats: JPEG, PNG, GIF (Max 5MB each)
+                        </p>
+
+                        {/* PREVIEW SLIKA */}
+                        {imagePreview.length > 0 && (
+                          <div className="image-preview-container">
+                            <h6>Selected Images:</h6>
+                            <div className="image-preview-grid">
+                              {imagePreview.map((preview, index) => (
+                                <div key={index} className="image-preview-item">
+                                  <img
+                                    src={preview.url}
+                                    alt={`Preview ${index + 1}`}
+                                    className="image-preview-thumb"
+                                  />
+                                  <div className="image-preview-info">
+                                    <span className="image-preview-name">
+                                      {preview.name}
+                                    </span>
+                                    <button
+                                      type="button"
+                                      onClick={() => removeImage(index)}
+                                      className="btn btn-danger btn-sm"
+                                      disabled={isSubmitting}
+                                    >
+                                      ❌ Remove
+                                    </button>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+                      </div>
                     </div>
 
                     <div className="form-buttons">
                       <button
                         type="submit"
                         className="btn btn-success"
+                        disabled={isSubmitting}
                       >
-                        📤 Submit Report
+                        {isSubmitting ? (
+                          <>
+                            <span className="loading-spinner-sm"></span>
+                            Submitting...
+                          </>
+                        ) : (
+                          '📤 Submit Report'
+                        )}
                       </button>
                       <button
                         type="button"
                         onClick={() => setShowReportForm(false)}
                         className="btn btn-secondary"
+                        disabled={isSubmitting}
                       >
                         Cancel
                       </button>
