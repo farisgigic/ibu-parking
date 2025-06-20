@@ -1,9 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
 import { notificationApi } from '../../api/NotificationApi';
 import { studentApi } from '../../api/StudentApi';
-// import { reportApi } from '../../api/ReportApi'; // Dodaj ovo
+import { reportsApi } from '../../api/ReportsApi'; 
 
-// A default avatar to use when the student's picture is missing
 const DEFAULT_AVATAR_URL = 'https://i.pravatar.cc/150?u=a042581f4e29026704d';
 
 const UniversityProfile = () => {
@@ -168,15 +167,18 @@ const UniversityProfile = () => {
       // Dodaj studentID
       const studentDataString = localStorage.getItem("user");
       const parsedData = JSON.parse(studentDataString);
-      formData.append('studentId', parsedData?.sub || 'unknown');
+      // console.log('Parsed student data:', parsedData);
+      const student_id = await studentApi.getStudentByEmail(parsedData?.email);
+      console.log(student_id.student_id);
+      formData.append('studentId', student_id.student_id || 99);
 
       // Dodaj slike
       selectedImages.forEach((image, index) => {
-        formData.append('images', image);
+        formData.append('image', image);
       });
 
       // Pozovi API
-      const response = await reportApi.submitReport(formData);
+      const response = await reportsApi.createReport(formData);
       
       if (response.success) {
         alert('Report submitted successfully!');
@@ -471,7 +473,7 @@ const UniversityProfile = () => {
                     {/* NOVA SEKCIJA ZA UPLOAD SLIKA */}
                     <div className="form-group">
                       <label className="form-label">
-                        📷 Attach Images (Optional)
+                        📷 Attach Image (Optional)
                       </label>
                       <div className="image-upload-section">
                         <input
@@ -490,11 +492,11 @@ const UniversityProfile = () => {
                           className="btn btn-outline-primary"
                           disabled={isSubmitting}
                         >
-                          📁 Choose Images (Max 3)
+                          📁 Choose Image
                         </button>
                         
                         <p className="form-help-text">
-                          Supported formats: JPEG, PNG, GIF (Max 5MB each)
+                          Supported formats: JPEG, PNG, GIF (Max 5MB)
                         </p>
 
                         {/* PREVIEW SLIKA */}
