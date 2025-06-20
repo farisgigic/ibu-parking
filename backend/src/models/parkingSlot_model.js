@@ -10,7 +10,8 @@ const ParkingSlot = sequelize.define('ParkingSlot', {
     reserved_at: DataTypes.DATE,
     section: DataTypes.STRING,
     type: DataTypes.STRING,
-    is_locked: DataTypes.BOOLEAN
+    is_locked: DataTypes.BOOLEAN,
+    status: DataTypes.STRING,
   },
 {
     tableName: 'parking_slots',

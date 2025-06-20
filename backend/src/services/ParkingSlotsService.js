@@ -12,7 +12,7 @@ const parkingSlotService = {
             throw new Error('Parking slot is already booked');
         }
 
-        parkingSlot.is_available = false;
+        parkingSlot.is_available = true;
         parkingSlot.reserved_by = reservedBy;
         parkingSlot.reservation_start_date = new Date();
 

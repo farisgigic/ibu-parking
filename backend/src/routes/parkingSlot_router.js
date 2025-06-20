@@ -10,7 +10,6 @@ router.route('/all')
 
 router.route('/by_id/:reserved_by')
     .get(parkingSlotCtrl.getParkingSlotByStudentId)
-    .put(parkingSlotCtrl.updateParkingSlot)
     .delete(parkingSlotCtrl.deleteParkingSlot);
 
 router.route('/book/:id').put(parkingSlotCtrl.bookParkingSlot);
@@ -19,6 +18,11 @@ router.get(
     '/by_slot_code/:slot_code',
     parkingSlotCtrl.getIdBySlotCode
 )
+
+router.put(
+    '/update/:id',
+    parkingSlotCtrl.updateParkingSlot
+);
 
 router.get(
     '/all-slots',

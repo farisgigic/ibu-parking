@@ -63,28 +63,38 @@ const reservationController = {
   },
 
   async updateReservation(req, res) {
-    try {
-      const { reservationId } = req.params;
-      const { reservations_start_date, reservations_end_date, status } = req.body;
+  try {
+    const { reservationId } = req.params;
+    let { reservations_start_date, reservations_end_date, status } = req.body;
 
-      if (!reservationId || !reservations_start_date || !reservations_end_date || !status) {
-        return res.status(400).json({ message: 'Reservation ID, start date, end date and status are required!' });
-      }
-
-      const updatedReservation = await reservationService.updateReservation(
-        reservationId,
-        reservations_start_date,
-        reservations_end_date,
-        status
-      );
-
-
-      res.status(200).json(updatedReservation);
-    } catch (error) {
-      console.error('Error:', error);
-      res.status(500).json({ message: 'Server error', error: error.message });
+    if (!reservationId || !status) {
+      return res.status(400).json({ message: 'Reservation ID and status are required!' });
     }
+
+    // If status is rejected, cancel reservation dates
+    if (status.toLowerCase() === 'rejected') {
+      reservations_start_date = null;
+      reservations_end_date = null;
+    } else {
+      if (!reservations_start_date || !reservations_end_date) {
+        return res.status(400).json({ message: 'Start date and end date are required for non-rejected status.' });
+      }
+    }
+
+    const updatedReservation = await reservationService.updateReservation(
+      reservationId,
+      reservations_start_date,
+      reservations_end_date,
+      status
+    );
+
+    res.status(200).json(updatedReservation);
+  } catch (error) {
+    console.error('Error updating reservation:', error);
+    res.status(500).json({ message: 'Server error', error: error.message });
   }
+}
+
 };
 
 export default reservationController;

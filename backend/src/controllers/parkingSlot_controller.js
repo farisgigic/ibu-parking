@@ -11,12 +11,15 @@ const createParkingSlot = async (req, res) => {
 }
 const getAll = async (req, res) => {
     try {
-        const parkingSlots = await ParkingSlot.findAll();
+        const parkingSlots = await ParkingSlot.findAll({
+            order: [['section', 'ASC'], ['slot_code', 'ASC']],
+        });
         res.status(200).json(parkingSlots);
     } catch (error) {
         res.status(500).json({ message: 'Error fetching parking slots', error });
     }
 };
+
 
 const getAllParkingSlots = async (req, res) => {
     try {
