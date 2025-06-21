@@ -10,6 +10,7 @@
 @import '@components/AdminDashboard/Workspace/Dropdown/FilterDropdown.module.css';
 @import '@components/AdminDashboard/Workspace/students/add-student/AddStudentForm.module.css';
 @import '@components/AdminDashboard/Workspace/Dashboard/AdminDashboard.module.css';
+@import '@components/AdminDashboard/Workspace/reports/student-reports/StudentReports.module.css';
 
 @import '@pages/LoginPage/LoginPage.module.css';
 @import '@pages/HomePage/HomePage.module.css';

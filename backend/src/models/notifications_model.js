@@ -5,8 +5,7 @@ const Notification = sequelize.define('Notification', {
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
-        autoIncrement: true,
-        allowNull: false
+        autoIncrement: true
     },
     type: {
         type: DataTypes.TEXT,
@@ -22,12 +21,11 @@ const Notification = sequelize.define('Notification', {
     },
     date: {
         type: DataTypes.DATE,
-        defaultValue: false
+        defaultValue: DataTypes.NOW
     },
     priority: {
         type: DataTypes.TEXT,
-        allowNull: false,
-        defaultValue: 0
+        allowNull: false
     },
     icon: {
         type: DataTypes.TEXT,

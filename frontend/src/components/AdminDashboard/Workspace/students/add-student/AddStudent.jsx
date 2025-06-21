@@ -5,12 +5,11 @@ const AddStudent = () => {
   const navigate = useNavigate();
 
   const handleAdd = (createdStudent) => {
-    console.log('✅ Student created:', createdStudent);
-    navigate('/admin/students/all'); // Navigacija nakon uspješnog dodavanja
+    navigate('/admin/students/all'); 
   };
 
   const handleClose = () => {
-    navigate('/admin/students/all'); // Navigacija kada korisnik klikne cancel
+    navigate('/admin/students/all'); 
   };
 
   return (

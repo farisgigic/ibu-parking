@@ -8,4 +8,9 @@ router.get(
     notificationCtrl.getAllNotifications
 );
 
+router.post(
+    '/create',
+    notificationCtrl.createNotification
+);
+
 export default router;

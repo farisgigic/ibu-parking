@@ -63,7 +63,7 @@ const useMenuData = () => {
       hasSubmenu: true,
       submenu: [
         { id: 'student-reports', label: 'Student Reports', path: '/admin/reports/students' },
-        { id: 'parking-reports', label: 'Parking Reports', path: '/reports/parking' }
+        { id: 'parking-reports', label: 'Parking Reports', path: '/admin/reports/parking' }
       ]
     },
     {

@@ -16,6 +16,7 @@ import ParkingSlotsTable from './components/AdminDashboard/Workspace/parking-slo
 import ReportsTable from './components/AdminDashboard/Workspace/reports/all-reports/ReportsWorkspace';
 import AddStudent from './components/AdminDashboard/Workspace/students/add-student/AddStudent';
 import AdminDashboardNew from './components/AdminDashboard/Workspace/Dashboard/AdminDashboard';
+import StudentReports from './components/AdminDashboard/Workspace/reports/student-reports/StudentReports';
 // Pages
 import HomePage from '@pages/HomePage/HomePage';
 import LoginPage from '@pages/LoginPage/LoginPage';
@@ -80,6 +81,7 @@ function AppContent() {
             <Route path="reports/students" element={<ReportsTable />} />
             <Route path="students/add" element={<AddStudent />} />
             <Route path="dashboard" element={<AdminDashboardNew />} />
+            <Route path="reports/parking" element={<StudentReports />} />
           </Route>
 
           <Route path="*" element={<div>Page Not Found</div>} />

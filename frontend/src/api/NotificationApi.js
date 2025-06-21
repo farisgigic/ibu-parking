@@ -9,7 +9,16 @@ export const notificationApi = {
             console.error('Error fetching notifications:', error);
             throw error;
         }
-    }
+    },
+    createNotification: async (notificationData) => {
+        try {
+            const response = await API.post('/notifications/create', notificationData);
+            return response.data;
+        } catch (error) {
+            console.error('Error creating notification:', error);
+            throw error;
+        }
+    },
 };
 
 export default notificationApi;
