@@ -18,6 +18,7 @@
 @import '@pages/ParkingSlots/ParkingSlots.module.css';
 @import '@pages/ProfilePage/ProfilePage.module.css'; 
 @import '@pages/AdminDashboard/AdminDashboard.module.css';
+@import '@pages/Settings/SettingsPage.module.css';
 
 
 :root {

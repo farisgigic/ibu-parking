@@ -87,7 +87,7 @@ const Navigator = () => {
                                 <path d="M22 21v-2a4 4 0 0 0-3-3.87" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                                 <path d="M16 3.13a4 4 0 0 1 0 7.75" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                             </svg>
-                            Students
+                            Student Parking
                         </NavLink>
                         {isAdmin && (
                             <NavLink

@@ -232,7 +232,7 @@ const UniversityProfile = () => {
                         src={studentData.picture_url || avatar}
                         alt={`${studentData.first_name} ${studentData.last_name}`}
                         className="profile-avatar"
-                        referrerpolicy="no-referrer" 
+                        referrerPolicy="no-referrer" 
                       />
                       <div className="profile-status"></div>
                     </div>

@@ -1,6 +1,6 @@
 import { Calendar, Shield, Star, MapPin, History } from 'lucide-react';
 import Slider from "react-slick";
-import "slick-carousel/slick/slick.css"; 
+import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 const StudentDashboard = ({ user, testimonials, loadingTestimonials, errorTestimonials }) => {
@@ -9,7 +9,7 @@ const StudentDashboard = ({ user, testimonials, loadingTestimonials, errorTestim
   const features = [
     {
       icon: <MapPin size={28} />,
-      title: 'View Parking',
+      title: 'Parking Rules',
       description: 'See real-time availability of student parking slots on campus with interactive maps.',
       action: () => console.log('Navigate to parking'),
       image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=250&fit=crop'
@@ -18,14 +18,18 @@ const StudentDashboard = ({ user, testimonials, loadingTestimonials, errorTestim
       icon: <Calendar size={28} />,
       title: 'Reserve a Slot',
       description: 'Secure your spot in advance and avoid last-minute hassle with our booking system.',
-      action: () => console.log('Navigate to slots'),
+      action: () => {
+        window.open('/slots', '_self');
+      },
       image: 'https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=400&h=250&fit=crop'
     },
     {
       icon: <History size={28} />,
-      title: 'Reservation History',
+      title: 'Student Area',
       description: 'Track your past bookings and manage your parking history efficiently.',
-      action: () => console.log('Navigate to history'),
+      action: () => {
+        window.open('https://ibu.edu.ba', '_blank');
+      },
       image: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=400&h=250&fit=crop'
     }
   ];
@@ -46,7 +50,7 @@ const StudentDashboard = ({ user, testimonials, loadingTestimonials, errorTestim
 
   return (
     <div className="main-content-home">
-      <h2 className="section-title">Parking Features</h2>
+      <h2 className="section-title">University Features</h2>
       <div className="features-grid">
         {features.map((feature) => (
           <div key={feature.title} className="feature-card" onClick={feature.action}>

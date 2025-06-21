@@ -23,6 +23,7 @@ import LoginPage from '@pages/LoginPage/LoginPage';
 import ParkingSlots from './pages/ParkingSlots/ParkingSlots';
 import UniversityProfile from './pages/ProfilePage/ProfilePage';
 import AdminDashboard from './pages/AdminDashboard/AdminDashboard';
+import Settings from './pages/Settings/SettingsPage';
 
 
 // Main Application
@@ -64,6 +65,14 @@ function AppContent() {
             element={
               <AuthGuard>
                 <UniversityProfile />
+              </AuthGuard>
+            }
+          />
+          <Route
+            path="/settings"
+            element={
+              <AuthGuard>
+                <Settings />
               </AuthGuard>
             }
           />

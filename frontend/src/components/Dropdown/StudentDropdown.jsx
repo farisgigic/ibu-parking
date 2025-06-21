@@ -1,8 +1,11 @@
 import { useState, useRef, useEffect, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 import LogoutModal from '../LogoutConfirmModal/LogoutModal';
 
+
+
 const Avatar = ({ picture, name, className }) => {
-    
+
     const getInitials = (name) =>
         name
             .split(' ')
@@ -32,9 +35,10 @@ const Avatar = ({ picture, name, className }) => {
 };
 
 const StudentDropdown = ({ handleLogout, className = "" }) => {
+    const navigate = useNavigate();
     const [open, setOpen] = useState(false);
     const [showLogoutModal, setShowLogoutModal] = useState(false); // Add modal state
-    const dropdownRef = useRef(null);   
+    const dropdownRef = useRef(null);
 
     // Safely parse user data and extract properties, providing defaults
     const student = JSON.parse(localStorage.getItem("user"));
@@ -85,7 +89,7 @@ const StudentDropdown = ({ handleLogout, className = "" }) => {
     };
     const handleCancelLogout = () => {
         setShowLogoutModal(false);
-    };
+    }
 
     return (
         <>
@@ -132,7 +136,7 @@ const StudentDropdown = ({ handleLogout, className = "" }) => {
 
                         <button
                             className="dropdown-item"
-                            onClick={() => handleItemClick()}
+                            onClick={() => handleItemClick(() => navigate('/profile'))}
                         >
                             <span className="item-icon">👤</span>
                             <span>View Profile</span>
@@ -140,7 +144,7 @@ const StudentDropdown = ({ handleLogout, className = "" }) => {
 
                         <button
                             className="dropdown-item"
-                            onClick={() => handleItemClick()}
+                            onClick={() => handleItemClick(() => navigate('/settings'))}
                         >
                             <span className="item-icon">⚙️</span>
                             <span>Settings</span>
