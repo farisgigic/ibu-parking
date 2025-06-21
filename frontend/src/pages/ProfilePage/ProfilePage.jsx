@@ -26,7 +26,6 @@ const UniversityProfile = () => {
   });
   const [showReportForm, setShowReportForm] = useState(false);
   
-  // Dodaj ovo za upload slika
   const [selectedImages, setSelectedImages] = useState([]);
   const [imagePreview, setImagePreview] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -95,17 +94,13 @@ const UniversityProfile = () => {
     }
   };
 
-  // Funkcija za handling fajlova
   const handleFileSelect = (e) => {
     const files = Array.from(e.target.files);
     
-    // Ograniči na maksimalno 3 slike
     if (files.length > 3) {
       alert('You can upload maximum 3 images');
       return;
     }
-
-    // Validacija tipova fajlova
     const validTypes = ['image/jpeg', 'image/png', 'image/gif'];
     const invalidFiles = files.filter(file => !validTypes.includes(file.type));
     
@@ -113,8 +108,6 @@ const UniversityProfile = () => {
       alert('Only JPEG, PNG and GIF files are allowed');
       return;
     }
-
-    // Validacija veličine (max 5MB po fajlu)
     const oversizedFiles = files.filter(file => file.size > 5 * 1024 * 1024);
     if (oversizedFiles.length > 0) {
       alert('Each file must be smaller than 5MB');
@@ -122,8 +115,6 @@ const UniversityProfile = () => {
     }
 
     setSelectedImages(files);
-
-    // Kreiraj preview URL-ove
     const previews = files.map(file => ({
       file,
       url: URL.createObjectURL(file),
@@ -133,19 +124,16 @@ const UniversityProfile = () => {
     setImagePreview(previews);
   };
 
-  // Ukloni sliku iz preview-a
   const removeImage = (index) => {
     const newImages = selectedImages.filter((_, i) => i !== index);
     const newPreviews = imagePreview.filter((_, i) => i !== index);
-    
-    // Oslobodi memory za URL
+  
     URL.revokeObjectURL(imagePreview[index].url);
     
     setSelectedImages(newImages);
     setImagePreview(newPreviews);
   };
 
-  // Ažuriraj handleReportSubmit funkciju
   const handleReportSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -157,14 +145,12 @@ const UniversityProfile = () => {
         return;
       }
 
-      // Kreiraj FormData
       const formData = new FormData();
       formData.append('category', reportForm.category);
       formData.append('title', reportForm.title);
       formData.append('description', reportForm.description);
       formData.append('priority', reportForm.priority);
       
-      // Dodaj studentID
       const studentDataString = localStorage.getItem("user");
       const parsedData = JSON.parse(studentDataString);
       // console.log('Parsed student data:', parsedData);
@@ -172,18 +158,15 @@ const UniversityProfile = () => {
       console.log(student_id.student_id);
       formData.append('studentId', student_id.student_id || 99);
 
-      // Dodaj slike
       selectedImages.forEach((image, index) => {
         formData.append('image', image);
       });
 
-      // Pozovi API
       const response = await reportsApi.createReport(formData);
       
       if (response.success) {
         alert('Report submitted successfully!');
-        
-        // Resetuj form
+
         setReportForm({ 
           category: '', 
           title: '', 
@@ -194,7 +177,6 @@ const UniversityProfile = () => {
         setImagePreview([]);
         setShowReportForm(false);
         
-        // Resetuj file input
         if (fileInputRef.current) {
           fileInputRef.current.value = '';
         }
@@ -371,7 +353,7 @@ const UniversityProfile = () => {
               )}
             </div>
 
-            {/* Report Section - AŽURIRANO */}
+            {/* Report Section  */}
             <div className="section-card">
               <div className="section-header">
                 <div className="section-header-content">
@@ -470,7 +452,6 @@ const UniversityProfile = () => {
                       />
                     </div>
 
-                    {/* NOVA SEKCIJA ZA UPLOAD SLIKA */}
                     <div className="form-group">
                       <label className="form-label">
                         📷 Attach Image (Optional)
@@ -499,7 +480,6 @@ const UniversityProfile = () => {
                           Supported formats: JPEG, PNG, GIF (Max 5MB)
                         </p>
 
-                        {/* PREVIEW SLIKA */}
                         {imagePreview.length > 0 && (
                           <div className="image-preview-container">
                             <h6>Selected Images:</h6>

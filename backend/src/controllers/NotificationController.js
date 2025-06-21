@@ -21,7 +21,8 @@ const getAllNotifications = async (req, res) => {
         // Use findAndCountAll to get a slice of notifications and the total count
         const { count, rows } = await Notification.findAndCountAll({
             limit: limit,
-            offset: offset
+            offset: offset,
+             order: [['date', 'DESC']]
         });
 
         // Calculate total pages
