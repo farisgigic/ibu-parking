@@ -1,18 +1,23 @@
 import { Calendar, Shield, Star, MapPin, History } from 'lucide-react';
 import Slider from "react-slick";
+import { useNavigate } from 'react-router-dom';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import slots from '@images/slots.png';
+import rules from '@images/rules.png';
 
 const StudentDashboard = ({ user, testimonials, loadingTestimonials, errorTestimonials }) => {
-  const firstName = user.first_name || user.name?.split(' ')[0];
+  const navigate = useNavigate();
 
   const features = [
     {
       icon: <MapPin size={28} />,
       title: 'Parking Rules',
       description: 'See real-time availability of student parking slots on campus with interactive maps.',
-      action: () => console.log('Navigate to parking'),
-      image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=250&fit=crop'
+      action: () => {
+        window.open('/settings', '_self');
+      },
+      image: rules
     },
     {
       icon: <Calendar size={28} />,
@@ -21,7 +26,7 @@ const StudentDashboard = ({ user, testimonials, loadingTestimonials, errorTestim
       action: () => {
         window.open('/slots', '_self');
       },
-      image: 'https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=400&h=250&fit=crop'
+      image: slots
     },
     {
       icon: <History size={28} />,
@@ -75,7 +80,7 @@ const StudentDashboard = ({ user, testimonials, loadingTestimonials, errorTestim
           <button className="btn-primary" onClick={() => console.log('Navigate to reservations')}>
             View My Reservations
           </button>
-          <button className="btn-secondary" onClick={() => console.log('Navigate to slots')}>
+          <button className="btn-secondary" onClick={() => navigate('/slots')}>
             Reserve Now
           </button>
         </div>

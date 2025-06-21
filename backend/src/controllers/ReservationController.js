@@ -93,8 +93,23 @@ const reservationController = {
     console.error('Error updating reservation:', error);
     res.status(500).json({ message: 'Server error', error: error.message });
   }
-}
+},
 
+  async countReservationsByStudentId(req, res) {
+    try {
+      const { studentId } = req.params;
+
+      if (!studentId) {
+        return res.status(400).json({ message: 'Student ID is required!' });
+      }
+
+      const count = await reservationService.countReservationsByStudentId(studentId);
+      res.status(200).json({ count });
+    } catch (error) {
+      console.error('Error:', error);
+      res.status(500).json({ message: 'Server error', error: error.message });
+    }
+  }
 };
 
 export default reservationController;

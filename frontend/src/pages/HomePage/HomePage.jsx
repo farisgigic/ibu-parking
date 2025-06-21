@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react';
 import { Car, Calendar, Clock } from 'lucide-react';
 import { ratingsApi } from './../../api/RatingsApi';
+import { slotsApi } from '../../api/ParkingSlotsApi';
+import { reservationApi } from '../../api/ReservationApi';
+import { studentApi } from '../../api/StudentApi';
 import StudentDashboard from '../../components/HomePage/StudentDashboard/StudentDashboard';
 import AccessDenied from '../../components/HomePage/GuestDashboard/AccessDenided';
 import { adminApi } from '../../api/AdminApi';
@@ -11,6 +14,46 @@ const HomePage = () => {
   const [testimonials, setTestimonials] = useState([]);
   const [loadingTestimonials, setLoadingTestimonials] = useState(true);
   const [errorTestimonials, setErrorTestimonials] = useState(null);
+  const [count, setCount] = useState(null);
+  const [countById, setCountbyId] = useState(null);
+
+
+  useEffect(() => {
+    const fetchSlotCount = async () => {
+      try {
+        const result = await slotsApi.countSlots();
+        setCount(result.count);
+      } catch (err) {
+        console.error("Failed to fetch slot count", err);
+        setCount(0);
+      }
+    };
+
+    fetchSlotCount();
+  }, []);
+  useEffect(() => {
+    const fetchSlotCountById = async () => {
+      try {
+        const email = localStorage.getItem("user");
+        const parsedEmail = JSON.parse(email);
+        console.log(parsedEmail.email);
+
+        const userForCount = await studentApi.getStudentByEmail(parsedEmail.email);
+        console.log(userForCount.student_id); 
+
+        const result = await reservationApi.countReservationsByStudentId(userForCount.student_id);
+        console.log(result);
+        setCountbyId(result.count);
+      } catch (err) {
+        console.error("Failed to fetch slot count", err);
+        setCountbyId(0);
+      }
+    };
+
+    fetchSlotCountById();
+  }, []);
+
+
 
   useEffect(() => {
     const checkAuthorization = async () => {
@@ -36,6 +79,9 @@ const HomePage = () => {
         }
       }
     };
+
+
+
 
     checkAuthorization();
   }, []);
@@ -80,12 +126,14 @@ const HomePage = () => {
               <div className="stats-grid">
                 <div className="stat-card">
                   <Car size={24} />
-                  <div className="stat-number">127</div>
+                  <div className="stat-number">
+                    {count !== null ? count : '...'}
+                  </div>
                   <div className="stat-label">Available Spots</div>
                 </div>
                 <div className="stat-card">
                   <Calendar size={24} />
-                  <div className="stat-number">3</div>
+                  <div className="stat-number">{countById !== null ? countById : '...'}</div>
                   <div className="stat-label">Your Reservations</div>
                 </div>
                 <div className="stat-card">

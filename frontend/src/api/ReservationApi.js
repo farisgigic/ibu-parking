@@ -64,6 +64,15 @@ export const reservationApi = {
             console.error('Error updating reservation:', error);
             throw error;
         }
+    },
+    countReservationsByStudentId: async (studentId) => {
+        try {
+            const response = await API.get(`/reservations/count/${studentId}`);
+            return response.data;
+        } catch (error) {
+            console.error('Error counting reservations by student ID:', error);
+            throw error;
+        }
     }
 
 };

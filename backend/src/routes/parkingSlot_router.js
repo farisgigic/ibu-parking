@@ -29,4 +29,14 @@ router.get(
     parkingSlotCtrl.getAll
 );
 
+router.get(
+    '/count',
+    parkingSlotCtrl.countParkingSlots
+);
+
+router.get(
+    '/count/:id',
+    parkingSlotCtrl.countParkingSlotsById
+);
+
 export default router;

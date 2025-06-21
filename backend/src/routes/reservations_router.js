@@ -5,6 +5,7 @@ const router = express.Router();
 
 router.get('/slots-with-reservations', reservationCtrl.getSlotsWithMonthlyReservations);
 router.get('/all-reservations', reservationCtrl.getAllReservations);
+router.get('/count/:studentId', reservationCtrl.countReservationsByStudentId);
 
 router.post('/reserve-slot', reservationCtrl.reserveSlot);
 

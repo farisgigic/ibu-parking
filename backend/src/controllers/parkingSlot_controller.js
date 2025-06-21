@@ -237,6 +237,25 @@ const getIdBySlotCode = async (req, res) => {
         res.status(500).json({ message: 'Error fetching parking slot by slot code', error });
     }
 }
+const countParkingSlots = async (req, res) => {
+    try {
+        const count = await ParkingSlot.count();
+        res.status(200).json({ count });
+    } catch (error) {
+        res.status(500).json({ message: 'Error counting parking slots', error });
+    }
+};
+const countParkingSlotsById = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const count = await ParkingSlot.count({
+            where: { id }
+        });
+        res.status(200).json({ count });
+    } catch (error) {
+        res.status(500).json({ message: 'Error counting parking slots by ID', error });
+    }
+}
 
 
-export default { getAllParkingSlots, getParkingSlotByStudentId, createParkingSlot, getParkingSlotById, updateParkingSlot, deleteParkingSlot, getAvailableParkingSlots, getParkingSlotsBySection, getParkingSlotsByType, getParkingSlotsByLocation, getParkingSlotsByAvailability, getParkingSlotsByReservedBy, getParkingSlotsByReservedAt, getParkingSlotsBySlotCode, bookParkingSlot, getIdBySlotCode, getAll};
+export default { getAllParkingSlots, getParkingSlotByStudentId, createParkingSlot, getParkingSlotById, updateParkingSlot, deleteParkingSlot, getAvailableParkingSlots, getParkingSlotsBySection, getParkingSlotsByType, getParkingSlotsByLocation, getParkingSlotsByAvailability, getParkingSlotsByReservedBy, getParkingSlotsByReservedAt, getParkingSlotsBySlotCode, bookParkingSlot, getIdBySlotCode, getAll, countParkingSlots, countParkingSlotsById};

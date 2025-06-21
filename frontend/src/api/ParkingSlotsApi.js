@@ -148,6 +148,24 @@ export const slotsApi = {
       throw error;
     }
   },
+  countSlots: async () => {
+    try {
+      const response = await API.get('/parking_slots/count');
+      return response.data;
+    } catch (error) {
+      console.error('Error counting parking slots:', error);
+      throw error;
+    }
+  },
+  countSlotsById: async (id) => {
+    try {
+      const response = await API.get(`/parking_slots/count/${id}`);
+      return response.data;
+    } catch (error) {
+      console.error(`Error counting parking slots by ID ${id}:`, error);
+      throw error;
+    }
+  }
 };
 
 export default slotsApi;
