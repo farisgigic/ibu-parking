@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react';
 import { studentApi } from '../../../../../api/StudentApi';
 import Toast from './../../../../../components/ParkingSlots/Toast';
-
-const defaultAvatar = '/default-avatar.png'; 
+import avatar from '@images/avatar.png'; 
 
 const EditStudentForm = ({ student, onClose, onUpdate }) => {
   const [showToast, setShowToast] = useState(false);
@@ -63,7 +62,7 @@ const EditStudentForm = ({ student, onClose, onUpdate }) => {
       <form onSubmit={handleSubmit} className="edit-form">
         <div className="image-section">
           <img 
-            src={formData.picture_url || '/default-avatar.png'} 
+            src={formData.picture_url || avatar} 
             alt="Profile" 
             className="profile-img"
             onError={(e) => {

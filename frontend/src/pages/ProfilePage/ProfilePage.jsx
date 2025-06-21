@@ -2,8 +2,8 @@ import { useState, useEffect, useRef } from 'react';
 import { notificationApi } from '../../api/NotificationApi';
 import { studentApi } from '../../api/StudentApi';
 import { reportsApi } from '../../api/ReportsApi'; 
-
-const DEFAULT_AVATAR_URL = 'https://i.pravatar.cc/150?u=a042581f4e29026704d';
+import avatar from '@images/avatar.png';
+// const DEFAULT_AVATAR_URL = 'https://i.pravatar.cc/150?u=a042581f4e29026704d';
 
 const UniversityProfile = () => {
   const [loading, setLoading] = useState(true);
@@ -229,7 +229,7 @@ const UniversityProfile = () => {
                   <div className="profile-avatar-container">
                     <div className="profile-avatar-wrapper">
                       <img
-                        src={studentData.picture_url || DEFAULT_AVATAR_URL}
+                        src={studentData.picture_url || avatar}
                         alt={`${studentData.first_name} ${studentData.last_name}`}
                         className="profile-avatar"
                         referrerpolicy="no-referrer" 
