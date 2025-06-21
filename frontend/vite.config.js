@@ -13,6 +13,8 @@ export default defineConfig({
       "@components": "/src/components",
       "@pages": "/src/pages",
       "@data" : "/src/assets/data", 
+      "@api": "/src/api",
+      "data": "/src/assets/data",
     }
   },
   server:{

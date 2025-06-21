@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react';
 import { studentApi } from '../../../../../api/StudentApi';
 import Toast from './../../../../../components/ParkingSlots/Toast';
+
+const defaultAvatar = '/default-avatar.png'; 
+
 const EditStudentForm = ({ student, onClose, onUpdate }) => {
   const [showToast, setShowToast] = useState(false);
   const [formData, setFormData] = useState({

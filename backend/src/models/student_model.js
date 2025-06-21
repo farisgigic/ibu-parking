@@ -26,7 +26,7 @@ const Student = sequelize.define('Student',
       },
       google_id : {
         type: DataTypes.STRING,
-        unique: true,
+        unique: false,
         allowNull: false, 
       },
       picture_url: {
@@ -68,5 +68,12 @@ const Student = sequelize.define('Student',
       }
     }
   );
+
+  Student.associate = (models) => {
+    Student.belongsTo(models.Report, {
+        foreignKey: 'student_id',
+        as: 'reports'
+    });
+}
   
 export default Student;

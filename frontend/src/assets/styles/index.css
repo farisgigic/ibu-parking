@@ -8,6 +8,8 @@
 @import '@components/AdminDashboard/Workspace/students/edit-student/EditStudentForm.module.css';
 @import '@components/AdminDashboard/Workspace/reservations/edit-reservation/EditReservationForm.module.css';
 @import '@components/AdminDashboard/Workspace/Dropdown/FilterDropdown.module.css';
+@import '@components/AdminDashboard/Workspace/students/add-student/AddStudentForm.module.css';
+@import '@components/AdminDashboard/Workspace/Dashboard/AdminDashboard.module.css';
 
 @import '@pages/LoginPage/LoginPage.module.css';
 @import '@pages/HomePage/HomePage.module.css';

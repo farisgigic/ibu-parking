@@ -14,6 +14,8 @@ import StudentsTable from './components/AdminDashboard/Workspace/students/all-st
 import ReservationsTable from './components/AdminDashboard/Workspace/reservations/ReservationsWorkspace';
 import ParkingSlotsTable from './components/AdminDashboard/Workspace/parking-slots/ParkingSlotsWorkspace';
 import ReportsTable from './components/AdminDashboard/Workspace/reports/all-reports/ReportsWorkspace';
+import AddStudent from './components/AdminDashboard/Workspace/students/add-student/AddStudent';
+import AdminDashboardNew from './components/AdminDashboard/Workspace/Dashboard/AdminDashboard';
 // Pages
 import HomePage from '@pages/HomePage/HomePage';
 import LoginPage from '@pages/LoginPage/LoginPage';
@@ -76,6 +78,8 @@ function AppContent() {
             <Route path="reservations" element={<ReservationsTable />} />
             <Route path="parking-slots" element={<ParkingSlotsTable />} />
             <Route path="reports/students" element={<ReportsTable />} />
+            <Route path="students/add" element={<AddStudent />} />
+            <Route path="dashboard" element={<AdminDashboardNew />} />
           </Route>
 
           <Route path="*" element={<div>Page Not Found</div>} />

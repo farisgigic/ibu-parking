@@ -22,7 +22,6 @@ const getStudentById = async (req, res) => {
     try {
         const { google_id } = req.params;
         const student = await Student.findOne({ where: { google_id } });
-        // console.log("➡️ student.toJSON():", student?.toJSON()); 
         if (!student) {
             return res.status(404).json({ message: 'Student not found' });
         }

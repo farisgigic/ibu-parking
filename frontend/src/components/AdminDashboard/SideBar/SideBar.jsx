@@ -29,7 +29,7 @@ const useMenuData = () => {
       id: 'dashboard',
       label: 'Dashboard',
       iconName: 'LayoutDashboard',
-      path: '/dashboard'
+      path: '/admin/dashboard'
     },
     {
       id: 'students',

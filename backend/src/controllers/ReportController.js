@@ -1,12 +1,20 @@
 import Report from '../models/reports_model.js';
-
+import Student from '../models/student_model.js';
 const getAllReports = async (_, res) => {
     try {
-        console.log("GET /reports/all-reports called");
-        const reports = await Report.findAll();
+        const reports = await Report.findAll({
+          include: [
+            {
+              model: Student,
+              as: 'student',
+              attributes: ['email'],
+            },
+          ],
+        });
         res.status(200).json(reports);
     } catch (error) {
         res.status(500).json({ message: 'Error fetching reports', error });
+        console.error('Error fetching reports:', error);
     }
 };
 

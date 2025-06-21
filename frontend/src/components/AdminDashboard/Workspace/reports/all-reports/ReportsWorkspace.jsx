@@ -45,7 +45,8 @@ const ReportsTable = () => {
         report.priority.toLowerCase().includes(searchTerm.toLowerCase()) ||
         report.issue_title.toLowerCase().includes(searchTerm.toLowerCase()) ||
         report.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        report.student_id.toString().includes(searchTerm.toLowerCase())
+        report.student_id.toString().includes(searchTerm.toLowerCase()) ||
+        report.student.email.toString().includes(searchTerm.toLowerCase())
       );
     }
 
@@ -197,7 +198,7 @@ const ReportsTable = () => {
               <th>Priority</th>
               <th>Issue Title</th>
               <th>Description</th>
-              <th>Student ID</th>
+              <th>Student</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -220,7 +221,7 @@ const ReportsTable = () => {
                         : report.description}
                     </div>
                   </td>
-                  <td>{report.student_id}</td>
+                  <td>{report.student.email}</td>
                   <td>
                     <div className="actions-container">
                       <ActionButton 
