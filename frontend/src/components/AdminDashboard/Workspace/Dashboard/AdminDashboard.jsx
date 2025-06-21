@@ -91,7 +91,7 @@ const AdminDashboard = () => {
         </div>
 
         {/* Stats Cards */}
-        <div className="stats-grid">
+        <div className="stats-grid-fare">
           <div className="stat-card stat-card-blue">
             <div className="stat-card-content">
               <div className="stat-card-info">
@@ -161,7 +161,7 @@ const AdminDashboard = () => {
         <div className="quick-actions">
           <h2 className="quick-actions-title">
             <Activity className="quick-actions-title-icon" />
-            Actions
+            Actions Possible
           </h2>
           <div className="quick-actions-grid">
             <button className="quick-action-btn quick-action-btn-blue">
@@ -267,7 +267,7 @@ const AdminDashboard = () => {
         <div className="system-status">
           <h2 className="system-status-title">
             <AlertCircle className="system-status-title-icon" />
-            Status Sistema
+            Status of the System
           </h2>
           <div className="system-status-grid">
             <div className="status-item">
@@ -280,8 +280,8 @@ const AdminDashboard = () => {
             <div className="status-item">
               <CheckCircle className="status-item-icon" />
               <div className="status-item-info">
-                <p className="status-item-title">API Servis</p>
-                <p className="status-item-status">Operativan</p>
+                <p className="status-item-title">API Service</p>
+                <p className="status-item-status">Up to Date</p>
               </div>
             </div>
             <div className="status-item">

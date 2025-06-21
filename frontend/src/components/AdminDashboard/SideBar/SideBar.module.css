@@ -1,12 +1,15 @@
 /* Sidebar.css */
 
 .sidebar {
-  width: 16rem;
-  height: 100vh;
+  width: 16rem !important;
+  height: 104vh !important;
   background-color: #ffffff;
   border-right: 1px solid #e5e7eb;
   display: flex;
   flex-direction: column;
+  margin-top: 20px !important;
+  /* margin-left: 10px !important; */
+  
 }
 
 .sidebar-logo {

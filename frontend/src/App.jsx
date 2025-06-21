@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { ToastContainer } from 'react-toastify';
+import { Navigate } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
 
 // Components
@@ -86,6 +87,9 @@ function AppContent() {
               </AuthGuard>
             }
           >
+            {/* Redirect /admin => /admin/dashboard */}
+            <Route index element={<Navigate to="dashboard" replace />} />
+
             <Route path="students/all" element={<StudentsTable />} />
             <Route path="reservations" element={<ReservationsTable />} />
             <Route path="parking-slots" element={<ParkingSlotsTable />} />
@@ -94,7 +98,6 @@ function AppContent() {
             <Route path="dashboard" element={<AdminDashboardNew />} />
             <Route path="reports/parking" element={<StudentReports />} />
           </Route>
-
           <Route path="*" element={<div>Page Not Found</div>} />
         </Routes>
       </main>
