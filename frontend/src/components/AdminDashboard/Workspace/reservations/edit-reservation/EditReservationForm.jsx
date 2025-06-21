@@ -222,7 +222,7 @@ const EditReservationForm = ({ reservation, onClose, onUpdate }) => {
           <button type="button" onClick={onClose} className="cancel-button" disabled={loading}>
             Cancel
           </button>
-          <button type="submit" className="save-button" disabled={loading}>
+          <button type="submit" className="save-button-edit" disabled={loading}>
             {loading ? 'Saving...' : 'Save Changes'}
           </button>
         </div>

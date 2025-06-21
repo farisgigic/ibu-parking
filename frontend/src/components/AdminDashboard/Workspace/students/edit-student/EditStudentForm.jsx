@@ -127,7 +127,7 @@ const EditStudentForm = ({ student, onClose, onUpdate }) => {
           <button type="button" onClick={onClose} className="cancel-button">
             Cancel
           </button>
-          <button type="submit" className="save-button">
+          <button type="submit" className="save-button-edit">
             Save Changes
           </button>
         </div>

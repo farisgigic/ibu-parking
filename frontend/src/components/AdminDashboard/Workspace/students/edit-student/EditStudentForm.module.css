@@ -130,7 +130,7 @@
 
 .save-button {
     padding: 10px 20px;
-    border: none;
+    border: 1px solid #d1d5db;
     border-radius: 8px;
     background-color: #3b82f6;
     color: #ffffff;

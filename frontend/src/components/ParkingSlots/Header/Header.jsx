@@ -30,6 +30,7 @@ const Header = () => {
             <div style={{ width: '20px', height: '20px', background: 'linear-gradient(135deg, #48bb78, #38a169)', borderRadius: '50%' }}></div>
             <span>Available</span>
           </div>
+          
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
             <div style={{ width: '20px', height: '20px', background: 'linear-gradient(135deg, #e53e3e, #c53030)', borderRadius: '50%' }}></div>
             <span>Occupied</span>
@@ -37,6 +38,10 @@ const Header = () => {
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
             <div style={{ width: '20px', height: '20px', backgroundColor: '#a0aec0', borderRadius: '50%' }}></div>
             <span>Locked</span>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <div style={{ width: '20px', height: '20px', background: 'linear-gradient(135deg, #cbad4a, #e5da4b)', borderRadius: '50%' }}></div>
+            <span>Pending</span>
           </div>
         </div>
       </div>

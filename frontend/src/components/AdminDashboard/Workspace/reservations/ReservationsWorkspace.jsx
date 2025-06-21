@@ -2,23 +2,30 @@ import { useEffect, useState, useMemo } from 'react';
 import ActionButton from '../ActionButton/ActionButton';
 import Pagination from '../PaginationComponent/PaginationComponent';
 import ConfirmModal from '../confirm-modal/ConfirmModal';
-import EditReservationForm from './edit-reservation/EditReservationForm'; // Add this import
+import EditReservationForm from './edit-reservation/EditReservationForm';
+import FilterDropdown from '../Dropdown/FilterDropdown'; 
 import { reservationApi } from '../../../../api/ReservationApi';
 
 const ReservationsTable = () => {
   const [reservations, setReservations] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState('');
+  const [statusFilter, setStatusFilter] = useState(''); // Add status filter state
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedReservationId, setSelectedReservationId] = useState(null);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
-  
-  
   const [selectedReservation, setSelectedReservation] = useState(null);
   const [showEditForm, setShowEditForm] = useState(false);
 
   const itemsPerPage = 5;
+
+  // Status options for the dropdown
+  const statusOptions = [
+    { value: 'pending', label: 'Pending' },
+    { value: 'accepted', label: 'Accepted/Paid' },
+    { value: 'rejected', label: 'Rejected' }
+  ];
 
   const fetchReservations = async () => {
     try {
@@ -39,6 +46,7 @@ const ReservationsTable = () => {
   const filteredData = useMemo(() => {
     let filtered = reservations;
 
+    // Filter by search term
     if (searchTerm.trim()) {
       filtered = filtered.filter(reservation =>
         reservation.student.full_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -47,8 +55,15 @@ const ReservationsTable = () => {
       );
     }
 
+    // Filter by status
+    if (statusFilter) {
+      filtered = filtered.filter(reservation => 
+        reservation.status.toLowerCase() === statusFilter.toLowerCase()
+      );
+    }
+
     return filtered;
-  }, [searchTerm, reservations]);
+  }, [searchTerm, statusFilter, reservations]);
 
   const paginatedData = useMemo(() => {
     const startIndex = (currentPage - 1) * itemsPerPage;
@@ -59,18 +74,16 @@ const ReservationsTable = () => {
 
   useEffect(() => {
     setCurrentPage(1);
-  }, [searchTerm]);
+  }, [searchTerm, statusFilter]); // Reset page when filters change
 
-  // Add edit handler
   const handleEdit = (id) => {
     const reservationToEdit = reservations.find(r => r.id === id);
     setSelectedReservation(reservationToEdit);
     setShowEditForm(true);
   };
 
-  // Add update handler
   const handleUpdate = async () => {
-    await fetchReservations(); // Refresh the list
+    await fetchReservations();
   };
 
   const handleDelete = (id) => {
@@ -83,7 +96,7 @@ const ReservationsTable = () => {
       await reservationApi.deleteReservation(selectedReservationId);
       setShowConfirmModal(false);
       setSelectedReservationId(null);
-      await fetchReservations(); // Refresh the list
+      await fetchReservations();
     } catch (err) {
       console.error('Delete failed:', err);
       setError('Failed to delete reservation');
@@ -116,6 +129,16 @@ const ReservationsTable = () => {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
           </div>
+          
+          {/* Add status filter dropdown */}
+          <FilterDropdown
+            options={statusOptions}
+            value={statusFilter}
+            onChange={setStatusFilter}
+            placeholder="Filter by status"
+            allOptionText="All Statuses"
+            className="status-filter"
+          />
         </div>
       </div>
 
@@ -131,6 +154,7 @@ const ReservationsTable = () => {
       <div className="results-summary">
         Showing {paginatedData.length} of {filteredData.length} reservations
         {searchTerm && ` for "${searchTerm}"`}
+        {statusFilter && ` with status "${statusOptions.find(opt => opt.value === statusFilter)?.label}"`}
       </div>
 
       <div className="table-container">
@@ -165,7 +189,11 @@ const ReservationsTable = () => {
                       ? new Date(reservation.reservations_end_date).toLocaleDateString()
                       : 'N/A'}
                   </td>
-                  <td>{reservation.status}</td>
+                  <td>
+                    <span className={`status-badge status-${reservation.status.toLowerCase()}`}>
+                      {reservation.status}
+                    </span>
+                  </td>
                   <td>
                     <div className="actions-container">
                       <ActionButton onClick={() => handleEdit(reservation.id)}>
@@ -185,7 +213,7 @@ const ReservationsTable = () => {
             ) : (
               <tr>
                 <td colSpan="7" className="no-results">
-                  No reservations found matching your search.
+                  No reservations found matching your criteria.
                 </td>
               </tr>
             )}

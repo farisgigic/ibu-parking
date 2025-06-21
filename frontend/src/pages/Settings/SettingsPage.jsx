@@ -63,7 +63,7 @@ const RulesSettingsPage = () => {
       id: 4,
       icon: <AlertTriangle style={{ width: '20px', height: '20px' }} />,
       title: "Violations & Fines",
-      description: "Parking violations result in fines: $25 for expired permits, $50 for unauthorized zones, $100 for handicap violations.",
+      description: "Parking violations result in fines: 25BAM for expired permits, 50BAM for unauthorized zones, 100BAM for handicap violations.",
       type: "violation"
     },
     {
