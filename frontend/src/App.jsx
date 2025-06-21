@@ -8,7 +8,7 @@ import Navigator from '@navigator/Navigator';
 import Footer from './components/Footer/Footer';
 import AuthGuard from './components/AuthLogin/AuthGuard';
 import SessionWatcher from './components/SessionWatcher/SessionWatcher';
-
+import RoleGuard from './components/AuthLogin/RoleGuard';
 // Admin Components
 import StudentsTable from './components/AdminDashboard/Workspace/students/all-students/StudentsWorkspace';
 import ReservationsTable from './components/AdminDashboard/Workspace/reservations/ReservationsWorkspace';
@@ -80,7 +80,9 @@ function AppContent() {
             path="/admin"
             element={
               <AuthGuard>
-                <AdminDashboard />
+                <RoleGuard allowedRoles={['admin']}>
+                  <AdminDashboard />
+                </RoleGuard>
               </AuthGuard>
             }
           >
