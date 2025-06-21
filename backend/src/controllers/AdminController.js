@@ -1,8 +1,10 @@
 import Administrator from "../models/admininstrator_model";
 import Student from "../models/student_model";
+import logger from '../services/loggerService.js';
+
 const getAllAdministrators = async (_, res) => {
     try {
-        console.log("GET /administrators called");
+        logger.info("GET /administrators called");
         const administrators = await Administrator.findAll();
         res.status(200).json(administrators);
     } catch (error) {
@@ -13,7 +15,7 @@ const getAllAdministrators = async (_, res) => {
 const getAdminbyEmail = async (req, res) => {
     const { email } = req.params;
     try {
-        console.log(`GET /administrators/${email} called`);
+        logger.info(`GET /administrators/${email} called`);
         const administrator = await Administrator.findOne({ where: { email } });
         if (!administrator) {
             const student = await Student.findOne({ where: { email } });
@@ -32,7 +34,7 @@ const getAdminbyEmail = async (req, res) => {
 const ifAdministrator = async (req, res) => {
     const { email } = req.params;   
     try {
-            console.log(`GET /administrators/ifAdministrator/${email} called`);
+            logger.info(`GET /administrators/ifAdministrator/${email} called`);
             const administrator = await Administrator.findOne({ where: { email } });
             if (administrator) {
                 return res.status(200).json({ isAdmin: true });

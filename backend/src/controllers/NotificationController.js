@@ -1,9 +1,10 @@
 import Notification from "../models/notifications_model";
-
+import logger from "../services/loggerService";
 const createNotification = async (req, res) => {
     try {
         const notification = await Notification.create(req.body);
         res.status(201).json(notification);
+        logger.info(`Notification created: ${notification.id}`);
     } catch (error) {
         res.status(500).json({ message: 'Error creating notification', error });
     }

@@ -7,8 +7,6 @@ const handleGoogleLogin = async (payload) => {
     if (hd !== 'stu.ibu.edu.ba' && !admin) {
         throw new Error('Prijava je dozvoljena samo sa IBU studentskim nalozima.');
     }
-    // console.log(picture);
-    // Koristimo Sequelize `findOrCreate` na Student modelu
     const [student, created] = await Student.findOrCreate({
         where: { email: email },
         defaults: {
@@ -20,9 +18,6 @@ const handleGoogleLogin = async (payload) => {
             role: 'student',
         }
     });
-
-    // Ako student NIJE novokreiran (created === false), znači da već postoji.
-    // U tom slučaju, uvećavamo mu `login_count`.
     if (!created) {
         await student.increment('login_count');
     }

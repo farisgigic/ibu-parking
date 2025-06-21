@@ -31,6 +31,8 @@
     "multer": "^2.0.1",
     "nodemailer": "^7.0.2",
     "pg": "^8.14.1",
-    "sequelize": "^6.37.7"
+    "sequelize": "^6.37.7",
+    "winston": "^3.17.0",
+    "winston-daily-rotate-file": "^5.0.0"
   }
 }
