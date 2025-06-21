@@ -5,11 +5,11 @@ const AddStudent = () => {
   const navigate = useNavigate();
 
   const handleAdd = (createdStudent) => {
-    navigate('/admin/students/all'); 
+    navigate('/admin/dashboard'); 
   };
 
   const handleClose = () => {
-    navigate('/admin/students/all'); 
+    navigate('/admin/dashboard'); 
   };
 
   return (

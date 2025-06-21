@@ -1,6 +1,3 @@
-// src/components/Toast.jsx
-import React from 'react';
-
 const Toast = ({ show, message, onClose }) => {
   if (!show) {
     return null;
