@@ -1,9 +1,15 @@
 const ParkingSlot = ({ slot, isSelected, bookingStatus, onSlotClick }) => {
   const isClickable = bookingStatus === 'selecting' && slot.is_available && !slot.is_locked && slot.status !== 'pending';
+  const getSlotStatusIcon = (slot) => {
+    if (slot.is_locked) return '🔒';
+    if (slot.status === 'pending') return '❔';
+    if (slot.is_available) return '✓';
+    return '✗';
+  };
 
   const getSlotClass = () => {
     if (isSelected) return 'parking-slot selected';
-    if (slot.status == "pending") return 'parking-slot pending' ;                // yellow
+    if (slot.status == "pending") return 'parking-slot pending';                // yellow
     if (slot.is_locked) return 'parking-slot locked';                            // grey
     if (slot.is_available && !slot.is_locked) return 'parking-slot available';   // green
     return 'parking-slot not-available';                                         // red
@@ -32,9 +38,7 @@ const ParkingSlot = ({ slot, isSelected, bookingStatus, onSlotClick }) => {
     >
       <div className="slot-label">{slot.slot_code}</div>
       <div className="car-icon">🚗</div>
-      <div className="slot-status">
-        {slot.is_locked ? '🔒' : (slot.is_available ? '✓' : '✗')}
-      </div>
+      <div className="slot-status">{getSlotStatusIcon(slot)}</div>
     </div>
   );
 };

@@ -49,9 +49,6 @@ const ParkingSlotBooking = () => {
     };
 
     parkingSlots.forEach(slot => {
-      // KLJUČNA PROMJENA #1: Nemojte kreirati novi, nepotpuni objekt.
-      // Proslijedite cijeli `slot` objekt koji ste dobili s backenda.
-      // Tako će svi propertiji, uključujući `status`, biti sačuvani.
       if (slot.section === 'L1' && slot.type === 'professor parking space') {
         organized.l1Professor.push(slot);
       } else if (slot.section === 'L1' && slot.type === 'student parking') {
@@ -81,6 +78,7 @@ const ParkingSlotBooking = () => {
   };
 
   const handleBookingButtonClick = async () => {
+    const firstDayOfSelectedMonth = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1);
     const local = localStorage.getItem("user");
     const parsedStudent = JSON.parse(local);
     const user_email = parsedStudent?.email;
@@ -95,7 +93,8 @@ const ParkingSlotBooking = () => {
         const slotData = await slotsApi.getBySlotCode(selectedSlot);
         const slot_id = slotData.id;
 
-        const startDate = new Date(selectedDate);
+        const startDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1);
+        console.log('Start Date:', startDate);
         const endDate = new Date(startDate);
         endDate.setMonth(endDate.getMonth() + 1);
 
@@ -106,14 +105,12 @@ const ParkingSlotBooking = () => {
           endDate: endDate.toISOString().split('T')[0],
         });
 
-        // KLJUČNA PROMJENA #2: Nakon što je rezervacija uspješno poslana,
-        // pozovite `fetchParkingSlots` da osvježite stanje s novim podacima sa servera!
         await fetchParkingSlots();
 
         setBookingStatus('confirmed');
         setShowToast(true);
         setTimeout(() => setShowToast(false), 5000);
-        setSelectedSlot(null); // Resetiraj odabir nakon uspješne rezervacije
+        setSelectedSlot(null); 
       } catch (error) {
         console.error('Booking failed:', error);
         alert('Failed to book the slot. Please try again.');
@@ -136,18 +133,18 @@ const ParkingSlotBooking = () => {
   };
 
   if (loading) {
-    return <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', fontSize: '18px' }}>Loading parking slots...</div>;
+    return <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', fontSize: '18px', color: '#1e3a8a', backgroundColor: '#ffffff' }}>Loading parking slots...</div>;
   }
 
   if (error) {
-    return <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', fontSize: '18px', color: '#ef5b67' }}>Error: {error}</div>;
+    return <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', fontSize: '18px', color: '#ef5b67', backgroundColor: '#ffffff' }}>Error: {error}</div>;
   }
 
   const slots = organizeSlots();
   const toastMessage = <>🎉 You have selected slot <strong>{selectedSlot}</strong>. Visit Student Affairs Office to complete payment.</>;
 
   return (
-    <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', padding: '20px' }}>
+    <div style={{ minHeight: '100vh', backgroundColor: '#ffffff', padding: '20px' }}>
       <div style={{ maxWidth: '1600px', margin: '0 auto' }}>
         <Header />
         <MonthCalendar

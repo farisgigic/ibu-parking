@@ -23,7 +23,7 @@ const ReservationsTable = () => {
   // Status options for the dropdown
   const statusOptions = [
     { value: 'pending', label: 'Pending' },
-    { value: 'accepted', label: 'Accepted/Paid' },
+    { value: 'accepted/paid', label: 'Accepted/Paid' },
     { value: 'rejected', label: 'Rejected' }
   ];
 

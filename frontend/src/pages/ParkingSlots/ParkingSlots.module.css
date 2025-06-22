@@ -1,5 +1,5 @@
 body {
-  background-color: #eef3fc;
+  background-color: #ffffff !important;
   margin: 0;
   padding: 0;
   font-family: Arial, sans-serif;
@@ -7,17 +7,17 @@ body {
 
 .parking-booking-container {
   min-height: 100vh;
-  background-color: #eef3fc;
+  background-color: #ffffff;
 }
 
 .nav-link {
-  color: #333;
+  color: #1e3a8a;
   font-weight: 500;
 }
 
 .user-dropdown {
   background-color: white;
-  border: 1px solid #ddd;
+  border: 1px solid #e5e7eb;
   padding: 5px 15px;
   border-radius: 4px;
   cursor: pointer;
@@ -32,12 +32,14 @@ body {
   background-color: white;
   border-radius: 12px;
   padding: 20px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 10px rgba(30, 58, 138, 0.08);
+  border: 1px solid #f1f5f9;
 }
 
 /* Legend Styling */
 .slot-legend {
   font-size: 14px;
+  color: #1e3a8a;
 }
 
 .legend-icon {
@@ -49,7 +51,7 @@ body {
 }
 
 .legend-icon.your-selection {
-  background-color: #1957db;
+  background-color: #1e3a8a;
 }
 
 .legend-icon.booked {
@@ -66,9 +68,9 @@ body {
 }
 
 .btn-filter {
-  background-color: #f5f5f5;
-  border: 2px solid #5224dd;
-  color: #333;
+  background-color: #f8fafc;
+  border: 2px solid #1e3a8a;
+  color: #1e3a8a;
   padding: 5px 15px;
 }
 
@@ -78,6 +80,7 @@ body {
   border-radius: 8px;
   padding: 20px;
   margin-top: 20px;
+  border: 1px solid #f1f5f9;
 }
 
 .slots-container {
@@ -105,9 +108,9 @@ body {
 }
 
 .slot.not-available {
-  background-color: #f5f5f5;
-  border: 3px dashed #ddd !important;
-  color: #999;
+  background-color: #f8fafc;
+  border: 3px dashed #cbd5e1 !important;
+  color: #64748b;
   cursor: not-allowed;
 }
 
@@ -118,53 +121,54 @@ body {
 }
 
 .slot.selected {
-  background-color: #1957db;
+  background-color: #1e3a8a;
   color: white;
-  border: 2px solid #143fa0;
+  border: 2px solid #1e40af;
 }
 
 .slot.locked {
-  background-color: #dce1e8;
-  color: #999;
+  background-color: #f1f5f9;
+  color: #64748b;
   cursor: not-allowed;
   pointer-events: none;
   opacity: 0.6;
 }
 
 .slot.empty {
-  border: 2px dashed #dce1e8;
+  border: 2px dashed #e2e8f0;
   background-color: transparent;
 }
 
 .divider {
   width: 1px;
   height: 80%;
-  background-color: #eee;
+  background-color: #e2e8f0;
 }
 
 /* Booking Details Styling */
 .booking-details {
   margin-top: 20px;
   padding-top: 20px;
-  border-top: 1px solid #eee;
+  border-top: 1px solid #e2e8f0;
 }
 
 .detail-item {
   min-width: 100px;
+  color: #1e3a8a;
 }
 
 /* Button Styling */
 .btn-primary {
-  background-color: #1957db;
-  border-color: #1957db;
+  background-color: #1e3a8a;
+  border-color: #1e3a8a;
   padding: 10px 30px;
   font-weight: bold;
   transition: background-color 0.2s ease-in-out;
 }
 
 .btn-primary:hover {
-  background-color: #143fa0;
-  border-color: #143fa0;
+  background-color: #1e40af;
+  border-color: #1e40af;
 }
 
 /* Loading and Error States */
@@ -173,7 +177,7 @@ body {
   text-align: center;
   padding: 50px;
   font-size: 18px;
-  color: #666;
+  color: #64748b;
 }
 
 .error {
@@ -200,17 +204,17 @@ body {
 }
 
 .parking-area-card {
-  background: rgba(255, 255, 255, 0.95);
+  background: white;
   border-radius: 20px;
   padding: 25px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 12px rgba(30, 58, 138, 0.08);
+  border: 1px solid #f1f5f9;
   transition: all 0.3s ease;
 }
 
 .parking-area-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 8px 25px rgba(30, 58, 138, 0.12);
 }
 
 .area-header {
@@ -225,23 +229,24 @@ body {
 .header-icon {
   font-size: 40px;
   padding: 15px;
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  background: linear-gradient(135deg, #1e3a8a, #1e40af);
   border-radius: 15px;
   display: flex;
   align-items: center;
   justify-content: center;
+  color: white;
 }
 
 .area-header h2 {
   margin: 0;
-  color: #2d3748;
+  color: #1e3a8a;
   font-size: 24px;
   font-weight: bold;
   flex: 1;
 }
 
 .area-stats {
-  background: linear-gradient(135deg, #48bb78, #38a169);
+  background: linear-gradient(135deg, #1e3a8a, #1e40af);
   color: white;
   padding: 10px 15px;
   border-radius: 25px;
@@ -250,10 +255,11 @@ body {
 }
 
 .slots-container {
-  background: #f7fafc;
+  background: #f8fafc;
   border-radius: 15px;
   padding: 20px;
   min-height: 300px;
+  border: 1px solid #e2e8f0;
 }
 
 .slots-grid {
@@ -284,7 +290,7 @@ body {
   min-height: 70px;
   cursor: pointer;
   border: 3px solid transparent;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px rgba(30, 58, 138, 0.06);
 }
 
 .parking-slot.available {
@@ -296,9 +302,10 @@ body {
   background: linear-gradient(135deg, #cbad4a, #e5da4b);
   color: white;
 }
+
 .parking-slot.available:hover {
   transform: translateY(-3px) scale(1.05);
-  box-shadow: 0 10px 25px rgba(72, 187, 120, 0.4);
+  box-shadow: 0 6px 20px rgba(72, 187, 120, 0.3);
 }
 
 .parking-slot.not-available {
@@ -309,15 +316,15 @@ body {
 }
 
 .parking-slot.selected {
-  background: linear-gradient(135deg, #4299e1, #3182ce);
+  background: linear-gradient(135deg, #1e3a8a, #1e40af);
   color: white;
   transform: translateY(-3px) scale(1.05);
-  box-shadow: 0 15px 30px rgba(66, 153, 225, 0.5);
+  box-shadow: 0 8px 25px rgba(30, 58, 138, 0.4);
   border: 3px solid #ffffff;
 }
 
 .parking-slot.locked {
-  background: linear-gradient(135deg, #a0aec0, #718096);
+  background: linear-gradient(135deg, #94a3b8, #64748b);
   color: white;
   cursor: not-allowed;
   opacity: 0.6;
@@ -392,7 +399,7 @@ body {
   background: white;
   padding: 20px;
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px rgba(30, 58, 138, 0.08);
   margin-bottom: 20px;
   border: 1px solid #e5e7eb;
 }
@@ -416,12 +423,12 @@ body {
   margin: 0;
   font-size: 1.5rem;
   font-weight: 600;
-  color: #1f2937;
+  color: #1e3a8a;
 }
 
 .nav-button {
-  background: #f3f4f6;
-  border: 1px solid #d1d5db;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
   border-radius: 8px;
   width: 40px;
   height: 40px;
@@ -430,13 +437,13 @@ body {
   justify-content: center;
   cursor: pointer;
   font-size: 1.2rem;
-  color: #6b7280;
+  color: #64748b;
   transition: all 0.2s ease;
 }
 
 .nav-button:hover {
-  background: #e5e7eb;
-  color: #374151;
+  background: #f1f5f9;
+  color: #1e3a8a;
   transform: translateY(-1px);
 }
 
@@ -445,7 +452,7 @@ body {
 }
 
 .today-button {
-  background: #3b82f6;
+  background: #1e3a8a;
   color: white;
   border: none;
   padding: 6px 16px;
@@ -457,7 +464,7 @@ body {
 }
 
 .today-button:hover {
-  background: #2563eb;
+  background: #1e40af;
   transform: translateY(-1px);
 }
 
@@ -470,7 +477,7 @@ body {
   background: white;
   border-radius: 12px;
   padding: 24px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px rgba(30, 58, 138, 0.08);
   border: 1px solid #e5e7eb;
 }
 

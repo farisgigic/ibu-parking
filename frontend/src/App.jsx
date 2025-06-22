@@ -25,6 +25,7 @@ import ParkingSlots from './pages/ParkingSlots/ParkingSlots';
 import UniversityProfile from './pages/ProfilePage/ProfilePage';
 import AdminDashboard from './pages/AdminDashboard/AdminDashboard';
 import Settings from './pages/Settings/SettingsPage';
+import ParkingSlotBooking from './pages/Deleteme';
 
 
 // Main Application
@@ -74,6 +75,14 @@ function AppContent() {
             element={
               <AuthGuard>
                 <Settings />
+              </AuthGuard>
+            }
+          />
+          <Route
+            path="/fare"
+            element={
+              <AuthGuard>
+                <ParkingSlotBooking />
               </AuthGuard>
             }
           />
