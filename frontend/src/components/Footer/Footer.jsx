@@ -1,73 +1,215 @@
+import { useNavigate } from "react-router";
+
 const Footer = () => {
+  let navigate = useNavigate();
+  
   return (
-    <>
-      <footer className="footer">
-        <div className="footer-content">
-          <div className="footer-main">
-            <div className="footer-section">
-              <img 
-                src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDQwMCAxMDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CiAgPHJlY3Qgd2lkdGg9IjQwMCIgaGVpZ2h0PSIxMDAiIGZpbGw9IndoaXRlIi8+CiAgPHRleHQgeD0iMjAiIHk9IjcwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iNjAiIGZvbnQtd2VpZ2h0PSJib2xkIiBmaWxsPSIjMDAzOTZkIj5JQlU8L3RleHQ+CiAgPGxpbmUgeDE9IjIwMCIgeTE9IjIwIiB4Mj0iMjAwIiB5Mj0iODAiIHN0cm9rZT0iI2NjYyIgc3Ryb2tlLXdpZHRoPSIzIi8+CiAgPHRleHQgeD0iMjIwIiB5PSIzNSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjE4IiBmaWxsPSIjOTk5Ij5JbnRlcm5hdGlvbmFsPC90ZXh0PgogIDx0ZXh0IHg9IjIyMCIgeT0iNTUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxOCIgZmlsbD0iIzk5OSI+QnVyY2g8L3RleHQ+CiAgPHRleHQgeD0iMjIwIiB5PSI3NSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjE4IiBmaWxsPSIjOTk5Ij5Vbml2ZXJzaXR5PC90ZXh0Pgo8L3N2Zz4="
-                alt="IBU - International Burch University"
-                className="ibu-logo"
-              />
-              <p>
-                International Burch University is a leading private university in Sarajevo, 
-                Bosnia and Herzegovina, dedicated to providing quality education and fostering innovation.
-              </p>
-              <p>
-                The Student Parking System is designed to make campus life easier and more efficient 
-                for our students and staff.
-              </p>
-            </div>
+    <footer className="modern-footer">
+      <div className="floating-element"></div>
+      <div className="floating-element"></div>
+      
+      <div className="footer-container">
+        <div className="footer-grid">
+          {/* Academic Links */}
+          <div className="footer-section">
+            <h4>Academic</h4>
+            <nav className="footer-nav">
+              <button 
+                className="nav-link-custom" 
+                onClick={() => navigate('/courses')}
+              >
+                Course Catalog
+              </button>
+              <button 
+                className="nav-link-custom" 
+                onClick={() => navigate('/programs')}
+              >
+                Degree Programs
+              </button>
+              <button 
+                className="nav-link-custom" 
+                onClick={() => navigate('/schedule')}
+              >
+                Class Schedule
+              </button>
+              <button 
+                className="nav-link-custom" 
+                onClick={() => navigate('/enrollment')}
+              >
+                Enrollment
+              </button>
+              <button 
+                className="nav-link-custom" 
+                onClick={() => navigate('/grades')}
+              >
+                Academic Records
+              </button>
+            </nav>
+          </div>
 
-            <div className="footer-section">
-              <h3>Quick Links</h3>
-              <ul>
-                <li><a href="#" onClick={() => console.log('Navigate to parking')}>View Parking</a></li>
-                <li><a href="#" onClick={() => console.log('Navigate to reserve')}>Reserve Slot</a></li>
-                <li><a href="#" onClick={() => console.log('Navigate to history')}>My History</a></li>
-                <li><a href="#" onClick={() => console.log('Navigate to settings')}>Account Settings</a></li>
-                <li><a href="#" onClick={() => console.log('Navigate to support')}>Help & Support</a></li>
-              </ul>
-            </div>
+          {/* Campus Services */}
+          <div className="footer-section">
+            <h4>Campus Services</h4>
+            <nav className="footer-nav">
+              <button 
+                className="nav-link-custom" 
+                onClick={() => navigate('/library')}
+              >
+                Digital Library
+              </button>
+              <button 
+                className="nav-link-custom" 
+                onClick={() => navigate('/dining')}
+              >
+                Dining Services
+              </button>
+              <button 
+                className="nav-link-custom" 
+                onClick={() => navigate('/housing')}
+              >
+                Student Housing
+              </button>
+              <button 
+                className="nav-link-custom" 
+                onClick={() => navigate('/wellness')}
+              >
+                Health & Wellness
+              </button>
+              <button 
+                className="nav-link-custom" 
+                onClick={() => navigate('/activities')}
+              >
+                Campus Activities
+              </button>
+            </nav>
+          </div>
 
-            <div className="footer-section">
-              <h3>Contact Info</h3>
-              <ul>
-                <li>📍 Francuske revolucije bb</li>
-                <li>71000 Sarajevo, BiH</li>
-                <li>📞 +387 33 944 400</li>
-                <li>✉️ info@ibu.edu.ba</li>
-                <li>🌐 www.ibu.edu.ba</li>
-              </ul>
-            </div>
-
-            <div className="footer-section">
-              <h3>Support</h3>
-              <ul>
-                <li><a href="#" onClick={() => console.log('Navigate to FAQ')}>FAQ</a></li>
-                <li><a href="#" onClick={() => console.log('Navigate to user guide')}>User Guide</a></li>
-                <li><a href="#" onClick={() => console.log('Navigate to technical support')}>Technical Support</a></li>
-                <li><a href="#" onClick={() => console.log('Navigate to feedback')}>Report Issue</a></li>
-                <li><a href="#" onClick={() => console.log('Navigate to policies')}>Privacy Policy</a></li>
-              </ul>
+          {/* Contact Info */}
+          <div className="footer-section">
+            <h4>Contact Information</h4>
+            <div className="contact-info">
+              <div className="contact-item">
+                <div className="contact-label">Address:</div>
+                <div className="contact-details">
+                  <div>Francuske revolucije bb</div>
+                  <div>71000 Sarajevo, BiH</div>
+                </div>
+              </div>
+              
+              <div className="contact-item">
+                <div className="contact-label">Phone:</div>
+                <a href="tel:+38733944400" className="contact-link">+387 33 944 400</a>
+              </div>
+              
+              <div className="contact-item">
+                <div className="contact-label">Email:</div>
+                <a href="mailto:info@ibu.edu.ba" className="contact-link">info@ibu.edu.ba</a>
+              </div>
+              
+              <div className="contact-item">
+                <div className="contact-label">Website:</div>
+                <a 
+                  href="https://www.ibu.edu.ba" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="contact-link"
+                >
+                  www.ibu.edu.ba
+                </a>
+              </div>
             </div>
           </div>
 
-          <div className="footer-bottom">
+          {/* Student Resources */}
+          <div className="footer-section">
+            <h4>Student Resources</h4>
+            <nav className="footer-nav">
+              <button 
+                className="nav-link-custom" 
+                onClick={() => navigate('/portal')}
+              >
+                Student Portal
+              </button>
+              <button 
+                className="nav-link-custom" 
+                onClick={() => navigate('/career')}
+              >
+                Career Services
+              </button>
+              <button 
+                className="nav-link-custom" 
+                onClick={() => navigate('/financial-aid')}
+              >
+                Financial Aid
+              </button>
+              <button 
+                className="nav-link-custom" 
+                onClick={() => navigate('/support')}
+              >
+                Academic Support
+              </button>
+              <button 
+                className="nav-link-custom" 
+                onClick={() => navigate('/alumni')}
+              >
+                Alumni Network
+              </button>
+            </nav>
+          </div>
+        </div>
+
+        {/* Footer Bottom with Logo */}
+        <div className="footer-bottom">
+          {/* Logo Section */}
+          <div className="footer-logo-bottom">
+            <div className="logo-container-bottom">
+              <img 
+                src="/images/logo.png"
+                alt="IBU - International Burch University"
+                className="ibu-logo-bottom"
+              />
+              <div className="logo-text-bottom">
+                <h2>International Burch University</h2>
+                <p>Smart University Solutions</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Copyright and Links */}
+          <div className="footer-bottom-content">
             <div className="copyright">
               © 2025 International Burch University. All rights reserved.
             </div>
             <div className="footer-links">
-              <a href="#" onClick={() => console.log('Navigate to terms')}>Terms of Service</a>
-              <a href="#" onClick={() => console.log('Navigate to privacy')}>Privacy Policy</a>
-              <a href="#" onClick={() => console.log('Navigate to cookies')}>Cookie Policy</a>
-              <a href="#" onClick={() => console.log('Navigate to accessibility')}>Accessibility</a>
+              <button 
+                className="footer-link-btn"
+                onClick={() => navigate('/terms')}
+              >
+                Terms of Service
+              </button>
+              <button 
+                className="footer-link-btn"
+                onClick={() => navigate('/privacy')}
+              >
+                Privacy Policy
+              </button>
+              <button 
+                className="footer-link-btn"
+                onClick={() => navigate('/cookies')}
+              >
+                Cookie Policy
+              </button>
+              <button 
+                className="footer-link-btn"
+                onClick={() => navigate('/accessibility')}
+              >
+                Accessibility
+              </button>
             </div>
           </div>
         </div>
-      </footer>
-    </>
+      </div>
+    </footer>
   );
 };
 
