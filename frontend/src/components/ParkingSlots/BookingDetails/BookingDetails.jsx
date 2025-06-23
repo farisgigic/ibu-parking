@@ -51,17 +51,17 @@ const BookingDetails = ({ selectedSlot, totalAmount, buttonText, isButtonDisable
                         </div>
                     </div>
 
-                    <div style={{ display: 'flex', gap: '15px' }}>
+                    <div style={{ display: 'flex', gap: '15px', marginTop: '27px' }}>
                         <button
                             onClick={onBook}
                             disabled={isButtonDisabled}
                             style={{
                                 background: isButtonDisabled
                                     ? 'linear-gradient(135deg, #a0aec0, #718096)'
-                                    : 'linear-gradient(135deg, #667eea, #764ba2)',
+                                    : 'linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)',
                                 color: 'white',
                                 border: 'none',
-                                padding: '15px 30px',
+                                padding: '15px 35px',
                                 borderRadius: '15px',
                                 fontWeight: 'bold',
                                 fontSize: '16px',

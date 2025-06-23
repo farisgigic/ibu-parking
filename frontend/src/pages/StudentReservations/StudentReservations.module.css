@@ -249,7 +249,7 @@
 }
 
 /* Buttons */
-.btn-primary, .btn-secondaryy {
+.btn-primaryy, .btn-secondaryy {
   flex: 1;
   padding: 12px 16px;
   border: none;
@@ -260,12 +260,12 @@
   transition: all 0.2s ease;
 }
 
-.btn-primary {
+.btn-primaryy {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
 }
 
-.btn-primary:hover {
+.btn-primaryy:hover {
   transform: translateY(-1px);
   box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
 }
