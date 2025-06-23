@@ -1,0 +1,78 @@
+[2025-06-23 00:03:58] INFO: GET /administrators/faris.gigic@symphony.is called
+[2025-06-23 00:03:58] INFO: GET /administrators/ifAdministrator/faris.gigic@symphony.is called
+[2025-06-23 00:03:58] INFO: GET /administrators/ifAdministrator/faris.gigic@symphony.is called
+[2025-06-23 00:04:16] ERROR: Error sending email to faris.gigic@stu.ibu.edu.ba: Invalid login: 535-5.7.8 Username and Password not accepted. For more information, go to
+535 5.7.8  https://support.google.com/mail/?p=BadCredentials 5b1f17b1804b1-4535ead2a5fsm124176255e9.34 - gsmtp
+[2025-06-23 00:04:16] INFO: SMTP credentials: faris.gigic@symphony.is, nvop zmxf llkm sosq
+[2025-06-23 00:05:00] INFO: Email sent to faris.gigic@stu.ibu.edu.ba with subject: Verify your email - IBU Parking Reservation System
+[2025-06-23 00:14:57] INFO: Email sent to faris.gigic@symphony.is with subject: Parking Slot Reservation Confirmed - International Burch University
+[2025-06-23 00:14:57] INFO: Confirmation email sent to faris.gigic@symphony.is
+[2025-06-23 00:27:51] ERROR: Could not send confirmation email to faris.gigic@symphony.is: ENOENT: no such file or directory, open './downloads/reservation-47.pdf'
+[2025-06-23 00:29:22] ERROR: Could not send confirmation email to faris.gigic@symphony.is: PDFDocument is not defined
+[2025-06-23 00:30:54] INFO: Email sent to faris.gigic@symphony.is with subject: Parking Slot Reservation Confirmed - International Burch University
+[2025-06-23 00:30:54] INFO: Confirmation email sent to faris.gigic@symphony.is
+[2025-06-23 00:45:06] INFO: Email sent to faris.gigic@symphony.is with subject: Parking Slot Reservation Confirmed - International Burch University
+[2025-06-23 00:45:06] INFO: Confirmation email with PDF sent to faris.gigic@symphony.is
+[2025-06-23 00:48:40] INFO: Email sent to faris.gigic@symphony.is with subject: Parking Slot Reservation Confirmed - International Burch University
+[2025-06-23 00:48:40] INFO: Confirmation email with PDF sent to faris.gigic@symphony.is
+[2025-06-23 00:53:11] INFO: Email sent to faris.gigic@symphony.is with subject: Parking Slot Reservation Confirmed - International Burch University
+[2025-06-23 00:53:11] INFO: Confirmation email with PDF sent to faris.gigic@symphony.is
+[2025-06-23 00:57:22] INFO: Email sent to faris.gigic@symphony.is with subject: Parking Slot Reservation Confirmed - International Burch University
+[2025-06-23 00:57:22] INFO: Confirmation email with PDF sent to faris.gigic@symphony.is
+[2025-06-23 01:00:43] INFO: Email sent to faris.gigic@symphony.is with subject: Parking Slot Reservation Confirmed - International Burch University
+[2025-06-23 01:00:43] INFO: Confirmation email with PDF sent to faris.gigic@symphony.is
+[2025-06-23 01:02:39] INFO: Email sent to faris.gigic@symphony.is with subject: Parking Slot Reservation Confirmed - International Burch University
+[2025-06-23 01:02:39] INFO: Confirmation email with PDF sent to faris.gigic@symphony.is
+[2025-06-23 01:03:02] INFO: Email sent to faris.gigic@symphony.is with subject: Parking Slot Reservation Confirmed - International Burch University
+[2025-06-23 01:03:02] INFO: Confirmation email with PDF sent to faris.gigic@symphony.is
+[2025-06-23 01:04:01] INFO: Email sent to faris.gigic@symphony.is with subject: Parking Slot Reservation Confirmed - International Burch University
+[2025-06-23 01:04:01] INFO: Confirmation email with PDF sent to faris.gigic@symphony.is
+[2025-06-23 01:04:10] INFO: GET /administrators/faris.gigic@symphony.is called
+[2025-06-23 01:04:10] INFO: GET /administrators/ifAdministrator/faris.gigic@symphony.is called
+[2025-06-23 01:04:10] INFO: GET /administrators/ifAdministrator/faris.gigic@symphony.is called
+[2025-06-23 01:07:06] INFO: Email sent to faris.gigic@symphony.is with subject: Parking Slot Reservation Confirmed - International Burch University
+[2025-06-23 01:07:06] INFO: Confirmation email with PDF sent to faris.gigic@symphony.is
+[2025-06-23 01:08:26] INFO: Email sent to faris.gigic@symphony.is with subject: Parking Slot Reservation Confirmed - International Burch University
+[2025-06-23 01:08:26] INFO: Confirmation email with PDF sent to faris.gigic@symphony.is
+[2025-06-23 01:09:14] INFO: Email sent to faris.gigic@symphony.is with subject: Parking Slot Reservation Confirmed - International Burch University
+[2025-06-23 01:09:14] INFO: Confirmation email with PDF sent to faris.gigic@symphony.is
+[2025-06-23 01:11:05] ERROR: Could not send confirmation email to faris.gigic@symphony.is: logger is not defined
+[2025-06-23 01:11:37] ERROR: Logo not found at:
+[2025-06-23 01:11:40] INFO: Email sent to faris.gigic@symphony.is with subject: Parking Slot Reservation Confirmed - International Burch University
+[2025-06-23 01:11:40] INFO: Confirmation email with PDF sent to faris.gigic@symphony.is
+[2025-06-23 01:14:27] INFO: Email sent to faris.gigic@symphony.is with subject: Parking Slot Reservation Confirmed - International Burch University
+[2025-06-23 01:14:27] INFO: Confirmation email with PDF sent to faris.gigic@symphony.is
+[2025-06-23 01:28:47] INFO: Email sent to faris.gigic@symphony.is with subject: Parking Slot Reservation Confirmed - International Burch University
+[2025-06-23 01:28:47] INFO: Confirmation email with PDF sent to faris.gigic@symphony.is
+[2025-06-23 01:34:29] INFO: Email sent to faris.gigic@symphony.is with subject: Parking Slot Reservation Confirmed - International Burch University
+[2025-06-23 01:34:29] INFO: Confirmation email with PDF sent to faris.gigic@symphony.is
+[2025-06-23 01:35:02] INFO: Email sent to faris.gigic@symphony.is with subject: Parking Slot Reservation Confirmed - International Burch University
+[2025-06-23 01:35:02] INFO: Confirmation email with PDF sent to faris.gigic@symphony.is
+[2025-06-23 01:38:43] INFO: Email sent to faris.gigic@symphony.is with subject: Parking Slot Reservation Confirmed - International Burch University
+[2025-06-23 01:38:43] INFO: Confirmation email with PDF sent to faris.gigic@symphony.is
+[2025-06-23 01:41:17] INFO: Email sent to faris.gigic@symphony.is with subject: Parking Slot Reservation Confirmed - International Burch University
+[2025-06-23 01:41:17] INFO: Confirmation email with PDF sent to faris.gigic@symphony.is
+[2025-06-23 01:44:27] INFO: Email sent to faris.gigic@symphony.is with subject: Parking Slot Reservation Confirmed - International Burch University
+[2025-06-23 01:44:27] INFO: Confirmation email with PDF sent to faris.gigic@symphony.is
+[2025-06-23 01:47:01] INFO: Email sent to faris.gigic@symphony.is with subject: Parking Slot Reservation Confirmed - International Burch University
+[2025-06-23 01:47:01] INFO: Confirmation email with PDF sent to faris.gigic@symphony.is
+[2025-06-23 01:48:02] INFO: Email sent to faris.gigic@symphony.is with subject: Parking Slot Reservation Confirmed - International Burch University
+[2025-06-23 01:48:02] INFO: Confirmation email with PDF sent to faris.gigic@symphony.is
+[2025-06-23 01:49:32] INFO: Email sent to faris.gigic@symphony.is with subject: Parking Slot Reservation Confirmed - International Burch University
+[2025-06-23 01:49:32] INFO: Confirmation email with PDF sent to faris.gigic@symphony.is
+[2025-06-23 01:50:39] INFO: Email sent to faris.gigic@symphony.is with subject: Parking Slot Reservation Confirmed - International Burch University
+[2025-06-23 01:50:39] INFO: Confirmation email with PDF sent to faris.gigic@symphony.is
+[2025-06-23 01:52:23] INFO: Email sent to faris.gigic@symphony.is with subject: Parking Slot Reservation Confirmed - International Burch University
+[2025-06-23 01:52:23] INFO: Confirmation email with PDF sent to faris.gigic@symphony.is
+[2025-06-23 01:53:26] INFO: Email sent to faris.gigic@symphony.is with subject: Parking Slot Reservation Confirmed - International Burch University
+[2025-06-23 01:53:26] INFO: Confirmation email with PDF sent to faris.gigic@symphony.is
+[2025-06-23 01:54:21] INFO: Email sent to faris.gigic@symphony.is with subject: Parking Slot Reservation Confirmed - International Burch University
+[2025-06-23 01:54:21] INFO: Confirmation email with PDF sent to faris.gigic@symphony.is
+[2025-06-23 01:55:05] INFO: Email sent to faris.gigic@symphony.is with subject: Parking Slot Reservation Confirmed - International Burch University
+[2025-06-23 01:55:05] INFO: Confirmation email with PDF sent to faris.gigic@symphony.is
+[2025-06-23 01:55:41] INFO: Email sent to faris.gigic@symphony.is with subject: Parking Slot Reservation Confirmed - International Burch University
+[2025-06-23 01:55:41] INFO: Confirmation email with PDF sent to faris.gigic@symphony.is
+[2025-06-23 01:57:22] INFO: Email sent to faris.gigic@symphony.is with subject: Parking Slot Reservation Confirmed - International Burch University
+[2025-06-23 01:57:22] INFO: Confirmation email with PDF sent to faris.gigic@symphony.is
+[2025-06-23 02:00:23] INFO: Email sent to faris.gigic@symphony.is with subject: Parking Slot Reservation Confirmed - International Burch University
+[2025-06-23 02:00:23] INFO: Confirmation email with PDF sent to faris.gigic@symphony.is
