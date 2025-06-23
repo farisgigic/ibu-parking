@@ -1,4 +1,6 @@
 import ParkingSlot from '../models/parkingSlot_model.js';
+import logger from './loggerService.js';
+
 const parkingSlotService = {
 
     async bookParkingSlot(id, reservedBy) {
@@ -23,7 +25,7 @@ const parkingSlotService = {
         parkingSlot.status = 'pending';
 
         await parkingSlot.save();
-
+        logger.info(`Parking slot ${id} booked by ${reservedBy}`);
         return parkingSlot;
     },
 }
