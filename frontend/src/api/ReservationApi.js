@@ -73,6 +73,15 @@ export const reservationApi = {
             console.error('Error counting reservations by student ID:', error);
             throw error;
         }
+    },
+    getReservationsByStudentId: async (studentId) => {
+        try {
+            const response = await API.get(`/reservations/by-student/${studentId}`);
+            return response.data;
+        } catch (error) {
+            console.error('Error fetching reservations by student ID:', error);
+            throw error;
+        }
     }
 
 };

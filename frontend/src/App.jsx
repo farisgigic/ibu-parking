@@ -26,6 +26,7 @@ import UniversityProfile from './pages/ProfilePage/ProfilePage';
 import AdminDashboard from './pages/AdminDashboard/AdminDashboard';
 import Settings from './pages/Settings/SettingsPage';
 import ParkingSlotBooking from './pages/Deleteme';
+import StudentReservations from './pages/StudentReservations/StudentReservations';
 
 
 // Main Application
@@ -107,6 +108,12 @@ function AppContent() {
             <Route path="dashboard" element={<AdminDashboardNew />} />
             <Route path="reports/parking" element={<StudentReports />} />
           </Route>
+          <Route path="/student-reservations" element={
+              <AuthGuard>
+                <StudentReservations />
+              </AuthGuard>
+            }
+          />
           <Route path="*" element={<div>Page Not Found</div>} />
         </Routes>
       </main>

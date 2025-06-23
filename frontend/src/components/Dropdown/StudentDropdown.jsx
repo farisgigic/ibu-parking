@@ -149,7 +149,13 @@ const StudentDropdown = ({ handleLogout, className = "" }) => {
                             <span className="item-icon">⚙️</span>
                             <span>Settings</span>
                         </button>
-
+                        <button
+                            className="dropdown-item"
+                            onClick={() => handleItemClick(() => navigate('/student-reservations'))}
+                        >
+                            <span className="item-icon">📜</span>
+                            <span>History</span>
+                        </button>
                         <div className="dropdown-divider" />
 
                         <button
@@ -169,6 +175,8 @@ const StudentDropdown = ({ handleLogout, className = "" }) => {
                 onCancel={handleCancelLogout}
                 title="Confirm Sign Out"
                 message="Are you sure you want to sign out? You'll need to log in again to access your account."
+                option1="Cancel"
+                option2="Sign Out"
             />
         </>
     );

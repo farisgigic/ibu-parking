@@ -77,7 +77,7 @@ const StudentDashboard = ({ user, testimonials, loadingTestimonials, errorTestim
           Join thousands of students who have simplified their parking experience with our smart reservation system.
         </p>
         <div className="cta-buttons">
-          <button className="btn-primary" onClick={() => console.log('Navigate to reservations')}>
+          <button className="btn-primary" onClick={() => navigate('/student-reservations')}>
             View My Reservations
           </button>
           <button className="btn-secondary" onClick={() => navigate('/slots')}>

@@ -229,6 +229,27 @@ const reservationService = {
       }
     });
     return count;
+  }, 
+  getReservationsByStudentId: async (studentId) => {
+    const reservations = await Reservation.findAll({
+      where: { student_id: studentId },
+      include: [
+        {
+          model: ParkingSlot,
+          as: 'slot',
+          attributes: ['slot_code', ]
+        },
+        {
+          model: Student,
+          as: 'student',
+          attributes: [
+            [Sequelize.literal(`CONCAT(student.first_name, ' ', student.last_name)`), 'full_name'],
+            'email', 'picture_url']
+        }
+      ]
+    });
+
+    return reservations.map(reservation => reservation.toJSON());
   }
 
 };

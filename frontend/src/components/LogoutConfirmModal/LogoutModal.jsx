@@ -1,7 +1,7 @@
 import { useRef, useEffect } from 'react';
 
 
-const LogoutModal = ({ isOpen, onConfirm, onCancel, title, message }) => {
+const LogoutModal = ({ isOpen, onConfirm, onCancel, title, message, option1, option2 }) => {
     const modalRef = useRef(null);
 
     useEffect(() => {
@@ -69,13 +69,13 @@ const LogoutModal = ({ isOpen, onConfirm, onCancel, title, message }) => {
                         onClick={onCancel}
                         autoFocus
                     >
-                        Cancel
+                        {option1}
                     </button>
                     <button
                         className="logout-modal-button logout-modal-confirm-button"
                         onClick={onConfirm}
                     >
-                        Sign Out
+                        {option2}
                     </button>
                 </div>
             </div>

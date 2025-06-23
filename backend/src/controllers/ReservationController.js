@@ -1,3 +1,4 @@
+import { get } from 'http';
 import reservationService from '../services/ReservationService.js';
 
 const reservationController = {
@@ -105,6 +106,22 @@ const reservationController = {
 
       const count = await reservationService.countReservationsByStudentId(studentId);
       res.status(200).json({ count });
+    } catch (error) {
+      console.error('Error:', error);
+      res.status(500).json({ message: 'Server error', error: error.message });
+    }
+  },
+
+  async getReservationsByStudentId(req, res) {
+    try {
+      const { studentId } = req.params;
+
+      if (!studentId) {
+        return res.status(400).json({ message: 'Student ID is required!' });
+      }
+
+      const reservations = await reservationService.getReservationsByStudentId(studentId);
+      res.status(200).json(reservations);
     } catch (error) {
       console.error('Error:', error);
       res.status(500).json({ message: 'Server error', error: error.message });

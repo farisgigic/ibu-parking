@@ -7,7 +7,7 @@ const handleGoogleLogin = async (payload) => {
     const { email, sub, given_name, family_name, hd, picture } = payload;
     const admin = Administrator.findOne({ where: { email } });
 
-    if (hd !== 'stu.ibu.edu.ba' && !admin) {
+    if (hd !== 'stu.ibu.edu.ba' && !admin) {ç
         await logUnauthorizedAttempt(email);
         logger.error(`Unauthorized login attempt with email: ${email}`);
         throw new Error('Prijava je dozvoljena samo sa IBU studentskim nalozima.');

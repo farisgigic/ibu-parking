@@ -19,6 +19,7 @@
 @import '@pages/ProfilePage/ProfilePage.module.css'; 
 @import '@pages/AdminDashboard/AdminDashboard.module.css';
 @import '@pages/Settings/SettingsPage.module.css';
+@import '@pages/StudentReservations/StudentReservations.module.css';
 
 
 :root {
