@@ -1,6 +1,0 @@
-[2025-06-23 00:04:16] ERROR: Error sending email to faris.gigic@stu.ibu.edu.ba: Invalid login: 535-5.7.8 Username and Password not accepted. For more information, go to
-535 5.7.8  https://support.google.com/mail/?p=BadCredentials 5b1f17b1804b1-4535ead2a5fsm124176255e9.34 - gsmtp
-[2025-06-23 00:27:51] ERROR: Could not send confirmation email to faris.gigic@symphony.is: ENOENT: no such file or directory, open './downloads/reservation-47.pdf'
-[2025-06-23 00:29:22] ERROR: Could not send confirmation email to faris.gigic@symphony.is: PDFDocument is not defined
-[2025-06-23 01:11:05] ERROR: Could not send confirmation email to faris.gigic@symphony.is: logger is not defined
-[2025-06-23 01:11:37] ERROR: Logo not found at:

@@ -1,5 +1,0 @@
-{"level":"error","message":"Error sending email to faris.gigic@stu.ibu.edu.ba: Invalid login: 535-5.7.8 Username and Password not accepted. For more information, go to\n535 5.7.8  https://support.google.com/mail/?p=BadCredentials 5b1f17b1804b1-4535ead2a5fsm124176255e9.34 - gsmtp","timestamp":"2025-06-23 00:04:16"}
-{"level":"error","message":"Could not send confirmation email to faris.gigic@symphony.is: ENOENT: no such file or directory, open './downloads/reservation-47.pdf'","timestamp":"2025-06-23 00:27:51"}
-{"level":"error","message":"Could not send confirmation email to faris.gigic@symphony.is: PDFDocument is not defined","timestamp":"2025-06-23 00:29:22"}
-{"level":"error","message":"Could not send confirmation email to faris.gigic@symphony.is: logger is not defined","timestamp":"2025-06-23 01:11:05"}
-{"level":"error","message":"Logo not found at:","timestamp":"2025-06-23 01:11:37"}
