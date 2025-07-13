@@ -1,0 +1,19 @@
+# PostgreSQL parameters
+DB_USERNAME = postgres
+DB_PASSWORD = fare
+DB_NAME = ibu-parking
+DB_HOST = localhost
+DB_PORT = 5432
+
+# Authentication parameters
+JWT_SECRET = !2025IBUParking-?SeniorDesignProjectFareCare2025!
+PORT = 8787 
+
+# Mail service parameters
+SMTP_HOST = smtp.gmail.com
+SMTP_PORT = 587
+SMTP_USER = faris.gigic@stu.ibu.edu.ba
+SMTP_PASS = nvop zmxf llkm sosq
+
+EMAIL_USER = "faris.gigic@stu.ibu.edu.ba"
+EMAIL_PASS = "nscx idsl oaeq bqml" 
