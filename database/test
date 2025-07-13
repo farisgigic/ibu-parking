@@ -1,0 +1,1152 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 17.4
+-- Dumped by pg_dump version 17.4
+
+-- Started on 2025-07-13 12:41:35 CEST
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET transaction_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+DROP DATABASE travel_museum;
+--
+-- TOC entry 3741 (class 1262 OID 21368)
+-- Name: travel_museum; Type: DATABASE; Schema: -; Owner: postgres
+--
+
+CREATE DATABASE travel_museum WITH TEMPLATE = template0 ENCODING = 'UTF8' LOCALE_PROVIDER = libc LOCALE = 'C';
+
+
+ALTER DATABASE travel_museum OWNER TO postgres;
+
+\connect travel_museum
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET transaction_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- TOC entry 882 (class 1247 OID 21434)
+-- Name: enum_painting_status_status; Type: TYPE; Schema: public; Owner: postgres
+--
+
+CREATE TYPE public.enum_painting_status_status AS ENUM (
+    'good',
+    'damaged',
+    'missing',
+    'other'
+);
+
+
+ALTER TYPE public.enum_painting_status_status OWNER TO postgres;
+
+--
+-- TOC entry 870 (class 1247 OID 21386)
+-- Name: enum_users_role; Type: TYPE; Schema: public; Owner: postgres
+--
+
+CREATE TYPE public.enum_users_role AS ENUM (
+    'admin',
+    'curator',
+    'visitor'
+);
+
+
+ALTER TYPE public.enum_users_role OWNER TO postgres;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- TOC entry 217 (class 1259 OID 21369)
+-- Name: SequelizeMeta; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."SequelizeMeta" (
+    name character varying(255) NOT NULL
+);
+
+
+ALTER TABLE public."SequelizeMeta" OWNER TO postgres;
+
+--
+-- TOC entry 235 (class 1259 OID 21488)
+-- Name: artists; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.artists (
+    artist_id integer NOT NULL,
+    user_id integer NOT NULL,
+    artist_name character varying(255),
+    birth_year integer,
+    death_year integer,
+    nationality character varying(255),
+    biography text,
+    "artistPic_url" text,
+    "createdAt" timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" timestamp with time zone DEFAULT CURRENT_TIMESTAMP
+);
+
+
+ALTER TABLE public.artists OWNER TO postgres;
+
+--
+-- TOC entry 234 (class 1259 OID 21487)
+-- Name: artists_artist_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.artists_artist_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.artists_artist_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3742 (class 0 OID 0)
+-- Dependencies: 234
+-- Name: artists_artist_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.artists_artist_id_seq OWNED BY public.artists.artist_id;
+
+
+--
+-- TOC entry 233 (class 1259 OID 21484)
+-- Name: exhibition_paintings; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.exhibition_paintings (
+    exhibition_id integer NOT NULL,
+    painting_id integer NOT NULL
+);
+
+
+ALTER TABLE public.exhibition_paintings OWNER TO postgres;
+
+--
+-- TOC entry 232 (class 1259 OID 21473)
+-- Name: exhibitions; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.exhibitions (
+    exhibition_id integer NOT NULL,
+    user_id integer NOT NULL,
+    museum_id integer NOT NULL,
+    exhibition_name character varying(255) NOT NULL,
+    start_date timestamp with time zone,
+    end_date timestamp with time zone,
+    exhibition_description text,
+    is_published boolean DEFAULT false,
+    "createdAt" timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" timestamp with time zone DEFAULT CURRENT_TIMESTAMP
+);
+
+
+ALTER TABLE public.exhibitions OWNER TO postgres;
+
+--
+-- TOC entry 231 (class 1259 OID 21472)
+-- Name: exhibitions_exhibition_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.exhibitions_exhibition_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.exhibitions_exhibition_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3743 (class 0 OID 0)
+-- Dependencies: 231
+-- Name: exhibitions_exhibition_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.exhibitions_exhibition_id_seq OWNED BY public.exhibitions.exhibition_id;
+
+
+--
+-- TOC entry 230 (class 1259 OID 21467)
+-- Name: favorites; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.favorites (
+    user_id integer NOT NULL,
+    painting_id integer NOT NULL,
+    "createdAt" timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" timestamp with time zone DEFAULT CURRENT_TIMESTAMP
+);
+
+
+ALTER TABLE public.favorites OWNER TO postgres;
+
+--
+-- TOC entry 219 (class 1259 OID 21375)
+-- Name: museums; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.museums (
+    museum_id integer NOT NULL,
+    museum_name character varying(255) NOT NULL,
+    museum_location character varying(255),
+    website character varying(255),
+    contact character varying(255),
+    museum_description text,
+    latitude numeric,
+    longitude numeric,
+    "createdAt" timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    "museumPic_url" text
+);
+
+
+ALTER TABLE public.museums OWNER TO postgres;
+
+--
+-- TOC entry 218 (class 1259 OID 21374)
+-- Name: museums_museum_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.museums_museum_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.museums_museum_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3744 (class 0 OID 0)
+-- Dependencies: 218
+-- Name: museums_museum_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.museums_museum_id_seq OWNED BY public.museums.museum_id;
+
+
+--
+-- TOC entry 229 (class 1259 OID 21455)
+-- Name: notifications; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.notifications (
+    notification_id integer NOT NULL,
+    sender_id integer,
+    receiver_id integer NOT NULL,
+    name character varying(255) NOT NULL,
+    email character varying(255) NOT NULL,
+    title text,
+    message text NOT NULL,
+    read boolean DEFAULT false,
+    replied boolean DEFAULT false,
+    "createdAt" timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" timestamp with time zone DEFAULT CURRENT_TIMESTAMP
+);
+
+
+ALTER TABLE public.notifications OWNER TO postgres;
+
+--
+-- TOC entry 228 (class 1259 OID 21454)
+-- Name: notifications_notification_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.notifications_notification_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.notifications_notification_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3745 (class 0 OID 0)
+-- Dependencies: 228
+-- Name: notifications_notification_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.notifications_notification_id_seq OWNED BY public.notifications.notification_id;
+
+
+--
+-- TOC entry 227 (class 1259 OID 21444)
+-- Name: painting_status; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.painting_status (
+    painting_status_id integer NOT NULL,
+    painting_id integer NOT NULL,
+    status public.enum_painting_status_status NOT NULL,
+    location character varying(255),
+    is_damaged boolean,
+    in_exhibition boolean,
+    description text NOT NULL,
+    "damagedPic_url" text,
+    "createdAt" timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" timestamp with time zone DEFAULT CURRENT_TIMESTAMP
+);
+
+
+ALTER TABLE public.painting_status OWNER TO postgres;
+
+--
+-- TOC entry 226 (class 1259 OID 21443)
+-- Name: painting_status_painting_status_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.painting_status_painting_status_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.painting_status_painting_status_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3746 (class 0 OID 0)
+-- Dependencies: 226
+-- Name: painting_status_painting_status_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.painting_status_painting_status_id_seq OWNED BY public.painting_status.painting_status_id;
+
+
+--
+-- TOC entry 225 (class 1259 OID 21422)
+-- Name: paintings; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.paintings (
+    painting_id integer NOT NULL,
+    artist_id integer NOT NULL,
+    user_id integer NOT NULL,
+    painting_title character varying(255) NOT NULL,
+    year integer,
+    medium character varying(255),
+    dimensions character varying(255),
+    painting_location character varying(255),
+    "paintingPic_url" text,
+    painting_description text,
+    favorite boolean DEFAULT false,
+    "createdAt" timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    style character varying(255)
+);
+
+
+ALTER TABLE public.paintings OWNER TO postgres;
+
+--
+-- TOC entry 224 (class 1259 OID 21421)
+-- Name: paintings_painting_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.paintings_painting_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.paintings_painting_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3747 (class 0 OID 0)
+-- Dependencies: 224
+-- Name: paintings_painting_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.paintings_painting_id_seq OWNED BY public.paintings.painting_id;
+
+
+--
+-- TOC entry 223 (class 1259 OID 21411)
+-- Name: reviews; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.reviews (
+    review_id integer NOT NULL,
+    user_id integer NOT NULL,
+    exhibition_id integer NOT NULL,
+    rating integer NOT NULL,
+    comment text,
+    created_at timestamp with time zone,
+    "createdAt" timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" timestamp with time zone DEFAULT CURRENT_TIMESTAMP
+);
+
+
+ALTER TABLE public.reviews OWNER TO postgres;
+
+--
+-- TOC entry 222 (class 1259 OID 21410)
+-- Name: reviews_review_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.reviews_review_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.reviews_review_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3748 (class 0 OID 0)
+-- Dependencies: 222
+-- Name: reviews_review_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.reviews_review_id_seq OWNED BY public.reviews.review_id;
+
+
+--
+-- TOC entry 221 (class 1259 OID 21394)
+-- Name: users; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.users (
+    user_id integer NOT NULL,
+    name character varying(255),
+    email character varying(255) NOT NULL,
+    role public.enum_users_role DEFAULT 'visitor'::public.enum_users_role,
+    pass_hash character varying(255) NOT NULL,
+    pass_salt character varying(255) NOT NULL,
+    "profilePic_url" text,
+    museum_id integer,
+    is_verified boolean DEFAULT false,
+    is_blocked boolean DEFAULT false,
+    activity timestamp with time zone,
+    failed_attempts integer DEFAULT 0,
+    "createdAt" timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    "verificationToken" character varying(255),
+    "verificationTokenExpiry" timestamp with time zone,
+    "passwordResetCode" character varying(255),
+    "passwordResetCodeExpiry" timestamp with time zone,
+    "googleId" character varying(255)
+);
+
+
+ALTER TABLE public.users OWNER TO postgres;
+
+--
+-- TOC entry 220 (class 1259 OID 21393)
+-- Name: users_user_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.users_user_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.users_user_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3749 (class 0 OID 0)
+-- Dependencies: 220
+-- Name: users_user_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.users_user_id_seq OWNED BY public.users.user_id;
+
+
+--
+-- TOC entry 3534 (class 2604 OID 21491)
+-- Name: artists artist_id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.artists ALTER COLUMN artist_id SET DEFAULT nextval('public.artists_artist_id_seq'::regclass);
+
+
+--
+-- TOC entry 3530 (class 2604 OID 21476)
+-- Name: exhibitions exhibition_id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.exhibitions ALTER COLUMN exhibition_id SET DEFAULT nextval('public.exhibitions_exhibition_id_seq'::regclass);
+
+
+--
+-- TOC entry 3503 (class 2604 OID 21378)
+-- Name: museums museum_id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.museums ALTER COLUMN museum_id SET DEFAULT nextval('public.museums_museum_id_seq'::regclass);
+
+
+--
+-- TOC entry 3523 (class 2604 OID 21458)
+-- Name: notifications notification_id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.notifications ALTER COLUMN notification_id SET DEFAULT nextval('public.notifications_notification_id_seq'::regclass);
+
+
+--
+-- TOC entry 3520 (class 2604 OID 21447)
+-- Name: painting_status painting_status_id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.painting_status ALTER COLUMN painting_status_id SET DEFAULT nextval('public.painting_status_painting_status_id_seq'::regclass);
+
+
+--
+-- TOC entry 3516 (class 2604 OID 21425)
+-- Name: paintings painting_id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.paintings ALTER COLUMN painting_id SET DEFAULT nextval('public.paintings_painting_id_seq'::regclass);
+
+
+--
+-- TOC entry 3513 (class 2604 OID 21414)
+-- Name: reviews review_id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.reviews ALTER COLUMN review_id SET DEFAULT nextval('public.reviews_review_id_seq'::regclass);
+
+
+--
+-- TOC entry 3506 (class 2604 OID 21397)
+-- Name: users user_id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.users ALTER COLUMN user_id SET DEFAULT nextval('public.users_user_id_seq'::regclass);
+
+
+--
+-- TOC entry 3717 (class 0 OID 21369)
+-- Dependencies: 217
+-- Data for Name: SequelizeMeta; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."SequelizeMeta" (name) FROM stdin;
+20250410110000-create-museums.cjs
+20250414193815-create-users.cjs
+20250415090056-create-reviews.cjs
+20250415090320-create-paintings.cjs
+20250415090432-create-painting-status.cjs
+20250415090535-create-notifications.cjs
+20250415091000-create-favorites.cjs
+20250415091304-create-exhibitions.cjs
+20250415091400-create-exhibition-paintings.cjs
+20250415091453-create-artists.cjs
+20250415091819-add-foreign-keys.cjs
+\.
+
+
+--
+-- TOC entry 3735 (class 0 OID 21488)
+-- Dependencies: 235
+-- Data for Name: artists; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.artists (artist_id, user_id, artist_name, birth_year, death_year, nationality, biography, "artistPic_url", "createdAt", "updatedAt") FROM stdin;
+1	2	Claude Monet	1840	1926	French	Founder of French Impressionist painting.	https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Claude_Monet_1899_Nadar_crop.jpg/250px-Claude_Monet_1899_Nadar_crop.jpg	2025-05-26 15:34:54.637+02	2025-05-26 15:34:54.637+02
+2	2	Paul Cézanne	1839	1906	French	Post-Impressionist whose work laid foundations for modern art.	https://www.paulcezanne.org/assets/img/paul-cezanne-photo.jpg	2025-05-26 15:34:54.637+02	2025-05-26 15:34:54.637+02
+3	2	Berthe Morisot	1841	1895	French	Prominent female Impressionist known for intimate domestic scenes.	https://uploads8.wikiart.org/temp/49a6a22d-5684-46ce-be8c-abdbccb8ad91.jpg!Portrait.jpg	2025-05-26 15:34:54.637+02	2025-05-26 15:34:54.637+02
+4	3	Jackson Pollock	1912	1956	American	Known for abstract expressionism and drip painting.	https://upload.wikimedia.org/wikipedia/commons/2/2f/Jackson_Pollock%27s_passport_%28cropped%29.jpg	2025-05-26 15:34:54.637+02	2025-05-26 15:34:54.637+02
+5	3	Georgia O’Keeffe	1887	1986	American	Mother of American modernism.	https://www.georgiaokeeffe.net/assets/img/georgia-okeeffe.jpg	2025-05-26 15:34:54.637+02	2025-05-26 15:34:54.637+02
+6	3	Willem de Kooning	1904	1997	Dutch-American	Key figure in abstract expressionism, known for dynamic brushwork.	https://media.villagepreservation.org/wp-content/uploads/2018/04/15091505/de-koon-lead-photo.jpg	2025-05-26 15:34:54.637+02	2025-05-26 15:34:54.637+02
+7	3	Lee Krasner	1908	1984	American	Abstract expressionist and influential figure in postwar American art.	https://i.guim.co.uk/img/media/940eb57ce81a8d68119cd1ee74a3fa2f15538afa/64_91_2247_3144/master/2247.jpg?width=700&quality=85&auto=format&fit=max&s=c9dc1febf2d5e0471eec15e4824958ee	2025-05-26 15:34:54.637+02	2025-05-26 15:34:54.637+02
+8	3	Joan Mitchell	1925	1992	American	Known for large, gestural abstract paintings.	https://nmwa.org/wp-content/uploads/2020/01/Mitchell-Joan.jpg	2025-05-26 15:34:54.637+02	2025-05-26 15:34:54.637+02
+9	4	Rembrandt van Rijn	1606	1669	Dutch	Master of light and shadow, known for self-portraits and The Night Watch.	https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Rembrandt_van_Rijn_-_Self-Portrait_-_Google_Art_Project.jpg/250px-Rembrandt_van_Rijn_-_Self-Portrait_-_Google_Art_Project.jpg	2025-05-26 15:34:54.637+02	2025-05-26 15:34:54.637+02
+10	4	Johannes Vermeer	1632	1675	Dutch	Celebrated for tranquil domestic scenes and masterful use of light.	https://www.mauritshuis.nl/media/rgxggmkv/vermeer-meisje-met-de-parel-mh670-mauritshuis-den-haag.jpg?rxy=0.47243107769423559,0.44178550792733645&width=1200&height=0&quality=70&v=1d893b6016a3c20	2025-05-26 15:34:54.637+02	2025-05-26 15:34:54.637+02
+11	4	Vincent van Gogh	1853	1890	Dutch	Post-impressionist known for emotional honesty and bold color.	https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Vincent_van_Gogh_-_Self-Portrait_-_Google_Art_Project_%28454045%29.jpg/250px-Vincent_van_Gogh_-_Self-Portrait_-_Google_Art_Project_%28454045%29.jpg	2025-05-26 15:34:54.637+02	2025-05-26 15:34:54.637+02
+12	4	Frans Hals	1582	1666	Dutch	Renowned for lively portraits and innovative brushwork.	https://media.newyorker.com/photos/65392b52a1912050e0e2e641/3:4/w_600,h_800,c_limit/X11695-online.jpg	2025-05-26 15:34:54.637+02	2025-05-26 15:34:54.637+02
+13	2	Peter Paul Rubens	1577	1640	Flemish	Baroque painter known for dynamic compositions and sensual figures.	https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/Sir_Peter_Paul_Rubens_-_Portrait_of_the_Artist_-_Google_Art_Project.jpg/250px-Sir_Peter_Paul_Rubens_-_Portrait_of_the_Artist_-_Google_Art_Project.jpg	2025-05-26 15:34:54.637+02	2025-05-26 15:34:54.637+02
+14	2	Caravaggio	1571	1610	Italian	Revolutionary Baroque painter known for dramatic chiaroscuro.	https://upload.wikimedia.org/wikipedia/commons/7/73/Bild-Ottavio_Leoni%2C_Caravaggio.jpg	2025-05-26 15:34:54.637+02	2025-05-26 15:34:54.637+02
+15	2	Artemisia Gentileschi	1593	1656	Italian	Baroque painter celebrated for powerful female protagonists.	https://www.artnews.com/wp-content/uploads/2020/04/X10695-A5.jpg	2025-05-26 15:34:54.637+02	2025-05-26 15:34:54.637+02
+16	2	Diego Velázquez	1599	1660	Spanish	Court painter to Philip IV, known for Las Meninas and realism.	https://www.arthistoryproject.com/site/assets/files/23715/diego-velazquez-obelisk-art-history.webp	2025-05-26 15:34:54.637+02	2025-05-26 15:34:54.637+02
+17	2	Gian Lorenzo Bernini	1598	1680	Italian	Baroque sculptor and architect known for expressive movement in marble.	https://upload.wikimedia.org/wikipedia/commons/d/d5/Gian_Lorenzo_Bernini%2C_self-portrait%2C_c1623.jpg	2025-05-26 15:34:54.637+02	2025-05-26 15:34:54.637+02
+18	2	Pierre-Auguste Renoir	1841	1919	French	Impressionist painter known for vibrant light and saturated color, focusing on people in intimate and candid compositions.	https://cdn.shopify.com/s/files/1/1551/3581/files/renoir_01_-_from_sothebys.jpg?79575	2025-05-26 15:34:54.637+02	2025-05-26 15:34:54.637+02
+19	2	Edgar Degas	1834	1917	French	Impressionist artist renowned for his mastery in capturing movement, particularly of dancers, through painting, sculpture, and drawing.	https://images.squarespace-cdn.com/content/v1/57f0b8c859cc68fe6a908fb7/1475729635249-4WUH2Q5TWRNNSABBZ32T/image-asset.jpeg?format=2500w	2025-05-26 15:34:54.637+02	2025-05-26 15:34:54.637+02
+20	2	Camille Pissarro	1830	1903	French	Impressionist and Neo-Impressionist painter known for his rural and urban French scenes, and for mentoring artists like Cézanne and Gauguin.	https://www.christies.com/media-library/images/features/articles/2021/03/04/camille-pissarro-update/camille-pissarro-hero-880.jpg	2025-05-26 15:34:54.637+02	2025-05-26 15:34:54.637+02
+21	2	Alfred Sisley	1839	1899	British-French	Impressionist painter celebrated for his serene landscapes and masterful depiction of light and atmosphere in nature.	https://upload.wikimedia.org/wikipedia/commons/b/bf/Alfred_Sisley_photo_full.jpg	2025-05-26 15:34:54.637+02	2025-05-26 15:34:54.637+02
+\.
+
+
+--
+-- TOC entry 3733 (class 0 OID 21484)
+-- Dependencies: 233
+-- Data for Name: exhibition_paintings; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.exhibition_paintings (exhibition_id, painting_id) FROM stdin;
+1	1
+1	2
+1	3
+1	4
+1	5
+1	21
+1	22
+1	23
+1	24
+1	25
+1	26
+1	28
+1	29
+1	30
+1	31
+1	32
+1	33
+1	34
+2	6
+2	7
+2	8
+2	9
+2	10
+3	11
+3	12
+3	13
+3	14
+3	15
+4	16
+4	17
+4	18
+4	19
+4	20
+\.
+
+
+--
+-- TOC entry 3732 (class 0 OID 21473)
+-- Dependencies: 232
+-- Data for Name: exhibitions; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.exhibitions (exhibition_id, user_id, museum_id, exhibition_name, start_date, end_date, exhibition_description, is_published, "createdAt", "updatedAt") FROM stdin;
+1	2	1	Impressionist Visions	2025-10-01 02:00:00+02	2025-12-31 01:00:00+01	A stunning journey through the masterpieces of Monet and Cézanne. A stunning journey through the masterpieces of Monet and Cézanne. A stunning journey through the masterpieces of Monet and Cézanne.	t	2025-05-26 15:34:54.65+02	2025-05-26 15:34:54.65+02
+2	3	2	Abstract Expressionism: Chaos & Beauty	2025-04-01 02:00:00+02	2025-07-15 02:00:00+02	Pollock and O’Keeffe reimagined with modern installations.	t	2025-05-26 15:34:54.65+02	2025-05-26 15:34:54.65+02
+3	4	4	Dutch Golden Age	2025-05-01 02:00:00+02	2025-06-01 02:00:00+02	Rembrandt and Van Gogh in dialogue across centuries.	t	2025-05-26 15:34:54.65+02	2025-05-26 15:34:54.65+02
+4	1	1	Baroque Splendor	2025-08-01 02:00:00+02	2025-09-15 02:00:00+02	The opulence of the Baroque period in one place.	t	2025-05-26 15:34:54.65+02	2025-05-26 15:34:54.65+02
+5	2	2	Minimalism and Space	2024-06-10 02:00:00+02	2024-07-25 02:00:00+02	A reflection on space and silence in art.	t	2025-05-26 15:34:54.65+02	2025-05-26 15:34:54.65+02
+6	3	3	The Renaissance Revisited	2025-01-10 01:00:00+01	2025-04-15 02:00:00+02	Leonardo to Michelangelo: timeless brilliance.	t	2025-05-26 15:34:54.65+02	2025-05-26 15:34:54.65+02
+7	4	4	Modern Mythologies	2024-11-05 01:00:00+01	2025-01-10 01:00:00+01	Myth and legend reinterpreted by modern minds.	t	2025-05-26 15:34:54.65+02	2025-05-26 15:34:54.65+02
+8	1	2	Nature in Brushstrokes	2024-07-01 02:00:00+02	2024-08-30 02:00:00+02	The natural world expressed through impressionist style.	t	2025-05-26 15:34:54.65+02	2025-05-26 15:34:54.65+02
+9	2	1	Sculpting the Soul	2024-05-15 02:00:00+02	2024-07-01 02:00:00+02	Sculptures that explore identity, emotion, and humanity.	t	2025-05-26 15:34:54.65+02	2025-05-26 15:34:54.65+02
+10	3	3	Digital Dimensions	2025-02-01 01:00:00+01	2025-03-15 01:00:00+01	Exploring how technology and digital art intersect.	t	2025-05-26 15:34:54.65+02	2025-05-26 15:34:54.65+02
+11	4	4	From Earth to Canvas	2024-12-01 01:00:00+01	2025-02-15 01:00:00+01	Landscapes painted through centuries.	t	2025-05-26 15:34:54.65+02	2025-05-26 15:34:54.65+02
+12	1	1	Cubist Perspectives	2024-09-01 02:00:00+02	2024-10-15 02:00:00+02	Exploring the abstract geometry of Cubism.	t	2025-05-26 15:34:54.65+02	2025-05-26 15:34:54.65+02
+13	2	2	War & Art	2025-03-01 01:00:00+01	2025-04-30 02:00:00+02	The reflection of conflict in creative expression.	t	2025-05-26 15:34:54.65+02	2025-05-26 15:34:54.65+02
+14	3	3	The Feminine Form	2024-08-01 02:00:00+02	2024-09-10 02:00:00+02	A study of women through sculpture and paint.	t	2025-05-26 15:34:54.65+02	2025-05-26 15:34:54.65+02
+15	4	4	Fantasy and Folklore	2024-10-01 02:00:00+02	2024-11-30 01:00:00+01	Visual storytelling through legends and fairy tales.	t	2025-05-26 15:34:54.65+02	2025-05-26 15:34:54.65+02
+16	1	1	Black and White	2025-01-15 01:00:00+01	2025-03-01 01:00:00+01	The power of monochrome in art.	t	2025-05-26 15:34:54.65+02	2025-05-26 15:34:54.65+02
+17	2	2	Light and Shadow	2024-05-01 02:00:00+02	2024-06-15 02:00:00+02	Exploring chiaroscuro in classical and modern painting.	t	2025-05-26 15:34:54.65+02	2025-05-26 15:34:54.65+02
+18	3	3	Revolutionary Brushes	2024-07-15 02:00:00+02	2024-09-01 02:00:00+02	Art movements that changed history.	t	2025-05-26 15:34:54.65+02	2025-05-26 15:34:54.65+02
+19	4	4	Beyond the Canvas	2024-06-01 02:00:00+02	2024-07-15 02:00:00+02	Experimental installations pushing the boundaries.	t	2025-05-26 15:34:54.65+02	2025-05-26 15:34:54.65+02
+20	1	1	Portraits of Time	2024-10-15 02:00:00+02	2024-12-01 01:00:00+01	Portraits that capture the essence of different eras.	t	2025-05-26 15:34:54.65+02	2025-05-26 15:34:54.65+02
+21	2	2	Dreamscapes	2025-02-15 01:00:00+01	2025-04-01 02:00:00+02	A surreal voyage into imagined realities.	t	2025-05-26 15:34:54.65+02	2025-05-26 15:34:54.65+02
+22	3	3	Echoes of the East	2024-09-01 02:00:00+02	2024-10-31 01:00:00+01	Asian influence and expression in Western art.	t	2025-05-26 15:34:54.65+02	2025-05-26 15:34:54.65+02
+23	4	4	Color Theory	2024-11-10 01:00:00+01	2025-01-01 01:00:00+01	A visual breakdown of color’s emotional language.	t	2025-05-26 15:34:54.65+02	2025-05-26 15:34:54.65+02
+24	1	1	Art of the Metropolis	2025-05-01 02:00:00+02	2025-07-15 02:00:00+02	A deep dive into the urban art scene, from graffiti to digital installations.	t	2025-05-26 15:34:54.65+02	2025-05-26 15:34:54.65+02
+25	2	2	Virtual Reality: A New Frontier	2025-06-01 02:00:00+02	2025-08-01 02:00:00+02	Exploring the intersection of art and virtual reality, where technology meets imagination.	t	2025-05-26 15:34:54.65+02	2025-05-26 15:34:54.65+02
+26	3	3	Art and Artificial Intelligence	2025-07-01 02:00:00+02	2025-09-01 02:00:00+02	The merging of creativity and technology through AI-generated artwork.	t	2025-05-26 15:34:54.65+02	2025-05-26 15:34:54.65+02
+27	4	4	Reimagining History	2025-08-01 02:00:00+02	2025-10-01 02:00:00+02	Contemporary artists reflect on and reinterpret historical moments.	t	2025-05-26 15:34:54.65+02	2025-05-26 15:34:54.65+02
+28	5	5	The Future of Nature	2025-09-01 02:00:00+02	2025-11-15 01:00:00+01	Art inspired by sustainability, nature, and the environment in the face of climate change.	t	2025-05-26 15:34:54.65+02	2025-05-26 15:34:54.65+02
+29	5	5	Post-Humanism and the Future	2025-03-25 01:00:00+01	2025-05-15 02:00:00+02	A speculative look at the post-human world through the eyes of contemporary artists.	t	2025-05-26 15:34:54.65+02	2025-05-26 15:34:54.65+02
+30	2	2	Reconstructing Reality	2025-04-15 02:00:00+02	2025-06-15 02:00:00+02	A look at how artists are reconstructing reality through mixed media and augmented visuals.	t	2025-05-26 15:34:54.65+02	2025-05-26 15:34:54.65+02
+31	3	3	The Future of Abstract Art	2025-02-18 01:00:00+01	2025-06-01 02:00:00+02	Innovative abstract art that questions the very essence of visual expression in the digital age.	t	2025-05-26 15:34:54.65+02	2025-05-26 15:34:54.65+02
+\.
+
+
+--
+-- TOC entry 3730 (class 0 OID 21467)
+-- Dependencies: 230
+-- Data for Name: favorites; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.favorites (user_id, painting_id, "createdAt", "updatedAt") FROM stdin;
+\.
+
+
+--
+-- TOC entry 3719 (class 0 OID 21375)
+-- Dependencies: 219
+-- Data for Name: museums; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.museums (museum_id, museum_name, museum_location, website, contact, museum_description, latitude, longitude, "createdAt", "updatedAt", "museumPic_url") FROM stdin;
+1	Galaxy SOHO Museum	Beijing, China	https://www.chinahighlights.com/beijing/attraction/galaxy-soho.htm	+86 10 5957 2800	Galaxy SOHO, located in the heart of Beijing, is a massive mixed-use development featuring four continuous domed structures. These interconnected volumes form a seamless and flowing architectural language, with soft curves and elliptical forms that contrast the city’s traditionally rectilinear planning. Designed to reflect the dynamism of 21st-century urban life, Galaxy SOHO integrates retail, office, and public spaces. The design draws inspiration from traditional Chinese courtyards but transforms them using advanced parametric design and smooth white aluminum and glass surfaces. The result is an ultra-modern structure that captures movement and openness, serving both aesthetic and functional purposes. The complex is a commercial and cultural symbol of Beijing’s architectural evolution.These interconnected volumes form a seamless and flowing architectural language, with soft curves and elliptical forms that contrast the city’s traditionally rectilinear planning. Designed to reflect the dynamism of 21st-century urban life, Galaxy SOHO integrates retail, office, and public spaces. The design draws inspiration from traditional Chinese courtyards but transforms them using advanced parametric design and smooth white aluminum and glass surfaces. The result is an ultra-modern structure that captures movement and openness, serving both aesthetic and functional purposes. The complex is a commercial and cultural symbol of Beijing’s architectural evolution.	48.8606	2.3376	2025-05-26 15:34:53.704+02	2025-05-26 15:34:53.704+02	https://media.cnn.com/api/v1/images/stellar/prod/171117113620-zaha-hadid-book-homepage-tease.jpg?q=w_1600,h_900,x_0,y_0,c_fill
+2	Heydar Aliyev Center Museum	Baku, Azerbaijan	https://heydaraliyevcenter.az	+994 12 505 6013	Heydar Aliyev Center is a standalone cultural institution that redefines form and structure. Located in Baku, Azerbaijan, the building is known for its fluid, undulating surface that rises naturally from the ground and curves into itself. This bold design rejects the rigidity of Soviet-era structures in favor of a more organic and symbolic language. The building houses a museum, exhibition halls, and conference centers, all nested within its flowing interior. The continuous skin of the structure is made possible through cutting-edge construction techniques and digital modeling. The center is more than a building—it is a statement of national identity and a celebration of modern architecture’s artistic potential.Located in Baku, Azerbaijan, the building is known for its fluid, undulating surface that rises naturally from the ground and curves into itself. This bold design rejects the rigidity of Soviet-era structures in favor of a more organic and symbolic language. The building houses a museum, exhibition halls, and conference centers, all nested within its flowing interior. The continuous skin of the structure is made possible through cutting-edge construction techniques and digital modeling. The center is more than a building—it is a statement of national identity and a celebration of modern architecture’s artistic potential	40.7794	-73.9632	2025-05-26 15:34:53.704+02	2025-05-26 15:34:53.704+02	https://static.dezeen.com/uploads/2016/04/zaha-hadid-key-architecture-projects-photography-hufton-crow_dezeen_1568_12a.jpg
+3	Milwaukee Art Museum	Wisconsin, USA	https://mam.org	+1 414-224-3200	The Milwaukee Art Museum is one of the most visually striking cultural institutions in the United States, located on the shores of Lake Michigan. Its most iconic feature is the Quadracci Pavilion, designed by Spanish architect Santiago Calatrava. Opened in 2001, the pavilion is recognized worldwide for its futuristic, sculptural design that includes a movable, wing-like brise soleil. These “wings” open and close depending on the time of day and weather, resembling a bird in flight and making the building itself a dynamic piece of art. The museum’s architecture blends seamlessly with the lakefront environment, offering panoramic views and a grand pedestrian bridge that welcomes visitors with a sense of motion and openness. Inside, the museum houses a collection of over 30,000 works of art, including American decorative arts, German Expressionism, folk art, Haitian art, and one of the nation’s finest collections of Georgia O’Keeffe paintings.located on the shores of Lake Michigan. Its most iconic feature is the Quadracci Pavilion, designed by Spanish architect Santiago Calatrava. Opened in 2001, the pavilion is recognized worldwide for its futuristic, sculptural design that includes a movable, wing-like brise soleil. These “wings” open and close depending on the time of day and weather, resembling a bird in flight and making the building itself a dynamic piece of art. The museum’s architecture blends seamlessly with the lakefront environment, offering panoramic views and a grand pedestrian bridge that welcomes visitors with a sense of motion and openness. Inside, the museum houses a collection of over 30,000 works of art, including American decorative arts, German Expressionism, folk art, Haitian art, and one of the nation’s finest collections of Georgia O’Keeffe paintings.	51.5194	-0.127	2025-05-26 15:34:53.704+02	2025-05-26 15:34:53.704+02	https://res.cloudinary.com/simpleview/image/upload/v1685554963/clients/milwaukee/VM_MilwaukeeArtMuseum_Exterior_264401e6-438f-4fae-b244-62c31e826ac3.jpg
+4	Daum Museum of Contemporary Art	Missouri, USA	https://www.daummuseum.org	+1 660-530-5888	The Daum Museum of Contemporary Art is a cultural gem located on the campus of State Fair Community College in Sedalia, Missouri. Opened in 2002, the museum features a striking modernist building with clean architectural lines, large glass windows, and a serene landscaped setting. The facility is named after Dr. Harold F. Daum, a local physician and passionate art collector whose private collection laid the foundation for the museum’s holdings. The museum houses more than 1,500 works of art, primarily focused on post-1960 American contemporary art. Its collection includes paintings, sculptures, photographs, ceramics, and prints by both established and emerging artists. Notable figures in the collection include Andy Warhol, Dale Chihuly, and Helen Frankenthaler. The Daum Museum regularly hosts rotating exhibitions that feature regional, national, and international artists, providing the public with dynamic and engaging art experiences throughout the year.located on the campus of State Fair Community College in Sedalia, Missouri. Opened in 2002, the museum features a striking modernist building with clean architectural lines, large glass windows, and a serene landscaped setting. The facility is named after Dr. Harold F. Daum, a local physician and passionate art collector whose private collection laid the foundation for the museum’s holdings. The museum houses more than 1,500 works of art, primarily focused on post-1960 American contemporary art. Its collection includes paintings, sculptures, photographs, ceramics, and prints by both established and emerging artists. Notable figures in the collection include Andy Warhol, Dale Chihuly, and Helen Frankenthaler. The Daum Museum regularly hosts rotating exhibitions that feature regional, national, and international artists, providing the public with dynamic and engaging art experiences throughout the year.	52.3599	4.8852	2025-05-26 15:34:53.704+02	2025-05-26 15:34:53.704+02	https://www.daummuseum.org/wp-content/uploads/2014/10/daum-outside-slider.jpg
+5	Tennessee State Museum	Tennessee, USA	https://tnmuseum.org	+1 615-741-2692	The Tennessee State Museum is a state-of-the-art facility located on the Bicentennial Capitol Mall in Nashville, Tennessee. Opened in 2018, this new museum building spans over 137,000 square feet and includes permanent and temporary exhibition spaces, a digital learning center, a childrens gallery, and a two-story Grand Hall. Designed with classical architectural influences and modern amenities, the building integrates natural light, limestone, and water features to create a welcoming civic space. The museum provides a comprehensive overview of Tennessee’s history—from its natural environment and Indigenous cultures to Civil War heritage, civil rights movements, and modern developments. Its collections include thousands of artifacts, artworks, and historical documents that tell the story of the state’s diverse people and events.	43.7687	11.2559	2025-05-26 15:34:53.704+02	2025-05-26 15:34:53.704+02	https://hga.com/wp-content/uploads/2020/06/Tennessee-State-Museum-exterior-01.jpg
+6	Uffizi Gallery Museum	Florence, Italy	https://www.uffizi.it	+39 055 238 8651	The Uffizi Gallery is a renowned art museum situated in the heart of Florence, Italy, and is one of the oldest and most prestigious museums in Europe. Housed in a 16th-century building designed by Giorgio Vasari, the Uffizi was originally commissioned by Cosimo I deMedici to serve as offices (uffizi) for Florentine magistrates. It was later transformed into a museum to showcase the vast and extraordinary art collection amassed by the Medici family. Today, the Uffizi is best known for its unmatched collection of Renaissance art, featuring works by iconic masters such as Botticelli, Leonardo da Vinci, Michelangelo, Raphael, Caravaggio, and Titian. Among its most treasured pieces are Botticelli’s The Birth of Venus and Primavera, which attract millions of visitors each year.Italy, and is one of the oldest and most prestigious museums in Europe. Housed in a 16th-century building designed by Giorgio Vasari, the Uffizi was originally commissioned by Cosimo I deMedici to serve as offices (uffizi) for Florentine magistrates. It was later transformed into a museum to showcase the vast and extraordinary art collection amassed by the Medici family. Today, the Uffizi is best known for its unmatched collection of Renaissance art, featuring works by iconic masters such as Botticelli, Leonardo da Vinci, Michelangelo, Raphael, Caravaggio, and Titian. Among its most treasured pieces are Botticelli’s The Birth of Venus and Primavera, which attract millions of visitors each year.	40.7614	-73.9776	2025-05-26 15:34:53.704+02	2025-05-26 15:34:53.704+02	https://media.cntraveler.com/photos/5c421f204b27de229775c27d/16:9/w_2560,c_limit/GettyImages-511081519.jpg
+7	Rijksmuseum	Amsterdam, Netherlands	https://www.rijksmuseum.nl	+31 20 674 7000	The Rijksmuseum is the national museum of the Netherlands and one of the world’s premier art institutions. Located in the Museumplein district of Amsterdam, it is housed in a grand Neo-Gothic building designed by architect Pierre Cuypers and originally opened in 1885. The building itself is an architectural marvel, blending ornate 19th-century design with modern amenities and expansive gallery spaces. The museum is best known for its unparalleled collection of Dutch Golden Age masterpieces, including iconic works by Rembrandt van Rijn, Johannes Vermeer, Frans Hals, and Jan Steen. Among its most famous pieces is Rembrandt’s The Night Watch, which is displayed in a dedicated hall with carefully curated lighting and space.Beyond its 17th-century treasures, the Rijksmuseum holds a vast and diverse collection of art and historical objects, ranging from medieval sculpture to Asian art, fashion, prints, weaponry, and even Delftware ceramics. It houses over one million artifacts, with more than 8,000 on permanent display.	51.5074	-0.1278	2025-05-26 15:34:53.704+02	2025-05-26 15:34:53.704+02	https://amsterdamcanalcruises.nl/wp-content/uploads/2021/01/Rijksmuseum3_1330x454.jpg
+8	The British Museum	London, UK	https://www.britishmuseum.org	+44 20 7323 8299	The British Museum is one of the most iconic and widely visited museums in the world, located in the Bloomsbury district of London. Founded in 1753, the museum was the first national public museum in the world and has since grown into a global center for historical and cultural preservation. Its imposing Greek Revival façade, with tall Ionic columns and a grand pediment, reflects its status as a temple of knowledge and human achievement. The museum houses a collection of over eight million works spanning thousands of years of history, from prehistoric times to the present day. It is particularly known for its vast assemblage of artifacts from ancient civilizations, including the Rosetta Stone, the Elgin Marbles (Parthenon Sculptures), the Egyptian mummies, and the Assyrian winged bulls.	52.52	13.405	2025-05-26 15:34:53.704+02	2025-05-26 15:34:53.704+02	https://media.timeout.com/images/106197993/750/422/image.jpg
+9	The Metropolitan Museum of Art	New York, USA	https://www.metmuseum.org	+1 212-535-7710	The Metropolitan Museum of Art, widely known as The Met, is a global cultural landmark situated along Fifth Avenue on the eastern edge of Central Park in New York City. Founded in 1870, it is the largest art museum in the United States and among the most visited museums in the world.The museums main building, often called the Met Fifth Avenue, is an architectural marvel with its grand Beaux-Arts façade, monumental entrance stairs, and towering Corinthian columns. The Met’s vast collection spans over 5,000 years of human history and includes more than two million works of art. Visitors can explore galleries devoted to ancient Egypt, classical antiquity, European masters, Islamic art, African and Oceanic cultures, and modern and contemporary pieces. Among the Met’s most famous treasures are the Temple of Dendur, the Vincent van Gogh collection, arms and armor displays, and the Costume Institute, which hosts the annual Met Gala. The museum is also known for its rooftop garden, educational programming, and musical performances.	35.6895	139.6917	2025-05-26 15:34:53.704+02	2025-05-26 15:34:53.704+02	https://cdn.sanity.io/images/cctd4ker/production/c47d68fbeb2ac1df1c97065fc4c9576314114ac2-2100x1150.jpg?rect=539,36,1011,1074&w=3840&q=75&fit=clip&auto=format
+10	The Louvre	Paris, France	https://www.louvre.fr	+33 1 40 20 50 50	The Louvre Museum in Paris is the world’s largest and most visited art museum, as well as a historic monument that sits on the right bank of the River Seine. Originally built as a royal palace in the 12th century, the building was transformed into a public museum during the French Revolution in 1793. Today, the Louvre stands as a universal symbol of art, culture, and human creativity.The museum’s most iconic architectural feature is its modern glass pyramid, completed in 1989 by Chinese-American architect I. M. Pei. This striking contrast between classical and modern design serves as the museum’s main entrance and is a globally recognized landmark.The Louvre’s vast collection spans over 9,000 years of history and includes more than 480,000 works of art. It is especially known for its masterpieces such as Leonardo da Vinci’s Mona Lisa, the ancient Greek sculpture Venus de Milo, and Eugène Delacroix’s Liberty Leading the People. The museum covers a wide range of civilizations including ancient Egyptian, Mesopotamian, Greek, Roman, Islamic, and European art.	37.7749	-122.4194	2025-05-26 15:34:53.704+02	2025-05-26 15:34:53.704+02	https://cdn.craft.cloud/101e4579-0e19-46b6-95c6-7eb27e4afc41/assets/uploads/pois/louvre-102840_640.webp?width=1600&height=800&quality=90&fit=contain&s=AJWm7WozJKy0v6V7l17ISlfSTyhoyNeF0wzJmcaAO04
+\.
+
+
+--
+-- TOC entry 3729 (class 0 OID 21455)
+-- Dependencies: 229
+-- Data for Name: notifications; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.notifications (notification_id, sender_id, receiver_id, name, email, title, message, read, replied, "createdAt", "updatedAt") FROM stdin;
+1	1	1	Curator Example	curator@example.com	Welcome to the Platform	Hello Curator! Your account has been created and activated.	t	f	2025-05-26 15:34:54.662+02	2025-05-26 15:34:54.662+02
+3	3	1	Curator Example	curator@example.com	Invitation to Private Tour	You have been selected for a special MET tour this weekend.	f	t	2025-05-26 15:34:54.662+02	2025-05-26 15:34:54.662+02
+4	5	1	Visitor Example	visitor1@example.com	Inquiry about Monet Exhibit	Will there be original pieces from private collections?	t	t	2025-05-26 15:34:54.662+02	2025-05-26 15:34:54.662+02
+5	6	1	Visitor Example	visitor2@example.com	Account Help Needed	I can’t reset my password. Can you help?	f	f	2025-05-26 15:34:54.662+02	2025-05-26 15:34:54.662+02
+6	5	5	Visitor 1	visitor1@example.com	User Blocked After Multiple Failed Login Attempts	The user visitor1@example.com has been blocked due to 3 failed login attempts.	t	f	2025-05-26 15:36:03.71+02	2025-06-19 17:23:12.766+02
+2	2	1	Visitor Example	visitor1@example.com	New Exhibition at the Louvre	Join us this week at the Louvre for a Monet retrospective!	t	f	2025-05-26 15:34:54.662+02	2025-06-19 17:23:17.436+02
+\.
+
+
+--
+-- TOC entry 3727 (class 0 OID 21444)
+-- Dependencies: 227
+-- Data for Name: painting_status; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.painting_status (painting_status_id, painting_id, status, location, is_damaged, in_exhibition, description, "damagedPic_url", "createdAt", "updatedAt") FROM stdin;
+1	1	good	Main Gallery	f	t	Initial status		2025-05-26 15:34:54.647+02	2025-05-26 15:34:54.647+02
+2	1	damaged	Storage Room	t	f	Corner scratched		2025-05-26 15:34:54.647+02	2025-05-26 15:34:54.647+02
+\.
+
+
+--
+-- TOC entry 3725 (class 0 OID 21422)
+-- Dependencies: 225
+-- Data for Name: paintings; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.paintings (painting_id, artist_id, user_id, painting_title, year, medium, dimensions, painting_location, "paintingPic_url", painting_description, favorite, "createdAt", "updatedAt", style) FROM stdin;
+1	1	1	Impression, Sunrise	1872	Oil on canvas	48 × 63 cm	Musée Marmottan Monet, Paris	https://upload.wikimedia.org/wikipedia/commons/5/59/Monet_-_Impression%2C_Sunrise.jpg	Monet"s "Impression, Sunrise" (1872) captures Le Havre at dawn with loose brushstrokes. The orange sun shimmers on water, while misty blues blend with silhouetted boats. Initially mocked, its focus on light and atmosphere birthed the term "Impressionism." This oil painting (48x63cm) rejects detail for sensory immediacy, revolutionizing art. Now in Paris"s Musée Marmottan, it remains iconic for its hazy glow and modern industrial subject, proving fleeting moments could redefine beauty.	f	2025-05-26 15:34:54.641+02	2025-05-26 15:34:54.641+02	Impressionism
+2	1	1	Water Lilies	1906	Oil on canvas	200 × 180 cm	Louvre, Paris	https://medias.artmajeur.com/standard/12146447_ana1.jpg?v=1739339055	One of Monet’s iconic series capturing light on water.	f	2025-05-26 15:34:54.641+02	2025-05-26 15:34:54.641+02	Impressionism
+3	2	2	Mont Sainte-Victoire	1895	Oil on canvas	73 × 91 cm	Louvre, Paris	https://cdn.pixabay.com/photo/2024/05/18/15/41/teeth-8770514_1280.jpg	A favorite subject of Cézanne showing geometric structure.	f	2025-05-26 15:34:54.641+02	2025-05-26 15:34:54.641+02	Post-Impressionism
+4	2	2	The Basket of Apples	1893	Oil on canvas	65 × 80 cm	Art Institute of Chicago	https://www.1st-art-gallery.com/media/catalog/product/cache/9bad95616889b8b60a4bb85fbf2f33f9/paintingsL/208722/still-life-with-basket-of-appl.jpg	Still life featuring a tilted bottle and a basket of apples, noted for its disjointed perspective.	f	2025-05-26 15:34:54.641+02	2025-05-26 15:34:54.641+02	Post-Impressionism
+5	3	3	Summer’s Day	1879	Oil on canvas	45.7 × 75.2 cm	National Gallery, London	https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpn5Y7q_32-apfxuaUB-I6cab4hi5uxE3G7Q&s	Depicts two women enjoying a boat ride in the park.	f	2025-05-26 15:34:54.641+02	2025-05-26 15:34:54.641+02	Impressionism
+6	4	4	No. 5, 1948	1948	Oil on fiberboard	243.8 × 121.9 cm	Private Collection	https://www.worldhistory.org/uploads/images/12907.jpg	Chaotic and energetic drip painting by Pollock.	f	2025-05-26 15:34:54.641+02	2025-05-26 15:34:54.641+02	Abstract Expressionism
+7	5	5	Blue and Green Music	1919	Oil on canvas	58.4 × 48.3 cm	Art Institute of Chicago	https://upload.wikimedia.org/wikipedia/commons/8/84/Blue_and_Green_Music_by_Georgia_O%27Keeffe%2C_1921.jpg	Abstract painting in predominant shades of blue, green, and black, featuring diagonal bands.	f	2025-05-26 15:34:54.641+02	2025-05-26 15:34:54.641+02	Abstract
+8	6	6	Woman I	1950	Oil on canvas	192.7 × 147.3 cm	Museum of Modern Art, New York	https://upload.wikimedia.org/wikipedia/en/2/2a/Woman_I-Willem_de_Kooning.jpg	Powerful depiction of a female subject as a goddess through complex and anguished brushstrokes.	f	2025-05-26 15:34:54.641+02	2025-05-26 15:34:54.641+02	Abstract Expressionism
+9	7	6	The Seasons	1957	Oil and house paint on canvas	235.6 × 517.8 cm	Whitney Museum of American Art	https://miro.medium.com/v2/resize:fit:1400/0*8sHET8192cAfMWGj	Abstract painting with bold pink, green, and black brushstrokes forming organic shapes and patterns.	f	2025-05-26 15:34:54.641+02	2025-05-26 15:34:54.641+02	Abstract Expressionism
+10	8	6	City Landscape	1955	Oil on linen	203.2 × 203.2 cm	Art Institute of Chicago	https://images.saatchiart.com/saatchi/1031750/art/7344125/6413331-HSC00001-7.jpg	All the nerves of a vibrant city gathered in a tangled mass of pigments.	f	2025-05-26 15:34:54.641+02	2025-05-26 15:34:54.641+02	Abstract Expressionism
+11	9	1	The Night Watch	1642	Oil on canvas	363 × 437 cm	Rijksmuseum, Amsterdam	https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/The_Night_Watch_-_HD.jpg/1200px-The_Night_Watch_-_HD.jpg	Famous for its dramatic use of light and movement in a militia group portrait.	f	2025-05-26 15:34:54.641+02	2025-05-26 15:34:54.641+02	Baroque
+12	9	1	Self-Portrait with Two Circles	1665	Oil on canvas	114.3 × 94 cm	Kenwood House, London	https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Rembrandt_Self-portrait_%28Kenwood%29.jpg/1200px-Rembrandt_Self-portrait_%28Kenwood%29.jpg	A powerful introspective work featuring Rembrandt in an assertive pose.	f	2025-05-26 15:34:54.641+02	2025-05-26 15:34:54.641+02	Baroque
+13	10	2	Girl with a Pearl Earring	1665	Oil on canvas	44.5 × 39 cm	Mauritshuis, The Hague	https://media.newyorker.com/photos/5909522f1c7a8e33fb38a6fe/master/pass/pearl-earring-290.jpg	Often called the “Mona Lisa of the North,” known for its captivating gaze and luminous color.	f	2025-05-26 15:34:54.641+02	2025-05-26 15:34:54.641+02	Baroque
+14	11	2	The Potato Eaters	1885	Oil on canvas	82 × 114 cm	Van Gogh Museum, Amsterdam	https://upload.wikimedia.org/wikipedia/commons/b/b1/Van-willem-vincent-gogh-die-kartoffelesser-03850.jpg	Van Gogh’s early masterpiece depicting a humble peasant family having dinner.	f	2025-05-26 15:34:54.641+02	2025-05-26 15:34:54.641+02	Realism
+15	12	3	The Laughing Cavalier	1624	Oil on canvas	83 × 67.3 cm	Wallace Collection, London	https://upload.wikimedia.org/wikipedia/commons/9/97/Cavalier_soldier_Hals-1624x.jpg	A flamboyant portrait known for its dynamic expression and detailed lacework.	f	2025-05-26 15:34:54.641+02	2025-05-26 15:34:54.641+02	Baroque
+16	13	4	The Elevation of the Cross	1610	Oil on wood	462 × 341 cm	Cathedral of Our Lady, Antwerp	https://upload.wikimedia.org/wikipedia/commons/5/52/Elevation_of_the_Cross_%28Rubens%29_July_2015-1a.jpg	Dramatic triptych showing Christ being raised on the cross with dynamic musculature.	f	2025-05-26 15:34:54.641+02	2025-05-26 15:34:54.641+02	Baroque
+17	14	4	The Calling of Saint Matthew	1600	Oil on canvas	322 × 340 cm	San Luigi dei Francesi, Rome	https://upload.wikimedia.org/wikipedia/commons/4/48/The_Calling_of_Saint_Matthew-Caravaggo_%281599-1600%29.jpg	Masterful use of light to depict the moment Jesus calls Matthew to follow him.	f	2025-05-26 15:34:54.641+02	2025-05-26 15:34:54.641+02	Baroque
+18	15	5	Judith Slaying Holofernes	1614	Oil on canvas	199 × 162 cm	Uffizi Gallery, Florence	https://www.datocms-assets.com/103094/1688661508-1506165873655660-artemisia-giuditta-principale.jpg?auto=format%2Ccompress&cs=srgb&max-w=800	A dramatic and violent biblical scene rendered with intensity and realism.	f	2025-05-26 15:34:54.641+02	2025-05-26 15:34:54.641+02	Baroque
+19	16	5	Las Meninas	1656	Oil on canvas	318 × 276 cm	Museo del Prado, Madrid	https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Las_Meninas%2C_by_Diego_Vel%C3%A1zquez%2C_from_Prado_in_Google_Earth.jpg/960px-Las_Meninas%2C_by_Diego_Vel%C3%A1zquez%2C_from_Prado_in_Google_Earth.jpg	A complex and innovative court scene featuring the young Infanta Margarita and Velázquez himself.	f	2025-05-26 15:34:54.641+02	2025-05-26 15:34:54.641+02	Baroque
+20	17	6	The Ecstasy of Saint Teresa	1652	Marble sculpture	340 cm high	Santa Maria della Vittoria, Rome	https://miro.medium.com/v2/resize:fit:1400/0*jBttUOb2NIpJXi3p	A stunning sculptural group representing Saint Teresa’s vision of divine ecstasy.	f	2025-05-26 15:34:54.641+02	2025-05-26 15:34:54.641+02	Baroque
+21	1	2	La Grenouillère	1869	Oil on canvas	74 × 99 cm	Metropolitan Museum of Art, New York	https://upload.wikimedia.org/wikipedia/commons/7/79/Auguste_Renoir_-_La_Grenouill%C3%A8re_-_Google_Art_Project.jpg	Monet’s vibrant depiction of a floating café on the Seine.	f	2025-05-26 15:34:54.641+02	2025-05-26 15:34:54.641+02	Impressionism
+22	18	2	Dance at Le Moulin de la Galette	1876	Oil on canvas	131 × 175 cm	Musée d’Orsay, Paris	https://upload.wikimedia.org/wikipedia/commons/4/40/Auguste_Renoir_-_Dance_at_Le_Moulin_de_la_Galette_-_Mus%C3%A9e_d%27Orsay_RF_2739_%28derivative_work_-_AutoContrast_edit_in_LCH_space%29.jpg	A joyful scene of Parisians dancing under dappled light.	f	2025-05-26 15:34:54.641+02	2025-05-26 15:34:54.641+02	Impressionism
+23	19	2	Ballet Rehearsal	1874	Oil on canvas	65 × 81 cm	Musée d’Orsay, Paris	https://ids.lib.harvard.edu/ids/view/47208093?width=3000&height=3000	Degas captures ballerinas in practice, a signature theme.	f	2025-05-26 15:34:54.641+02	2025-05-26 15:34:54.641+02	Impressionism
+24	20	2	The Boulevard Montmartre at Night	1897	Oil on canvas	73 × 92 cm	National Gallery, London	https://www.camillepissarro.org/assets/img/paintings/boulevard-montmartre-at-night.jpg	A shimmering depiction of bustling Parisian nightlife.	f	2025-05-26 15:34:54.641+02	2025-05-26 15:34:54.641+02	Impressionism
+25	21	2	Flood at Port-Marly	1876	Oil on canvas	61 × 50 cm	Musée d’Orsay, Paris	https://media.nga.gov/iiif/b74f7de3-fb66-406b-80b9-3a8381097bf6/full/full/0/default.jpg?attachment_filename=flood_at_port-marly_1985.64.38.jpg	Sisley paints the rising water with luminous clarity.	f	2025-05-26 15:34:54.641+02	2025-05-26 15:34:54.641+02	Impressionism
+26	3	2	The Cradle	1872	Oil on canvas	56 × 46 cm	Musée d’Orsay, Paris	https://lh3.googleusercontent.com/ci/AL18g_R5kL2qTpWKpjI3E4OmnXwlPUSGr3lNkHPhWlrZmyi_Ski4E2NA7jBSEMihkaMhWKsrKE0jvC4=s1200	A tender portrait of maternal care, showcasing domestic Impressionism.	f	2025-05-26 15:34:54.641+02	2025-05-26 15:34:54.641+02	Impressionism
+27	11	2	The Starry Night	1889	Oil on canvas	73.7 × 92.1 cm	MoMA, New York	https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg/1200px-Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg	Van Gogh’s iconic night sky swirling with emotion.	f	2025-05-26 15:34:54.641+02	2025-05-26 15:34:54.641+02	Post-Impressionism
+28	11	2	Sunflowers	1888	Oil on canvas	95 × 73 cm	National Gallery, London	https://upload.wikimedia.org/wikipedia/commons/4/46/Vincent_Willem_van_Gogh_127.jpg	A radiant still life series celebrating life and light.	f	2025-05-26 15:34:54.641+02	2025-05-26 15:34:54.641+02	Post-Impressionism
+29	1	2	Woman with a Parasol	1875	Oil on canvas	100 × 81 cm	National Gallery of Art, Washington D.C.	https://upload.wikimedia.org/wikipedia/commons/1/1b/Claude_Monet_-_Woman_with_a_Parasol_-_Madame_Monet_and_Her_Son_-_Google_Art_Project.jpg	A breezy portrait of Monet’s wife and son in a sunlit meadow.	f	2025-05-26 15:34:54.641+02	2025-05-26 15:34:54.641+02	Impressionism
+30	20	2	Peasant Girl Drinking Her Coffee	1881	Oil on canvas	92 × 73 cm	Private Collection	https://uploads7.wikiart.org/images/camille-pissarro/peasant-girl-drinking-her-coffee-1881.jpg!Large.jpg	A humble daily moment immortalized with Pissarro’s soft brush.	f	2025-05-26 15:34:54.641+02	2025-05-26 15:34:54.641+02	Impressionism
+31	21	2	Snow at Louveciennes	1878	Oil on canvas	46 × 61 cm	Musée d’Orsay, Paris	https://www.phillipscollection.org/sites/default/files/styles/feature_extra_large_no_crop_1200_/public/collection/1748.jpg?itok=yisViG1a	A quiet winter scene, showing Sisley’s love for natural light.	f	2025-05-26 15:34:54.641+02	2025-05-26 15:34:54.641+02	Impressionism
+32	18	2	Luncheon of the Boating Party	1881	Oil on canvas	129.9 × 172.7 cm	The Phillips Collection, Washington D.C.	https://upload.wikimedia.org/wikipedia/commons/8/8d/Pierre-Auguste_Renoir_-_Luncheon_of_the_Boating_Party_-_Google_Art_Project.jpg	A lively gathering of friends, full of color and movement.	f	2025-05-26 15:34:54.641+02	2025-05-26 15:34:54.641+02	Impressionism
+33	1	2	Rouen Cathedral Series	1894	Oil on canvas	100 × 65 cm	Various	https://upload.wikimedia.org/wikipedia/commons/3/30/RouenCathedral_Monet_1894.jpg	A study of shifting light on stone at different times of day.	f	2025-05-26 15:34:54.641+02	2025-05-26 15:34:54.641+02	Impressionism
+34	11	2	Irises	1889	Oil on canvas	71 × 93 cm	J. Paul Getty Museum, Los Angeles	https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Irises-Vincent_van_Gogh.jpg/800px-Irises-Vincent_van_Gogh.jpg	Van Gogh’s bold color and flowing forms celebrate nature’s vitality.	f	2025-05-26 15:34:54.641+02	2025-05-26 15:34:54.641+02	Post-Impressionism
+\.
+
+
+--
+-- TOC entry 3723 (class 0 OID 21411)
+-- Dependencies: 223
+-- Data for Name: reviews; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.reviews (review_id, user_id, exhibition_id, rating, comment, created_at, "createdAt", "updatedAt") FROM stdin;
+1	5	1	5	Absolutely breathtaking. The Monet pieces were displayed beautifully.	\N	2025-05-26 15:34:54.658+02	2025-05-26 15:34:54.658+02
+2	5	1	1		\N	2025-05-26 15:34:54.658+02	2025-05-26 15:34:54.658+02
+3	5	1	4	Wonderful curation and ambiance. I especially enjoyed the lighting design.	\N	2025-05-26 15:34:54.658+02	2025-05-26 15:34:54.658+02
+4	5	1	2		\N	2025-05-26 15:34:54.658+02	2025-05-26 15:34:54.658+02
+5	5	1	5	An inspiring experience. A must-see for any art enthusiast.	\N	2025-05-26 15:34:54.658+02	2025-05-26 15:34:54.658+02
+6	5	1	2		\N	2025-05-26 15:34:54.658+02	2025-05-26 15:34:54.658+02
+7	5	1	3		\N	2025-05-26 15:34:54.658+02	2025-05-26 15:34:54.658+02
+8	5	1	4		\N	2025-05-26 15:34:54.658+02	2025-05-26 15:34:54.658+02
+9	6	1	3	Interesting works, but the exhibition layout could be improved.	\N	2025-05-26 15:34:54.658+02	2025-05-26 15:34:54.658+02
+10	6	1	4	Great variety of pieces and historical context. Audio guide was helpful.	\N	2025-05-26 15:34:54.658+02	2025-05-26 15:34:54.658+02
+11	6	1	5	Brilliantly executed. The thematic flow made the visit memorable.	\N	2025-05-26 15:34:54.658+02	2025-05-26 15:34:54.658+02
+12	5	1	2	Expected more interactivity. Beautiful art, but felt a bit static.	\N	2025-05-26 15:34:54.658+02	2025-05-26 15:34:54.658+02
+13	5	1	4	Very informative and engaging. I loved the multimedia sections.	\N	2025-05-26 15:34:54.658+02	2025-05-26 15:34:54.658+02
+14	5	1	5	One of the best exhibitions I’ve attended. Visually and emotionally powerful.	\N	2025-05-26 15:34:54.658+02	2025-05-26 15:34:54.658+02
+15	5	1	3	Good selection of works, though I wish there had been more modern pieces.	\N	2025-05-26 15:34:54.658+02	2025-05-26 15:34:54.658+02
+\.
+
+
+--
+-- TOC entry 3721 (class 0 OID 21394)
+-- Dependencies: 221
+-- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.users (user_id, name, email, role, pass_hash, pass_salt, "profilePic_url", museum_id, is_verified, is_blocked, activity, failed_attempts, "createdAt", "updatedAt", "verificationToken", "verificationTokenExpiry", "passwordResetCode", "passwordResetCodeExpiry", "googleId") FROM stdin;
+1	Admin User	admin@example.com	admin	$2b$10$knjkF426XC79E9CZDXqiUuJCR8O7lFyOk0OeYxx0b9NBgSme987Ze	$2b$10$knjkF426XC79E9CZDXqiUu	https://t4.ftcdn.net/jpg/03/83/25/83/360_F_383258331_D8imaEMl8Q3lf7EKU2Pi78Cn0R7KkW9o.jpg	\N	t	f	\N	0	2025-05-26 15:34:54.632+02	2025-05-26 15:34:54.632+02	\N	\N	\N	\N	\N
+2	Curator Louvre	curator1@example.com	curator	$2b$10$DuCYSt3hX9shfjrxhGdrUeT97OA75T.SWJdNeoSU/qRzsTzxTNbeG	$2b$10$DuCYSt3hX9shfjrxhGdrUe	https://t3.ftcdn.net/jpg/02/43/12/34/360_F_243123463_zTooub557xEWABDLk0jJklDyLSGl2jrr.jpg	1	t	f	\N	0	2025-05-26 15:34:54.632+02	2025-05-26 15:34:54.632+02	\N	\N	\N	\N	\N
+3	Curator MET	curator2@example.com	curator	$2b$10$pEYJ14M0j4.r2Ql4jYQOxed6BHpfYWCG4C5qxM/Kf0UQFkjkrEhua	$2b$10$pEYJ14M0j4.r2Ql4jYQOxe	https://img.freepik.com/free-psd/expressive-woman-gesturing_23-2150198673.jpg	2	t	f	\N	0	2025-05-26 15:34:54.632+02	2025-05-26 15:34:54.632+02	\N	\N	\N	\N	\N
+4	Curator Rijks	curator3@example.com	curator	$2b$10$4M5qFq7lLOJAx64xSUlopuWeLbVPgeUoO1aMZ.DoBSiaZ2iGeWMky	$2b$10$4M5qFq7lLOJAx64xSUlopu	https://img.freepik.com/free-photo/happy-young-woman-standing-isolated-white-wall_171337-18037.jpg	4	t	f	\N	0	2025-05-26 15:34:54.632+02	2025-05-26 15:34:54.632+02	\N	\N	\N	\N	\N
+7	Visitor 3	visitor3@example.com	visitor	$2b$10$OPssxd1s54hvaBw/JE/O..llhVplQSjtY0CRUw.aMND56LL7qHpQy	$2b$10$OPssxd1s54hvaBw/JE/O..	https://img.freepik.com/free-photo/happy-young-woman-standing-isolated-white-wall_171337-18037.jpg	\N	t	f	\N	0	2025-05-26 15:34:54.632+02	2025-05-26 15:34:54.632+02	\N	\N	\N	\N	\N
+8	Visitor 6	visitor6@example.com	visitor	$2b$10$cYJoWW7X2AkD4m.GhMPRfOTNp/Imln3WhX1nZpHA/tmANS47ytDoW	$2b$10$cYJoWW7X2AkD4m.GhMPRfO	https://img.freepik.com/free-photo/happy-young-woman-standing-isolated-white-wall_171337-18037.jpg	\N	t	f	\N	0	2025-05-26 15:34:54.632+02	2025-05-26 15:34:54.632+02	\N	\N	\N	\N	\N
+9	Visitor 7	visitor7@example.com	visitor	$2b$10$TVtyd3TTR96TDCwOTZBUIewJ2u4KhgN1FwBEhjkQPSo7ZioTiwCQS	$2b$10$TVtyd3TTR96TDCwOTZBUIe	https://img.freepik.com/free-photo/young-woman-smiling-standing-isolated-white_171337-18385.jpg	\N	t	f	\N	0	2025-05-26 15:34:54.632+02	2025-05-26 15:34:54.632+02	\N	\N	\N	\N	\N
+10	Visitor 8	visitor8@example.com	visitor	$2b$10$Ni6W2vJVv5DEu1AvGDAKXem8aUtkwg6xZUny8LCCxGQsJ0lR5Ivl6	$2b$10$Ni6W2vJVv5DEu1AvGDAKXe	https://img.freepik.com/free-photo/smiling-young-woman-standing-isolated-white-wall_171337-18037.jpg	\N	t	f	\N	0	2025-05-26 15:34:54.632+02	2025-05-26 15:34:54.632+02	\N	\N	\N	\N	\N
+11	Visitor 9	visitor9@example.com	visitor	$2b$10$O.sgTmVRwF7dqltV0TxuEeaPx.Nt5RyUR/a9k.bIniRqkY5PeM9E.	$2b$10$O.sgTmVRwF7dqltV0TxuEe	https://img.freepik.com/free-photo/friendly-young-woman-standing-isolated-white-wall_171337-18037.jpg	\N	t	f	\N	0	2025-05-26 15:34:54.632+02	2025-05-26 15:34:54.632+02	\N	\N	\N	\N	\N
+12	Visitor 10	visitor10@example.com	visitor	$2b$10$076ymfvkxo3dTIXTFT0FOeh8n05qfMANulHfG6VbRKiLO5HdfV5IO	$2b$10$076ymfvkxo3dTIXTFT0FOe	https://img.freepik.com/free-photo/smiling-young-woman-standing-isolated-white-wall_171337-18037.jpg	\N	t	f	\N	0	2025-05-26 15:34:54.632+02	2025-05-26 15:34:54.632+02	\N	\N	\N	\N	\N
+5	Visitor 1	visitor1@example.com	visitor	$2b$10$N8zFK291lKBDYE0HgeLvKulRkWcbmEJ9qRDFv8.29whYyvw0JSzC6	$2b$10$N8zFK291lKBDYE0HgeLvKu	https://img.freepik.com/free-photo/happy-young-woman-standing-isolated-white-wall_171337-18037.jpg	\N	t	t	\N	3	2025-05-26 15:34:54.632+02	2025-05-26 15:36:03.714+02	\N	\N	\N	\N	\N
+6	Visitor 2	visitor2@example.com	visitor	$2b$10$OPssxd1s54hvaBw/JE/O..llhVplQSjtY0CRUw.aMND56LL7qHpQy	$2b$10$OPssxd1s54hvaBw/JE/O..	/uploads/1750430249861-Image 11. 6. 2025. at 15.20.jpg	\N	t	f	\N	0	2025-05-26 15:34:54.632+02	2025-06-20 16:37:29.899+02	\N	\N	\N	\N	\N
+\.
+
+
+--
+-- TOC entry 3750 (class 0 OID 0)
+-- Dependencies: 234
+-- Name: artists_artist_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.artists_artist_id_seq', 21, true);
+
+
+--
+-- TOC entry 3751 (class 0 OID 0)
+-- Dependencies: 231
+-- Name: exhibitions_exhibition_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.exhibitions_exhibition_id_seq', 31, true);
+
+
+--
+-- TOC entry 3752 (class 0 OID 0)
+-- Dependencies: 218
+-- Name: museums_museum_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.museums_museum_id_seq', 10, true);
+
+
+--
+-- TOC entry 3753 (class 0 OID 0)
+-- Dependencies: 228
+-- Name: notifications_notification_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.notifications_notification_id_seq', 6, true);
+
+
+--
+-- TOC entry 3754 (class 0 OID 0)
+-- Dependencies: 226
+-- Name: painting_status_painting_status_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.painting_status_painting_status_id_seq', 2, true);
+
+
+--
+-- TOC entry 3755 (class 0 OID 0)
+-- Dependencies: 224
+-- Name: paintings_painting_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.paintings_painting_id_seq', 34, true);
+
+
+--
+-- TOC entry 3756 (class 0 OID 0)
+-- Dependencies: 222
+-- Name: reviews_review_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.reviews_review_id_seq', 15, true);
+
+
+--
+-- TOC entry 3757 (class 0 OID 0)
+-- Dependencies: 220
+-- Name: users_user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.users_user_id_seq', 12, true);
+
+
+--
+-- TOC entry 3538 (class 2606 OID 21373)
+-- Name: SequelizeMeta SequelizeMeta_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."SequelizeMeta"
+    ADD CONSTRAINT "SequelizeMeta_pkey" PRIMARY KEY (name);
+
+
+--
+-- TOC entry 3556 (class 2606 OID 21497)
+-- Name: artists artists_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.artists
+    ADD CONSTRAINT artists_pkey PRIMARY KEY (artist_id);
+
+
+--
+-- TOC entry 3554 (class 2606 OID 21483)
+-- Name: exhibitions exhibitions_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.exhibitions
+    ADD CONSTRAINT exhibitions_pkey PRIMARY KEY (exhibition_id);
+
+
+--
+-- TOC entry 3540 (class 2606 OID 21384)
+-- Name: museums museums_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.museums
+    ADD CONSTRAINT museums_pkey PRIMARY KEY (museum_id);
+
+
+--
+-- TOC entry 3552 (class 2606 OID 21466)
+-- Name: notifications notifications_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.notifications
+    ADD CONSTRAINT notifications_pkey PRIMARY KEY (notification_id);
+
+
+--
+-- TOC entry 3550 (class 2606 OID 21453)
+-- Name: painting_status painting_status_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.painting_status
+    ADD CONSTRAINT painting_status_pkey PRIMARY KEY (painting_status_id);
+
+
+--
+-- TOC entry 3548 (class 2606 OID 21432)
+-- Name: paintings paintings_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.paintings
+    ADD CONSTRAINT paintings_pkey PRIMARY KEY (painting_id);
+
+
+--
+-- TOC entry 3546 (class 2606 OID 21420)
+-- Name: reviews reviews_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.reviews
+    ADD CONSTRAINT reviews_pkey PRIMARY KEY (review_id);
+
+
+--
+-- TOC entry 3542 (class 2606 OID 21409)
+-- Name: users users_email_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT users_email_key UNIQUE (email);
+
+
+--
+-- TOC entry 3544 (class 2606 OID 21407)
+-- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT users_pkey PRIMARY KEY (user_id);
+
+
+--
+-- TOC entry 3571 (class 2606 OID 21548)
+-- Name: artists fk_artists_user; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.artists
+    ADD CONSTRAINT fk_artists_user FOREIGN KEY (user_id) REFERENCES public.users(user_id) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 3569 (class 2606 OID 21563)
+-- Name: exhibition_paintings fk_exhibition_paintings_exhibition; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.exhibition_paintings
+    ADD CONSTRAINT fk_exhibition_paintings_exhibition FOREIGN KEY (exhibition_id) REFERENCES public.exhibitions(exhibition_id) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 3570 (class 2606 OID 21568)
+-- Name: exhibition_paintings fk_exhibition_paintings_painting; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.exhibition_paintings
+    ADD CONSTRAINT fk_exhibition_paintings_painting FOREIGN KEY (painting_id) REFERENCES public.paintings(painting_id) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 3567 (class 2606 OID 21543)
+-- Name: exhibitions fk_exhibitions_museum; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.exhibitions
+    ADD CONSTRAINT fk_exhibitions_museum FOREIGN KEY (museum_id) REFERENCES public.museums(museum_id) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 3568 (class 2606 OID 21538)
+-- Name: exhibitions fk_exhibitions_user; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.exhibitions
+    ADD CONSTRAINT fk_exhibitions_user FOREIGN KEY (user_id) REFERENCES public.users(user_id) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 3565 (class 2606 OID 21558)
+-- Name: favorites fk_favorites_painting; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.favorites
+    ADD CONSTRAINT fk_favorites_painting FOREIGN KEY (painting_id) REFERENCES public.paintings(painting_id) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 3566 (class 2606 OID 21553)
+-- Name: favorites fk_favorites_user; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.favorites
+    ADD CONSTRAINT fk_favorites_user FOREIGN KEY (user_id) REFERENCES public.users(user_id) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 3563 (class 2606 OID 21508)
+-- Name: notifications fk_notifications_receiver; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.notifications
+    ADD CONSTRAINT fk_notifications_receiver FOREIGN KEY (receiver_id) REFERENCES public.users(user_id) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 3564 (class 2606 OID 21503)
+-- Name: notifications fk_notifications_sender; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.notifications
+    ADD CONSTRAINT fk_notifications_sender FOREIGN KEY (sender_id) REFERENCES public.users(user_id) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 3562 (class 2606 OID 21533)
+-- Name: painting_status fk_painting_status_painting; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.painting_status
+    ADD CONSTRAINT fk_painting_status_painting FOREIGN KEY (painting_id) REFERENCES public.paintings(painting_id) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 3560 (class 2606 OID 21523)
+-- Name: paintings fk_paintings_artist; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.paintings
+    ADD CONSTRAINT fk_paintings_artist FOREIGN KEY (artist_id) REFERENCES public.artists(artist_id) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 3561 (class 2606 OID 21528)
+-- Name: paintings fk_paintings_user; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.paintings
+    ADD CONSTRAINT fk_paintings_user FOREIGN KEY (user_id) REFERENCES public.users(user_id) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 3558 (class 2606 OID 21518)
+-- Name: reviews fk_reviews_exhibition; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.reviews
+    ADD CONSTRAINT fk_reviews_exhibition FOREIGN KEY (exhibition_id) REFERENCES public.exhibitions(exhibition_id) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 3559 (class 2606 OID 21513)
+-- Name: reviews fk_reviews_user; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.reviews
+    ADD CONSTRAINT fk_reviews_user FOREIGN KEY (user_id) REFERENCES public.users(user_id) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 3557 (class 2606 OID 21498)
+-- Name: users fk_users_museum; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT fk_users_museum FOREIGN KEY (museum_id) REFERENCES public.museums(museum_id) ON DELETE SET NULL;
+
+
+-- Completed on 2025-07-13 12:41:35 CEST
+
+--
+-- PostgreSQL database dump complete
+--
+
